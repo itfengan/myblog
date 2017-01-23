@@ -84,15 +84,24 @@
 
 
 
-<meta name="description" content="做一个积极向上的人">
-<meta property="og:type" content="website">
+<meta name="description" content="Android7.0适配之应用间共享文件@(适配)[Android7.0|FileProvider]
+出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/147">
+<meta property="og:type" content="article">
 <meta property="og:title" content="风中追风">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/01/23/Android7.0适配之应用间共享文件/index.html">
 <meta property="og:site_name" content="风中追风">
-<meta property="og:description" content="做一个积极向上的人">
+<meta property="og:description" content="Android7.0适配之应用间共享文件@(适配)[Android7.0|FileProvider]
+出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/147">
+<meta property="og:image" content="http://yoursite.com/./1485158383668.png">
+<meta property="og:updated_time" content="2017-01-23T08:25:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="风中追风">
-<meta name="twitter:description" content="做一个积极向上的人">
+<meta name="twitter:description" content="Android7.0适配之应用间共享文件@(适配)[Android7.0|FileProvider]
+出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/147">
+<meta name="twitter:image" content="http://yoursite.com/./1485158383668.png">
 
 
 
@@ -110,7 +119,7 @@
   };
 </script>
 
-  <title> 风中追风 </title>
+  <title>  | 风中追风 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,9 +140,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -210,9 +217,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -233,9 +240,6 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/23/Android7.0适配之应用间共享文件/" itemprop="url">
-                  未命名
-                </a>
               
             
           </h1>
@@ -275,9 +279,7 @@
       
 
       
-        
-          
-            <h1 id="Android7-0适配之应用间共享文件"><a href="#Android7-0适配之应用间共享文件" class="headerlink" title="Android7.0适配之应用间共享文件"></a>Android7.0适配之应用间共享文件</h1><p>@(适配)[Android7.0|FileProvider]</p>
+        <h1 id="Android7-0适配之应用间共享文件"><a href="#Android7-0适配之应用间共享文件" class="headerlink" title="Android7.0适配之应用间共享文件"></a>Android7.0适配之应用间共享文件</h1><p>@(适配)[Android7.0|FileProvider]</p>
 <p><strong>出现问题</strong><br>Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond app through Intent.getData()</div><div class="line">at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799)</div><div class="line">at android.net.Uri.checkFileUriExposed(Uri.java:2346)</div><div class="line">at android.content.Intent.prepareToLeaveProcess(Intent.java:8933)</div><div class="line">at android.content.Intent.prepareToLeaveProcess(Intent.java:8894)</div><div class="line">at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517)</div><div class="line">at android.app.Activity.startActivityForResult(Activity.java:4223)</div><div class="line">...</div><div class="line">at android.app.Activity.startActivityForResult(Activity.java:4182)</div></pre></td></tr></table></figure>
 <p><strong>查找原因</strong><br>Android N的应用,API禁止向应用外公开file://URI,如果一项包含文件URI的Intent离开应用, 应用crash并报FileUriExposedException异常<br><strong>解决办法</strong><br>若想要在应用间共享文件,应该发送一项content://URI,并该URI临时访问权限,进行此授权的方式是通过FileProvider类<br><strong>具体步骤</strong><br>[1] 清单文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    package=&quot;com.fengan.providerdemo&quot;&gt;</div><div class="line"></div><div class="line">    &lt;application</div><div class="line">        android:allowBackup=&quot;true&quot;</div><div class="line">        android:icon=&quot;@mipmap/ic_launcher&quot;</div><div class="line">        android:label=&quot;@string/app_name&quot;</div><div class="line">        android:supportsRtl=&quot;true&quot;</div><div class="line">        android:theme=&quot;@style/AppTheme&quot;&gt;</div><div class="line">        &lt;activity android:name=&quot;.MainActivity&quot;&gt;</div><div class="line">            &lt;intent-filter&gt;</div><div class="line">                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</div><div class="line"></div><div class="line">                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</div><div class="line">            &lt;/intent-filter&gt;</div><div class="line">        &lt;/activity&gt;</div><div class="line">           &lt;!--authorities=&quot;你的包名+fileprovider&quot; --&gt;</div><div class="line">        &lt;provider</div><div class="line">            android:authorities=&quot;com.fengan.providerdemo.fileprovider&quot;</div><div class="line">            android:name=&quot;android.support.v4.content.FileProvider&quot;</div><div class="line">            android:grantUriPermissions=&quot;true&quot;</div><div class="line">            android:exported=&quot;false&quot;&gt;</div><div class="line">            &lt;meta-data</div><div class="line">                android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;</div><div class="line">                android:resource=&quot;@xml/filepaths&quot;/&gt;</div><div class="line">        &lt;/provider&gt;</div><div class="line">    &lt;/application&gt;</div><div class="line"></div><div class="line">&lt;/manifest&gt;</div></pre></td></tr></table></figure></p>
@@ -294,16 +296,19 @@
 <li>针对涉及到从Android设备上获取照片(拍照,或从相册,文件中选择)打开相机,裁剪图片,压缩图片,可以使用一个轻量级开源库,TakePhoto!<br><a href="https://github.com/crazycodeboy/TakePhoto/" target="_blank" rel="external">https://github.com/crazycodeboy/TakePhoto/</a><br>其他资料可继续参考</li>
 </ul>
 
-          
+      
+    </div>
+
+    <div>
+      
         
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -314,16 +319,15 @@
 
       
       
-        <div class="post-eof"></div>
-      
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -331,6 +335,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -350,8 +358,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460"
@@ -387,6 +404,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android7-0适配之应用间共享文件"><span class="nav-number">1.</span> <span class="nav-text">Android7.0适配之应用间共享文件</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -490,6 +518,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
