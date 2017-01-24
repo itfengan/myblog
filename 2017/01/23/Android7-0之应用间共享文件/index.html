@@ -84,20 +84,20 @@
 
 
 
-<meta name="description" content="Android7.0适配之应用间共享文件#### 出现问题  ####Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
-123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg expos">
+<meta name="description" content="Android7.0适配之应用间共享文件出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android7.0之应用间共享文件">
 <meta property="og:url" content="http://yoursite.com/2017/01/23/Android7-0之应用间共享文件/index.html">
 <meta property="og:site_name" content="风中追风">
-<meta property="og:description" content="Android7.0适配之应用间共享文件#### 出现问题  ####Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
-123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg expos">
+<meta property="og:description" content="Android7.0适配之应用间共享文件出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond a">
 <meta property="og:image" content="http://yoursite.com/./1485158383668.png">
-<meta property="og:updated_time" content="2017-01-24T05:21:34.157Z">
+<meta property="og:updated_time" content="2017-01-24T05:24:04.074Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android7.0之应用间共享文件">
-<meta name="twitter:description" content="Android7.0适配之应用间共享文件#### 出现问题  ####Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
-123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg expos">
+<meta name="twitter:description" content="Android7.0适配之应用间共享文件出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond a">
 <meta name="twitter:image" content="http://yoursite.com/./1485158383668.png">
 
 
@@ -276,7 +276,7 @@
       
 
       
-        <h2 id="Android7-0适配之应用间共享文件"><a href="#Android7-0适配之应用间共享文件" class="headerlink" title="Android7.0适配之应用间共享文件"></a>Android7.0适配之应用间共享文件</h2><h3 id="出现问题"><a href="#出现问题" class="headerlink" title="#### 出现问题  ####"></a>#### <strong>出现问题</strong>  ####</h3><p>Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常</p>
+        <h2 id="Android7-0适配之应用间共享文件"><a href="#Android7-0适配之应用间共享文件" class="headerlink" title="Android7.0适配之应用间共享文件"></a>Android7.0适配之应用间共享文件</h2><h3 id="出现问题"><a href="#出现问题" class="headerlink" title="出现问题"></a>出现问题</h3><p>Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    android<span class="selector-class">.os</span><span class="selector-class">.FileUriExposedException</span>: file:<span class="comment">////storage/emulated/0/temp/1474956193735.jpg exposed beyond app through Intent.getData()</span></div><div class="line">at android<span class="selector-class">.os</span><span class="selector-class">.StrictMode</span><span class="selector-class">.onFileUriExposed</span>(StrictMode<span class="selector-class">.java</span>:<span class="number">1799</span>)</div><div class="line">at android<span class="selector-class">.net</span><span class="selector-class">.Uri</span><span class="selector-class">.checkFileUriExposed</span>(Uri<span class="selector-class">.java</span>:<span class="number">2346</span>)</div><div class="line">at android<span class="selector-class">.content</span><span class="selector-class">.Intent</span><span class="selector-class">.prepareToLeaveProcess</span>(Intent<span class="selector-class">.java</span>:<span class="number">8933</span>)</div><div class="line">at android<span class="selector-class">.content</span><span class="selector-class">.Intent</span><span class="selector-class">.prepareToLeaveProcess</span>(Intent<span class="selector-class">.java</span>:<span class="number">8894</span>)</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Instrumentation</span><span class="selector-class">.execStartActivity</span>(Instrumentation<span class="selector-class">.java</span>:<span class="number">1517</span>)</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Activity</span><span class="selector-class">.startActivityForResult</span>(Activity<span class="selector-class">.java</span>:<span class="number">4223</span>)</div><div class="line">...</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Activity</span><span class="selector-class">.startActivityForResult</span>(Activity<span class="selector-class">.java</span>:<span class="number">4182</span>)</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <h3 id="查找原因"><a href="#查找原因" class="headerlink" title="查找原因"></a>查找原因</h3><p>Android N的应用,API禁止向应用外公开file://URI,如果一项包含文件URI的Intent离开应用, 应用crash并报FileUriExposedException异常</p>
@@ -436,7 +436,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android7-0适配之应用间共享文件"><span class="nav-number">1.</span> <span class="nav-text">Android7.0适配之应用间共享文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#出现问题"><span class="nav-number">1.1.</span> <span class="nav-text">#### 出现问题  ####</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找原因"><span class="nav-number">1.2.</span> <span class="nav-text">查找原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">1.3.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体步骤"><span class="nav-number">1.4.</span> <span class="nav-text">具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-清单文件"><span class="nav-number">1.4.1.</span> <span class="nav-text">[1] 清单文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-res下xml文件夹"><span class="nav-number">1.4.2.</span> <span class="nav-text">[2] res下xml文件夹</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android7-0适配之应用间共享文件"><span class="nav-number">1.</span> <span class="nav-text">Android7.0适配之应用间共享文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#出现问题"><span class="nav-number">1.1.</span> <span class="nav-text">出现问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找原因"><span class="nav-number">1.2.</span> <span class="nav-text">查找原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">1.3.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体步骤"><span class="nav-number">1.4.</span> <span class="nav-text">具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-清单文件"><span class="nav-number">1.4.1.</span> <span class="nav-text">[1] 清单文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-res下xml文件夹"><span class="nav-number">1.4.2.</span> <span class="nav-text">[2] res下xml文件夹</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>
