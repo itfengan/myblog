@@ -1,0 +1,550 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Android7.0适配之应用间共享文件@(适配)[Android7.0|FileProvider]
+出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/147">
+<meta property="og:type" content="article">
+<meta property="og:title" content="风中追风">
+<meta property="og:url" content="http://yoursite.com/2017/01/23/Android7.0适配之应用间共享文件/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="Android7.0适配之应用间共享文件@(适配)[Android7.0|FileProvider]
+出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/147">
+<meta property="og:image" content="http://yoursite.com/./1485158383668.png">
+<meta property="og:updated_time" content="2017-01-23T08:34:33.469Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="风中追风">
+<meta name="twitter:description" content="Android7.0适配之应用间共享文件@(适配)[Android7.0|FileProvider]
+出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
+123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/147">
+<meta name="twitter:image" content="http://yoursite.com/./1485158383668.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '冯安'
+    }
+  };
+</script>
+
+  <title>  | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-23T16:26:46+08:00" content="2017-01-23">
+              2017-01-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Android7-0适配之应用间共享文件"><a href="#Android7-0适配之应用间共享文件" class="headerlink" title="Android7.0适配之应用间共享文件"></a>Android7.0适配之应用间共享文件</h1><p>@(适配)[Android7.0|FileProvider]</p>
+<p><strong>出现问题</strong><br>Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond app through Intent.getData()</div><div class="line">at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799)</div><div class="line">at android.net.Uri.checkFileUriExposed(Uri.java:2346)</div><div class="line">at android.content.Intent.prepareToLeaveProcess(Intent.java:8933)</div><div class="line">at android.content.Intent.prepareToLeaveProcess(Intent.java:8894)</div><div class="line">at android.app.Instrumentation.execStartActivity(Instrumentation.java:1517)</div><div class="line">at android.app.Activity.startActivityForResult(Activity.java:4223)</div><div class="line">...</div><div class="line">at android.app.Activity.startActivityForResult(Activity.java:4182)</div></pre></td></tr></table></figure>
+<p><strong>查找原因</strong><br>Android N的应用,API禁止向应用外公开file://URI,如果一项包含文件URI的Intent离开应用, 应用crash并报FileUriExposedException异常<br><strong>解决办法</strong><br>若想要在应用间共享文件,应该发送一项content://URI,并该URI临时访问权限,进行此授权的方式是通过FileProvider类<br><strong>具体步骤</strong><br>[1] 清单文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    package=&quot;com.fengan.providerdemo&quot;&gt;</div><div class="line"></div><div class="line">    &lt;application</div><div class="line">        android:allowBackup=&quot;true&quot;</div><div class="line">        android:icon=&quot;@mipmap/ic_launcher&quot;</div><div class="line">        android:label=&quot;@string/app_name&quot;</div><div class="line">        android:supportsRtl=&quot;true&quot;</div><div class="line">        android:theme=&quot;@style/AppTheme&quot;&gt;</div><div class="line">        &lt;activity android:name=&quot;.MainActivity&quot;&gt;</div><div class="line">            &lt;intent-filter&gt;</div><div class="line">                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</div><div class="line"></div><div class="line">                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</div><div class="line">            &lt;/intent-filter&gt;</div><div class="line">        &lt;/activity&gt;</div><div class="line">           &lt;!--authorities=&quot;你的包名+fileprovider&quot; --&gt;</div><div class="line">        &lt;provider</div><div class="line">            android:authorities=&quot;com.fengan.providerdemo.fileprovider&quot;</div><div class="line">            android:name=&quot;android.support.v4.content.FileProvider&quot;</div><div class="line">            android:grantUriPermissions=&quot;true&quot;</div><div class="line">            android:exported=&quot;false&quot;&gt;</div><div class="line">            &lt;meta-data</div><div class="line">                android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;</div><div class="line">                android:resource=&quot;@xml/filepaths&quot;/&gt;</div><div class="line">        &lt;/provider&gt;</div><div class="line">    &lt;/application&gt;</div><div class="line"></div><div class="line">&lt;/manifest&gt;</div></pre></td></tr></table></figure></p>
+<p>[2] res下xml文件夹<br><img src="./1485158383668.png" alt="Alt text"><br>注意xml文件名和清单文件中@xml/filepaths相同<br>xml文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;paths&gt;</div><div class="line">    &lt;!-- external-path:sd ；path:你的应用保存文件的根目录；name随便定义--&gt;</div><div class="line">    //&lt;external-path path=&quot;fengan_imgs/&quot; name=&quot;files_path&quot; /&gt;</div><div class="line">    &lt;external-path path=&quot;&quot; name=&quot;files_path&quot; /&gt;</div><div class="line">&lt;/paths&gt;</div></pre></td></tr></table></figure>
+<p>注意:<br>path=””,有特殊意义,它代表更目录,也就是说可以向应用共享根目录及其子目录下任何一个文件,如果将path写为path=”fengan_imgs/“,那么只能在fengan_imgs/目录下才可以分享!<br>[3]核心代码<br>将File转换为uri</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">private static Uri getUriForFile(Context context, File file) &#123;</div><div class="line">       if (context == null || file == null) &#123;</div><div class="line">           throw new NullPointerException();</div><div class="line">       &#125;</div><div class="line">       Uri uri;</div><div class="line">       if (Build.VERSION.SDK_INT &gt;= 24) &#123;</div><div class="line">       //和android:authorities=&quot;com.fengan.providerdemo.fileprovider&quot;对应</div><div class="line">           uri = FileProvider.getUriForFile(context.getApplicationContext(), &quot;com.fengan.providerdemo.fileprovider&quot;, file);</div><div class="line">       &#125; else &#123;</div><div class="line">           uri = Uri.fromFile(file);</div><div class="line">       &#125;</div><div class="line">       return uri;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Uri的scheme类型为file,改成了又FileProvider创建一个content类型的Uri打开相机,打印该Uri为content://com.fengan.providerdemo/files_path/temp/1474960080319.jpg`。<br>//其中camera_photos就是file_paths.xml中paths的name。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">    * 打开相机</div><div class="line">    * 兼容7.0</div><div class="line">    *</div><div class="line">    * @param activity    Activity</div><div class="line">    * @param file        File</div><div class="line">    * @param requestCode result requestCode</div><div class="line">    */</div><div class="line">   public static void startActionCapture(Activity activity, File file, int requestCode) &#123;</div><div class="line">       if (activity == null) &#123;</div><div class="line">           return;</div><div class="line">       &#125;</div><div class="line">       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);</div><div class="line">    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件</div><div class="line">       intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriForFile(activity, file));//拍取照片保存到指定Uri</div><div class="line">       activity.startActivityForResult(intent, requestCode);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p><strong>总结</strong></p>
+<ul>
+<li>针对涉及到从Android设备上获取照片(拍照,或从相册,文件中选择)打开相机,裁剪图片,压缩图片,可以使用一个轻量级开源库,TakePhoto!<br><a href="https://github.com/crazycodeboy/TakePhoto/" target="_blank" rel="external">https://github.com/crazycodeboy/TakePhoto/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars1.githubusercontent.com/u/32269?v=3&s=460"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">做一个积极向上的人</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android7-0适配之应用间共享文件"><span class="nav-number">1.</span> <span class="nav-text">Android7.0适配之应用间共享文件</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
