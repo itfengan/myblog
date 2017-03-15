@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -84,15 +84,16 @@
 
 
 
-<meta name="description" content="做一个积极向上的人">
-<meta property="og:type" content="website">
-<meta property="og:title" content="风中追风">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="阴影布局(继承FrameLayout)前言很多情况下，坑爹的又矮射鸡屎为了炫耀他们的出神入化的设计，喜欢搞一些花里胡哨的东西，搞些阴影什么的．作为一名有追求的程序员，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android　阴影布局(继承FrameLayout)">
+<meta property="og:url" content="http://yoursite.com/2017/03/15/Android-阴影布局-继承FrameLayout/index.html">
 <meta property="og:site_name" content="风中追风">
-<meta property="og:description" content="做一个积极向上的人">
+<meta property="og:description" content="阴影布局(继承FrameLayout)前言很多情况下，坑爹的又矮射鸡屎为了炫耀他们的出神入化的设计，喜欢搞一些花里胡哨的东西，搞些阴影什么的．作为一名有追求的程序员，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有">
+<meta property="og:updated_time" content="2017-03-15T10:01:25.937Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="风中追风">
-<meta name="twitter:description" content="做一个积极向上的人">
+<meta name="twitter:title" content="Android　阴影布局(继承FrameLayout)">
+<meta name="twitter:description" content="阴影布局(继承FrameLayout)前言很多情况下，坑爹的又矮射鸡屎为了炫耀他们的出神入化的设计，喜欢搞一些花里胡哨的东西，搞些阴影什么的．作为一名有追求的程序员，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有">
 
 
 
@@ -110,7 +111,7 @@
   };
 </script>
 
-  <title> 风中追风 </title>
+  <title> Android　阴影布局(继承FrameLayout) | 风中追风 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,9 +132,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -200,9 +199,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -222,10 +221,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/" itemprop="url">
-                  Android　阴影布局(继承FrameLayout)
-                </a>
+                Android　阴影布局(继承FrameLayout)
               
             
           </h1>
@@ -265,9 +261,7 @@
       
 
       
-        
-          
-            <h2 id="阴影布局-继承FrameLayout"><a href="#阴影布局-继承FrameLayout" class="headerlink" title="阴影布局(继承FrameLayout)"></a>阴影布局(继承FrameLayout)</h2><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>很多情况下，坑爹的又矮射鸡屎为了炫耀他们的出神入化的设计，喜欢搞一些花里胡哨的东西，搞些阴影什么的．<br>作为一名有追求的程序员，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有时候不起作用，网上也有解决不起作用的方法，我试了，都不太起作用，用cardview的话，如果cardview包裹的太多太复杂的控件，效果也不是太明显，所以有一个自定义FrameLayout来自己画阴影，以后再碰见阴影就又多了一种手段，满足应付设计师</p>
+        <h2 id="阴影布局-继承FrameLayout"><a href="#阴影布局-继承FrameLayout" class="headerlink" title="阴影布局(继承FrameLayout)"></a>阴影布局(继承FrameLayout)</h2><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>很多情况下，坑爹的又矮射鸡屎为了炫耀他们的出神入化的设计，喜欢搞一些花里胡哨的东西，搞些阴影什么的．<br>作为一名有追求的程序员，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有时候不起作用，网上也有解决不起作用的方法，我试了，都不太起作用，用cardview的话，如果cardview包裹的太多太复杂的控件，效果也不是太明显，所以有一个自定义FrameLayout来自己画阴影，以后再碰见阴影就又多了一种手段，满足应付设计师</p>
 <p>不要搞一些花里胡哨的,黏贴过去以简单粗暴的方式直接用</p>
 <h1 id="开始你的表演"><a href="#开始你的表演" class="headerlink" title="开始你的表演"></a>开始你的表演</h1><h3 id="自定义view"><a href="#自定义view" class="headerlink" title="自定义view"></a>自定义view</h3><pre><code>import android.content.Context;
 import android.content.res.TypedArray;
@@ -441,229 +435,63 @@ private Bitmap createShadowBitmap(int shadowWidth, int shadowHeight, float corne
 </code></pre><p>自定义属性attrs.xml<br><figure class="highlight sqf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;declare-styleable <span class="built_in">name</span>=<span class="string">"ShadowLayout"</span>&gt;</div><div class="line">    &lt;attr <span class="built_in">name</span>=<span class="string">"sl_cornerRadius"</span> <span class="built_in">format</span>=<span class="string">"dimension"</span>/&gt;</div><div class="line">    &lt;attr <span class="built_in">name</span>=<span class="string">"sl_shadowRadius"</span> <span class="built_in">format</span>=<span class="string">"dimension"</span>/&gt;</div><div class="line">    &lt;attr <span class="built_in">name</span>=<span class="string">"sl_shadowColor"</span> <span class="built_in">format</span>=<span class="string">"color"</span>/&gt;</div><div class="line">    &lt;attr <span class="built_in">name</span>=<span class="string">"sl_dx"</span> <span class="built_in">format</span>=<span class="string">"dimension"</span>/&gt;</div><div class="line">    &lt;attr <span class="built_in">name</span>=<span class="string">"sl_dy"</span> <span class="built_in">format</span>=<span class="string">"dimension"</span>/&gt;</div><div class="line">&lt;/declare-styleable&gt;</div></pre></td></tr></table></figure></p>
 <p>有灵性的哥哥们，已经猜到这些属性对应的意思啦．．．<br>在此整理方便大家日后使用．．．</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/23/Android7-0之广播变动/" itemprop="url">
-                  Android7.0之广播变动
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-23T17:45:15+08:00" content="2017-01-23">
-              2017-01-23
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/Android/" rel="tag">#Android</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h4 id="Android7-0的后台优化"><a href="#Android7-0的后台优化" class="headerlink" title="Android7.0的后台优化"></a>Android7.0的后台优化</h4><p>Android中有一些系统的隐式广播,我们可以利用这些广播注册BroadCastReceiver来监听,比如手机网络变动(Wifi的时候自动下载更新包,发送错误日志),当这些广播到来的时候(网络从Wifi到移动数据来回切换的时候),后台会频繁的启动已经监听这些的应用,并且现在很多应用都会注册这些广播(如网络变化),那么就会带来大量的电量消耗,所以Android7.0中删除了三项隐式广播,又花了内存和电量的消耗</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/01/23/Android7-0之广播变动/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/23/Android7-0之广播变动/" rel="next" title="Android7.0之广播变动">
+                <i class="fa fa-chevron-left"></i> Android7.0之广播变动
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/23/Android7-0之应用间共享文件/" itemprop="url">
-                  Android7.0之应用间共享文件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-23T16:58:17+08:00" content="2017-01-23">
-              2017-01-23
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="Android7-0适配之应用间共享文件"><a href="#Android7-0适配之应用间共享文件" class="headerlink" title="Android7.0适配之应用间共享文件"></a>Android7.0适配之应用间共享文件</h2><h3 id="出现问题"><a href="#出现问题" class="headerlink" title="出现问题"></a>出现问题</h3><p>Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    android<span class="selector-class">.os</span><span class="selector-class">.FileUriExposedException</span>: file:<span class="comment">////storage/emulated/0/temp/1474956193735.jpg exposed beyond app through Intent.getData()</span></div><div class="line">at android<span class="selector-class">.os</span><span class="selector-class">.StrictMode</span><span class="selector-class">.onFileUriExposed</span>(StrictMode<span class="selector-class">.java</span>:<span class="number">1799</span>)</div><div class="line">at android<span class="selector-class">.net</span><span class="selector-class">.Uri</span><span class="selector-class">.checkFileUriExposed</span>(Uri<span class="selector-class">.java</span>:<span class="number">2346</span>)</div><div class="line">at android<span class="selector-class">.content</span><span class="selector-class">.Intent</span><span class="selector-class">.prepareToLeaveProcess</span>(Intent<span class="selector-class">.java</span>:<span class="number">8933</span>)</div><div class="line">at android<span class="selector-class">.content</span><span class="selector-class">.Intent</span><span class="selector-class">.prepareToLeaveProcess</span>(Intent<span class="selector-class">.java</span>:<span class="number">8894</span>)</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Instrumentation</span><span class="selector-class">.execStartActivity</span>(Instrumentation<span class="selector-class">.java</span>:<span class="number">1517</span>)</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Activity</span><span class="selector-class">.startActivityForResult</span>(Activity<span class="selector-class">.java</span>:<span class="number">4223</span>)</div><div class="line">...</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Activity</span><span class="selector-class">.startActivityForResult</span>(Activity<span class="selector-class">.java</span>:<span class="number">4182</span>)</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/01/23/Android7-0之应用间共享文件/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -671,6 +499,10 @@ private Bitmap createShadowBitmap(int shadowWidth, int shadowHeight, float corne
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -690,8 +522,17 @@ private Bitmap createShadowBitmap(int shadowWidth, int shadowHeight, float corne
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
@@ -759,6 +600,17 @@ private Bitmap createShadowBitmap(int shadowWidth, int shadowHeight, float corne
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#阴影布局-继承FrameLayout"><span class="nav-number">1.</span> <span class="nav-text">阴影布局(继承FrameLayout)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number"></span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始你的表演"><span class="nav-number"></span> <span class="nav-text">开始你的表演</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义view"><span class="nav-number">0.1.</span> <span class="nav-text">自定义view</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -862,6 +714,10 @@ private Bitmap createShadowBitmap(int shadowWidth, int shadowHeight, float corne
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
