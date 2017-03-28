@@ -3,14 +3,15 @@ title: Android　阴影布局(继承FrameLayout)
 date: 2017-03-15 17:52:55
 tags: Android
 ---
-## 阴影布局(继承FrameLayout) ##
+# 阴影布局(继承FrameLayout) #
 
-# 前言 #
+## 前言 ##
 很多情况下，坑爹的又矮射鸡屎为了炫耀他们的出神入化的设计，喜欢搞一些花里胡哨的东西，搞些阴影什么的．
 作为一名有追求的程序员，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有时候不起作用，网上也有解决不起作用的方法，我试了，都不太起作用，用cardview的话，如果cardview包裹的太多太复杂的控件，效果也不是太明显，所以有一个自定义FrameLayout来自己画阴影，以后再碰见阴影就又多了一种手段，满足应付设计师
+
 <!--more-->
 不要搞一些花里胡哨的,黏贴过去以简单粗暴的方式直接用
-# 开始你的表演 #
+## 开始你的表演 ##
 ### 自定义view ###
     import android.content.Context;
 	import android.content.res.TypedArray;
@@ -175,7 +176,7 @@ tags: Android
 
 }
 
-布局文件
+### 布局文件 ###
 
         <com.rz.rz_rrz.widget.ShadowLayout
                         android:layout_width="wrap_content"
@@ -184,7 +185,7 @@ tags: Android
                         app:sl_dy="1dp"
                         ／／．．．自由发挥．．．
  	 	`</com.rz.rz_rrz.widget.ShadowLayout>`
-自定义属性attrs.xml
+### 自定义属性attrs.xml ###
 ```
     <declare-styleable name="ShadowLayout">
         <attr name="sl_cornerRadius" format="dimension"/>
@@ -194,5 +195,7 @@ tags: Android
         <attr name="sl_dy" format="dimension"/>
     </declare-styleable>
 ```
-有灵性的哥哥们，已经猜到这些属性对应的意思啦．．．
-在此整理方便大家日后使用．．．
+
+----------
+
+有灵性的哥哥们，已经猜到这些属性对应的意思啦,在此整理方便大家日后使用．．．
