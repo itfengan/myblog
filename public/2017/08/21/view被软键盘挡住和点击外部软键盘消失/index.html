@@ -1,0 +1,949 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="软键盘(挡住button,和点击外部软键盘消失)以下是解决挡住button的逻辑 (写的比较急,黄色的部分就是edittext)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="view被软键盘挡住和点击外部软键盘消失">
+<meta property="og:url" content="http://yoursite.com/2017/08/21/view被软键盘挡住和点击外部软键盘消失/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="软键盘(挡住button,和点击外部软键盘消失)以下是解决挡住button的逻辑 (写的比较急,黄色的部分就是edittext)">
+<meta property="og:image" content="http://img.blog.csdn.net/20170615102440904?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-08-21T03:10:49.890Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="view被软键盘挡住和点击外部软键盘消失">
+<meta name="twitter:description" content="软键盘(挡住button,和点击外部软键盘消失)以下是解决挡住button的逻辑 (写的比较急,黄色的部分就是edittext)">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170615102440904?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> view被软键盘挡住和点击外部软键盘消失 | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人邮箱 fengan65535@yeah.net</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                view被软键盘挡住和点击外部软键盘消失
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-08-21T11:02:01+08:00" content="2017-08-21">
+              2017-08-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="软键盘-挡住button-和点击外部软键盘消失"><a href="#软键盘-挡住button-和点击外部软键盘消失" class="headerlink" title="软键盘(挡住button,和点击外部软键盘消失)"></a>软键盘(挡住button,和点击外部软键盘消失)</h1><h1 id="以下是解决挡住button的逻辑-写的比较急-黄色的部分就是edittext"><a href="#以下是解决挡住button的逻辑-写的比较急-黄色的部分就是edittext" class="headerlink" title="以下是解决挡住button的逻辑 (写的比较急,黄色的部分就是edittext)"></a>以下是解决挡住button的逻辑 (写的比较急,黄色的部分就是edittext)</h1><blockquote>
+<p><img src="http://img.blog.csdn.net/20170615102440904?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="引用块内容"></p>
+</blockquote>
+<a id="more"></a>
+<pre><code>//    控制是否移动布局。比如只有密码输入框获取到焦点时才执行。
+public  boolean flag = true;
+
+/**
+ * @param act          activiry用于获取底部导航栏高度。
+ * @param root         最外层布局，需要调整的布局
+ * @param scrollToView 被键盘遮挡的scrollToView，滚动root,使scrollToView在root可视区域的底部
+ */
+public  void controlKeyboardLayout(Context act, final View root, final View scrollToView) {
+    final int navigationBarHeight = getNavigationBarHeight(act);
+
+    root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            Rect rect = new Rect();
+            //获取root在窗体的可视区域
+            root.getWindowVisibleDisplayFrame(rect);
+            //获取root在窗体的不可视区域高度(被其他View遮挡的区域高度)
+            int rootInvisibleHeight = root.getRootView().getHeight() - rect.bottom;
+            //若不可视区域高度大于100，则键盘显示
+            if (rootInvisibleHeight &gt; navigationBarHeight &amp;&amp; flag) {
+                int[] location = new int[2];
+                //获取scrollToView在窗体的坐标
+                scrollToView.getLocationInWindow(location);
+                //计算root滚动高度，使scrollToView在可见区域
+                int srollHeight = (location[1] + scrollToView.getHeight()) - rect.bottom;
+                if (root.getScrollY() != 0) {// 如果已经滚动，要根据上次滚动，重新计算位置。
+                    srollHeight += root.getScrollY();
+                }
+                root.scrollTo(0, srollHeight);
+            } else {
+                //键盘隐藏
+                root.scrollTo(0, 0);
+            }
+        }
+    });
+}
+</code></pre><h1 id="以下是解决控制点击可选择的区域让软键盘消失或者不消失"><a href="#以下是解决控制点击可选择的区域让软键盘消失或者不消失" class="headerlink" title="以下是解决控制点击可选择的区域让软键盘消失或者不消失"></a>以下是解决控制点击可选择的区域让软键盘消失或者不消失</h1><pre><code>  /**
+ * 获取底部导航栏高度
+ *
+ * @param act
+ * @return
+ */
+private  int getNavigationBarHeight(Context act) {
+    Resources resources = act.getResources();
+    int resourceId = resources.getIdentifier(&quot;navigation_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;);
+    int height = resources.getDimensionPixelSize(resourceId);
+    Log.v(&quot;dbw&quot;, &quot;Navi height:&quot; + height);
+    return height;
+}
+
+//软键盘消失的管理
+//region软键盘的处理
+
+/**
+ * 清除editText的焦点
+ *
+ * @param v   焦点所在View
+ * @param ids 输入框
+ */
+public void clearViewFocus(View v, int... ids) {
+    if (null != v &amp;&amp; null != ids &amp;&amp; ids.length &gt; 0) {
+        for (int id : ids) {
+            if (v.getId() == id) {
+                v.clearFocus();
+                break;
+            }
+        }
+    }
+}
+/**
+ * 隐藏键盘
+ *
+ * @param v   焦点所在View
+ * @param ids 输入框
+ * @return true代表焦点在edit上
+ */
+public boolean isFocusEditText(View v, int... ids) {
+    if (v instanceof EditText) {
+        EditText tmp_et = (EditText) v;
+        for (int id : ids) {
+            if (tmp_et.getId() == id) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+//是否触摸在指定view上面,对某个控件过滤
+public boolean isTouchView(View[] views, MotionEvent ev) {
+    if (views == null || views.length == 0) return false;
+    int[] location = new int[2];
+    for (View view : views) {
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        if (ev.getX() &gt; x &amp;&amp; ev.getX() &lt; (x + view.getWidth())
+                &amp;&amp; ev.getY() &gt; y &amp;&amp; ev.getY() &lt; (y + view.getHeight())) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//region 右滑返回上级
+@Override
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+        if (isTouchView(filterViewByIds(), ev)) return super.dispatchTouchEvent(ev);
+        if (hideSoftByEditViewIds() == null || hideSoftByEditViewIds().length == 0)
+            return super.dispatchTouchEvent(ev);
+        View v = getCurrentFocus();
+        if (isFocusEditText(v, hideSoftByEditViewIds())) {
+            //隐藏键盘
+            hideInputForce(this);
+            clearViewFocus(v, hideSoftByEditViewIds());
+        }
+    }
+    return super.dispatchTouchEvent(ev);
+
+}
+
+
+/**
+ * 传入EditText的Id
+ * 没有传入的EditText不做处理
+ *
+ * @return id 数组
+ */
+public int[] hideSoftByEditViewIds() {
+    return null;
+}
+
+/**
+ * 传入要过滤的View
+ * 过滤之后点击将不会有隐藏软键盘的操作
+ *
+ * @return id 数组
+ */
+public View[] filterViewByIds() {
+    return null;
+}
+
+/**
+ * des:隐藏软键盘,这种方式参数为activity
+ *
+ * @param activity
+ */
+public static void hideInputForce(Activity activity) {
+    if (activity == null || activity.getCurrentFocus() == null)
+        return;
+
+    ((InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE))
+            .hideSoftInputFromWindow(activity.getCurrentFocus()
+                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+}
+</code></pre><h1 id="以下Demo全部代码"><a href="#以下Demo全部代码" class="headerlink" title="以下Demo全部代码"></a>以下Demo全部代码</h1><pre><code>public class MainActivity extends AppCompatActivity {
+
+private EditText mEt1;
+private EditText mEt2;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    Button btn = (Button) findViewById(R.id.btn);
+    mEt1 = (EditText) findViewById(R.id.et1);
+    mEt2 = (EditText) findViewById(R.id.et2);
+    LinearLayout LL = (LinearLayout) findViewById(R.id.LL);
+    controlKeyboardLayout(this,LL,btn);
+}
+
+
+//    控制是否移动布局。比如只有密码输入框获取到焦点时才执行。
+public  boolean flag = true;
+
+/**
+ * @param act          activiry用于获取底部导航栏高度。
+ * @param root         最外层布局，需要调整的布局
+ * @param scrollToView 被键盘遮挡的scrollToView，滚动root,使scrollToView在root可视区域的底部
+ */
+public  void controlKeyboardLayout(Context act, final View root, final View scrollToView) {
+    final int navigationBarHeight = getNavigationBarHeight(act);
+
+    root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            Rect rect = new Rect();
+            //获取root在窗体的可视区域
+            root.getWindowVisibleDisplayFrame(rect);
+            //获取root在窗体的不可视区域高度(被其他View遮挡的区域高度)
+            int rootInvisibleHeight = root.getRootView().getHeight() - rect.bottom;
+            //若不可视区域高度大于100，则键盘显示
+            if (rootInvisibleHeight &gt; navigationBarHeight &amp;&amp; flag) {
+                int[] location = new int[2];
+                //获取scrollToView在窗体的坐标
+                scrollToView.getLocationInWindow(location);
+                //计算root滚动高度，使scrollToView在可见区域
+                int srollHeight = (location[1] + scrollToView.getHeight()) - rect.bottom;
+                if (root.getScrollY() != 0) {// 如果已经滚动，要根据上次滚动，重新计算位置。
+                    srollHeight += root.getScrollY();
+                }
+                root.scrollTo(0, srollHeight);
+            } else {
+                //键盘隐藏
+                root.scrollTo(0, 0);
+            }
+        }
+    });
+}
+
+/**
+ * 获取底部导航栏高度
+ *
+ * @param act
+ * @return
+ */
+private  int getNavigationBarHeight(Context act) {
+    Resources resources = act.getResources();
+    int resourceId = resources.getIdentifier(&quot;navigation_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;);
+    int height = resources.getDimensionPixelSize(resourceId);
+    Log.v(&quot;dbw&quot;, &quot;Navi height:&quot; + height);
+    return height;
+}
+
+//软键盘消失的管理
+//region软键盘的处理
+
+/**
+ * 清除editText的焦点
+ *
+ * @param v   焦点所在View
+ * @param ids 输入框
+ */
+public void clearViewFocus(View v, int... ids) {
+    if (null != v &amp;&amp; null != ids &amp;&amp; ids.length &gt; 0) {
+        for (int id : ids) {
+            if (v.getId() == id) {
+                v.clearFocus();
+                break;
+            }
+        }
+    }
+}
+/**
+ * 隐藏键盘
+ *
+ * @param v   焦点所在View
+ * @param ids 输入框
+ * @return true代表焦点在edit上
+ */
+public boolean isFocusEditText(View v, int... ids) {
+    if (v instanceof EditText) {
+        EditText tmp_et = (EditText) v;
+        for (int id : ids) {
+            if (tmp_et.getId() == id) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+//是否触摸在指定view上面,对某个控件过滤
+public boolean isTouchView(View[] views, MotionEvent ev) {
+    if (views == null || views.length == 0) return false;
+    int[] location = new int[2];
+    for (View view : views) {
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        if (ev.getX() &gt; x &amp;&amp; ev.getX() &lt; (x + view.getWidth())
+                &amp;&amp; ev.getY() &gt; y &amp;&amp; ev.getY() &lt; (y + view.getHeight())) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//region 右滑返回上级
+@Override
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+        if (isTouchView(filterViewByIds(), ev)) return super.dispatchTouchEvent(ev);
+        if (hideSoftByEditViewIds() == null || hideSoftByEditViewIds().length == 0)
+            return super.dispatchTouchEvent(ev);
+        View v = getCurrentFocus();
+        if (isFocusEditText(v, hideSoftByEditViewIds())) {
+            //隐藏键盘
+            hideInputForce(this);
+            clearViewFocus(v, hideSoftByEditViewIds());
+        }
+    }
+    return super.dispatchTouchEvent(ev);
+
+}
+
+
+/**
+ * 传入EditText的Id
+ * 没有传入的EditText不做处理
+ *
+ * @return id 数组
+ */
+public int[] hideSoftByEditViewIds() {
+    int []  ids = {R.id.et1,R.id.et2};
+    return ids;
+}
+
+/**
+ * 传入要过滤的View
+ * 过滤之后点击将不会有隐藏软键盘的操作
+ *
+ * @return id 数组
+ */
+public View[] filterViewByIds() {
+    View [] views = {mEt1,mEt2};//点击这两个控件,软键盘不会消失
+    return views;
+}
+
+/**
+ * des:隐藏软键盘,这种方式参数为activity
+ *
+ * @param activity
+ */
+public static void hideInputForce(Activity activity) {
+    if (activity == null || activity.getCurrentFocus() == null)
+        return;
+
+    ((InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE))
+            .hideSoftInputFromWindow(activity.getCurrentFocus()
+                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+}
+}
+</code></pre><h1 id="以下是布局文件"><a href="#以下是布局文件" class="headerlink" title="以下是布局文件"></a>以下是布局文件</h1><pre><code>```
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout
+xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+android:id=&quot;@+id/activity_main&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;match_parent&quot;
+android:orientation=&quot;vertical&quot;
+tools:context=&quot;fengan.softinputdemo.MainActivity&quot;&gt;
+&lt;LinearLayout
+    android:id=&quot;@+id/LL&quot;
+    android:layout_marginTop=&quot;100dp&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot;
+    android:layout_height=&quot;wrap_content&quot;&gt;
+&lt;EditText
+    android:id=&quot;@+id/et1&quot;
+    android:layout_marginTop=&quot;60dp&quot;
+    android:background=&quot;#ff0&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;60dp&quot;/&gt;
+&lt;EditText
+    android:id=&quot;@+id/et2&quot;
+    android:layout_marginTop=&quot;20dp&quot;
+    android:background=&quot;#ff0&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;60dp&quot;/&gt;
+&lt;Button
+    android:text=&quot;软键盘挡住button&quot;
+    android:id=&quot;@+id/btn&quot;
+    android:layout_marginTop=&quot;30dp&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;/&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p></p>
+<pre><code>可以将隐藏显示的代码封装到BaseActivity
+</code></pre><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=448707059&auto=1&height=66"></iframe>
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/21/保存图片到本地/" rel="next" title="保存图片到本地">
+                <i class="fa fa-chevron-left"></i> 保存图片到本地
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/21/Gson封装/" rel="prev" title="Gson封装">
+                Gson封装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">做一个积极向上的人</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              基情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://windherd.github.io/" title="七宝のAndroid男神" target="_blank">七宝のAndroid男神</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#软键盘-挡住button-和点击外部软键盘消失"><span class="nav-number">1.</span> <span class="nav-text">软键盘(挡住button,和点击外部软键盘消失)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以下是解决挡住button的逻辑-写的比较急-黄色的部分就是edittext"><span class="nav-number">2.</span> <span class="nav-text">以下是解决挡住button的逻辑 (写的比较急,黄色的部分就是edittext)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以下是解决控制点击可选择的区域让软键盘消失或者不消失"><span class="nav-number">3.</span> <span class="nav-text">以下是解决控制点击可选择的区域让软键盘消失或者不消失</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以下Demo全部代码"><span class="nav-number">4.</span> <span class="nav-text">以下Demo全部代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以下是布局文件"><span class="nav-number">5.</span> <span class="nav-text">以下是布局文件</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
