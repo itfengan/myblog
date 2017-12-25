@@ -4,8 +4,8 @@
 
 # Site
 title: 风中追风
-subtitle: 个人邮箱 fengan65535@yeah.net
-description: 做一个积极向上的人
+subtitle: 个人邮箱 fengan1102@gmail.com
+description: 懈怠意味着淘汰
 author: 冯安
 language: zh-Hans
 timezone:
@@ -65,6 +65,10 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: next
 
+live2d:
+  model: hijiki
+  bottom: -30
+  
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:

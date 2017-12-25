@@ -1,0 +1,785 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="AsyncTask的弊端
+前言
+
+Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AsyncTask的弊端">
+<meta property="og:url" content="http://yoursite.com/2016/12/20/AsyncTask缺陷总结/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="AsyncTask的弊端
+前言
+
+Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。">
+<meta property="og:updated_time" content="2017-12-22T09:43:10.706Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AsyncTask的弊端">
+<meta name="twitter:description" content="AsyncTask的弊端
+前言
+
+Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> AsyncTask的弊端 | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AsyncTask的弊端
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-20T10:42:03+08:00" content="2016-12-20">
+              2016-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/notes/" itemprop="url" rel="index">
+                    <span itemprop="name">notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="AsyncTask的弊端"><a href="#AsyncTask的弊端" class="headerlink" title="AsyncTask的弊端"></a>AsyncTask的弊端</h1><blockquote>
+<p>前言</p>
+</blockquote>
+<p>Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。</p>
+<a id="more"></a>
+<h2 id="AsyncTask和Handler对比"><a href="#AsyncTask和Handler对比" class="headerlink" title="AsyncTask和Handler对比"></a>AsyncTask和Handler对比</h2><p><strong>注意：按照Android官方文档支出,AsyncTask被推荐为处理短时间(10秒以内)的操作,即本地的轻量IO操作.不适合使用网络这样时间不定的操作.</strong></p>
+<h3 id="共同点"><a href="#共同点" class="headerlink" title="共同点"></a>共同点</h3><p>都是为了解决耗时操作的问题，主要区别在于一个流程完善，拿来就用（AsyncTask），一个偏向自主定制，扩展性高（Handler+Thread）。</p>
+<ul>
+<li><strong>AsyncTask比Handler轻量级，对吗？</strong></li>
+</ul>
+<ol>
+<li>通过看源码，发现AsyncTask实际上就是一个线程池，而网上的说法是AsyncTask比handler要轻量级，显然上不准确的，只能这样说，AsyncTask在代码上比handler要轻量级别，而实际上要比handler更耗资源，因为AsyncTask底层是一个线程池！而Handler仅仅就是发送了一个消息队列，连线程都没有开。</li>
+<li>但是，如果异步任务的数据特别庞大，AsyncTask这种线程池结构的优势就体现出来了。</li>
+</ol>
+<ul>
+<li><strong>AsyncTask实现的原理,和适用的优缺点</strong></li>
+</ul>
+<p>AsyncTask,是android提供的轻量级的异步类,可以直接继承AsyncTask,在类中实现异步操作,并提供接口反馈当前异步执行的程度(可以通过接口实现UI进度更新),最后反馈执行的结果给UI主线程.</p>
+<p>使用的优点:</p>
+<p>l  简单,快捷</p>
+<p>l  过程可控</p>
+<p>使用的缺点:</p>
+<p>l 在使用多个异步操作的同时，共同进行Ui变更时,就变得复杂起来.</p>
+<p>l 最大并发数不超过5</p>
+<ul>
+<li><strong>Handler异步实现的原理和适用的优缺点</strong></li>
+</ul>
+<p>在Handler 异步实现时,涉及到 Handler, Looper, Message,Thread四个对象，实现异步的流程是主线程启动Thread（子线程）àthread(子线程)运行并生成Message-àLooper获取Message并传递给HandleràHandler逐个获取Looper中的Message，并进行UI变更。</p>
+<p><strong>使用的优点：</strong></p>
+<p>l  结构清晰，功能定义明确</p>
+<p>l  对于多个后台任务时，简单，清晰</p>
+<p><strong>使用的缺点：</strong></p>
+<p>l  在单个后台异步处理时，显得代码过多，结构过于复杂（相对性）</p>
+<h2 id="AsyncTask的使用："><a href="#AsyncTask的使用：" class="headerlink" title="AsyncTask的使用："></a>AsyncTask的使用：</h2><ul>
+<li><strong>必选方法：</strong></li>
+</ul>
+<p>1，  doinbackground(params…) 后台执行，比较耗时的操作都可以放在这里。</p>
+<p>注意这里不能直接操作UI。此方法在后台线程执行，完成任务的主要工作</p>
+<p>，通常需要较长的时间。在执行过程中可以调用</p>
+<p>Public progress(progress…)来更新任务的进度。</p>
+<p>2，  onpostexecute(result)相当于handler处理UI的方式，在这里可以使用在</p>
+<p>doinbackground得到的结果处理操作UI。此方法在主线程执行，任务执行的结果作为此方法的参数返回。</p>
+<ul>
+<li><strong>可选方法：</strong></li>
+</ul>
+<p>1，  onprogressupdate(progress…) 可以使用进度条增加用户体验度。此方法在主线程执行，用户显示任务执行的进度。</p>
+<p>2，  onpreExecute()  这里是最新用户调用excute时的接口，当任务执行之前开始调用此方法，可以在这里显示进度对话框。</p>
+<p>3，  onCancelled()  用户调用取消时，要做的操作</p>
+<ul>
+<li><strong>AsyncTask三个状态：</strong></li>
+</ul>
+<p>pending,running,finished</p>
+<ul>
+<li><strong>使用AsyncTask类，遵守的准则：</strong></li>
+</ul>
+<p>1，  Task的实例必须在UI thread中创建；</p>
+<p>2，  Execute方法必须在UI thread中调用</p>
+<p>3，  不要手动的调用onPfreexecute()，onPostExecute(result)</p>
+<p>Doinbackground(params…),onProgressupdate(progress…)这几个方法；</p>
+<p>4，  该task只能被执行一次，否则多次调用时将会出现异常;</p>
+<h2 id="AsyncTask缺陷总结："><a href="#AsyncTask缺陷总结：" class="headerlink" title="AsyncTask缺陷总结："></a>AsyncTask缺陷总结：</h2><ul>
+<li><p><strong>生命周期</strong></p>
+<p>很多开发者会认为在一个Activity中创建的AsyncTask会随着Activity销毁而销毁，事实并非如此，AsyncTask会随着doInBackground（）方法执行完毕才销毁，然后，cancel（）被调用，那么onCancel会执行；否则执行postExecute方法会执行。如果在AsyncTask没有执行完毕，就销毁了Activity，AsyncTask可能会崩溃，因为它想要处理的view已经不存在了。所以，我们总是必须确保在销毁活动之前取消任务。总之，我们使用AsyncTask需要确保AsyncTask正确地取消。</p>
+<p>另外，即使我们正确地调用了cancle() 也未必能真正地取消任务。因为如果在doInBackgroud里有一个不可中断的操作，比如BitmapFactory.decodeStream()，那么这个操作会继续下去。</p>
+</li>
+<li><p><strong>内存泄漏</strong></p>
+<p>如果AsyncTask未声明成静态，则会持有外部类Activity的引用，当Activity销毁之后，AsyncTask还在执行，它将在内存中依旧保持这个引用，会造成内存泄漏</p>
+</li>
+<li><p><strong>结果丢失</strong></p>
+<p>当屏幕旋转Activity销毁重新创建（未配置android:configChanges=”orientation|screenSize”的情况）之前运行的AsyncTask会持有之前Activity的引用，这时调用onPostExecute()再去更新界面将不再生效。</p>
+</li>
+<li><p><strong>并行还是串行</strong></p>
+<p>当想要串行执行时，直接执行execute()方法，如果需要并行执行，则要执行executeOnExecutor(Executor)。</p>
+</li>
+</ul>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=29761059&auto=1&height=66"></iframe>
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/19/设计模式之原型模式/" rel="next" title="设计模式之原型模式">
+                <i class="fa fa-chevron-left"></i> 设计模式之原型模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/25/谈谈线程池/" rel="prev" title="谈谈线程池">
+                谈谈线程池 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              基情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AsyncTask的弊端"><span class="nav-number">1.</span> <span class="nav-text">AsyncTask的弊端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AsyncTask和Handler对比"><span class="nav-number">1.1.</span> <span class="nav-text">AsyncTask和Handler对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#共同点"><span class="nav-number">1.1.1.</span> <span class="nav-text">共同点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AsyncTask的使用："><span class="nav-number">1.2.</span> <span class="nav-text">AsyncTask的使用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AsyncTask缺陷总结："><span class="nav-number">1.3.</span> <span class="nav-text">AsyncTask缺陷总结：</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <!-- 背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- 宠物 -->
+
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
+})();
+</script>
+
+</body>
+</html>

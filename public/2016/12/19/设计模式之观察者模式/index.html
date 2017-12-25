@@ -1,0 +1,760 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="设计模式之观察者模式什么是观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变，所有依赖于它的对象都能得到通知并可以自动作出处理
+…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之观察者模式">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/设计模式之观察者模式/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="设计模式之观察者模式什么是观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变，所有依赖于它的对象都能得到通知并可以自动作出处理
+…">
+<meta property="og:updated_time" content="2017-12-22T09:41:07.063Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之观察者模式">
+<meta name="twitter:description" content="设计模式之观察者模式什么是观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变，所有依赖于它的对象都能得到通知并可以自动作出处理
+…">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 设计模式之观察者模式 | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式之观察者模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-19T14:38:23+08:00" content="2016-12-19">
+              2016-12-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="设计模式之观察者模式"><a href="#设计模式之观察者模式" class="headerlink" title="设计模式之观察者模式"></a>设计模式之观察者模式</h1><h2 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h2><p>定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变，所有依赖于它的对象都能得到通知并可以自动作出处理</p>
+<p>…</p>
+<a id="more"></a>
+<p>比如说：报纸的订阅，一旦订阅，当有新的报纸发布，所有的订阅者都会收到消息</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><ol>
+<li>观察者：Observer，也叫订阅者，即Subscriber（Rxjava）</li>
+<li>被观察者：Observable</li>
+</ol>
+<h3 id="java中的体现"><a href="#java中的体现" class="headerlink" title="java中的体现"></a>java中的体现</h3><p>java中提供了<strong>Observable</strong>和<strong>Observe</strong>接口供我们快速实现这种模式</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ul>
+<li>假如有下面这样的一个实体类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Weather</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String description;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Weather</span><span class="params">(String description)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.description = description;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> description;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDescription</span><span class="params">(String description)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.description = description;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Weather&#123;"</span> +</div><div class="line">                <span class="string">"description='"</span> + description + <span class="string">'\''</span> +</div><div class="line">                <span class="string">'&#125;'</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>定义观察者接口（因为观察者可能有很多类型，所以我们定义成一个接口，如果想要订阅这个事件，实现这个接口即可，另外一般订阅之后，在实现接口中的方法的参数中会拿到发布的数据，数据的类型不固定所以这个观察者接口需要定义范型）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Observer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onUpdate</span><span class="params">(Observable&lt;T&gt; observable,T data)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>定义被观察者对象（可以设计成单例模式，类似EventBus，内部维持一个集合，用来保存观察者对象；register方法和unregister方法用来将观察者对象从集合中添加和移除出来，post方法用来发布，循环遍历集合，依次调用观察者的相关回调方法，并将发布的参数传入）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.it.fengan.designpattern.pattern;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by fengan on 2017/12/12.</div><div class="line"> * email:fengan1102@gmail.com</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Observable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Observable observable;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Observable</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Observable <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (observable == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (Observable.class) &#123;</div><div class="line">                <span class="keyword">if</span> (observable == <span class="keyword">null</span>) &#123;</div><div class="line">                    observable = <span class="keyword">new</span> Observable();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> observable;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;Observer&gt; observers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(Observer&lt;T&gt; observer)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (observer == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"observer error"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">synchronized</span> (Observable.class) &#123;</div><div class="line">            <span class="keyword">if</span> (!observers.contains(observer)) &#123;</div><div class="line">                observers.add(observer);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregister</span><span class="params">(Observer&lt;T&gt; observer)</span> </span>&#123;</div><div class="line">        observers.remove(observer);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">post</span><span class="params">(T data)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Observer observer : observers) &#123;</div><div class="line">            observer.onUpdate(<span class="keyword">this</span>, data);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>注册和反注册过程</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testObserver</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observer&lt;Weather&gt; objectObserver1 = <span class="keyword">new</span> Observer&lt;Weather&gt;()&#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpdate</span><span class="params">(Observable&lt;Weather&gt; observable, Weather data)</span> </span>&#123;</div><div class="line">                Log.e(<span class="string">"testObserver"</span>, <span class="string">"objectObserver1:data="</span> + data.toString());</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        Observer&lt;Weather&gt; objectObserver2 = <span class="keyword">new</span> Observer&lt;Weather&gt;()&#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpdate</span><span class="params">(Observable&lt;Weather&gt; observable, Weather data)</span> </span>&#123;</div><div class="line">                Log.e(<span class="string">"testObserver"</span>, <span class="string">"objectObserver2:data="</span> + data.toString());</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        Observable observable = Observable.getInstance();</div><div class="line">        observable.register(objectObserver1);</div><div class="line">        observable.register(objectObserver2);</div><div class="line">        Weather weather = <span class="keyword">new</span> Weather(<span class="string">"晴天"</span>);</div><div class="line">        observable.post(weather);</div><div class="line">        observable.unregister(objectObserver2);</div><div class="line">        observable.post(weather);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>logcat输出</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">12</span><span class="number">-19</span> <span class="number">15</span>:<span class="number">18</span>:<span class="number">44.780</span> <span class="number">2004</span><span class="number">-2036</span><span class="regexp">/? E/</span><span class="string">testObserver:</span> <span class="string">objectObserver1:</span>data=Weather&#123;description=<span class="string">'晴天'</span>&#125;</div><div class="line"><span class="number">12</span><span class="number">-19</span> <span class="number">15</span>:<span class="number">18</span>:<span class="number">44.780</span> <span class="number">2004</span><span class="number">-2036</span><span class="regexp">/? E/</span><span class="string">testObserver:</span> <span class="string">objectObserver2:</span>data=Weather&#123;description=<span class="string">'晴天'</span>&#125;</div><div class="line"><span class="number">12</span><span class="number">-19</span> <span class="number">15</span>:<span class="number">18</span>:<span class="number">44.780</span> <span class="number">2004</span><span class="number">-2036</span><span class="regexp">/? E/</span><span class="string">testObserver:</span> <span class="string">objectObserver1:</span>data=Weather&#123;description=<span class="string">'晴天'</span>&#125;</div></pre></td></tr></table></figure>
+<h2 id="Android中的应用"><a href="#Android中的应用" class="headerlink" title="Android中的应用"></a>Android中的应用</h2><ul>
+<li>一对一的观察者（一般称之为回调，只有一个观察者）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Button btn=<span class="keyword">new</span> Button(<span class="keyword">this</span>);</div><div class="line">btn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">		Log.e(<span class="string">"TAG"</span>,<span class="string">"click"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>只要是set系列的设置监听器的方法最多都只能算回调，但是有一些监听器式add进去的，这种就是观察者模式了（比如RecyclerView中的addOnScrollListener方法）</li>
+</ul>
+<blockquote>
+<p>RecycleView.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">private</span> List&lt;OnScrollListener&gt; mScrollListeners;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Add a listener that will be notified of any changes in scroll state or position.</div><div class="line"> *</div><div class="line"> * &lt;p&gt;Components that add a listener should take care to remove it when finished.</div><div class="line"> * Other components that take ownership of a view may call &#123;<span class="doctag">@link</span> #clearOnScrollListeners()&#125;</div><div class="line"> * to remove all attached listeners.&lt;/p&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> listener listener to set or null to clear</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mScrollListeners == <span class="keyword">null</span>) &#123;</div><div class="line">        mScrollListeners = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    &#125;</div><div class="line">    mScrollListeners.add(listener);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Remove a listener that was notified of any changes in scroll state or position.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> listener listener to set or null to clear</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mScrollListeners != <span class="keyword">null</span>) &#123;</div><div class="line">        mScrollListeners.remove(listener);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Remove all secondary listener that were notified of any changes in scroll state or position.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearOnScrollListeners</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mScrollListeners != <span class="keyword">null</span>) &#123;</div><div class="line">        mScrollListeners.clear();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Android的广播机制，其本质也是观察者模式，这里为了简单方便，直接拿本地广播的代码说明，即LocalBroadcastManager</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">LocalBroadcastManager localBroadcastManager=LocalBroadcastManager.getInstance(<span class="keyword">this</span>);</div><div class="line">localBroadcastManager.registerReceiver(BroadcastReceiver receiver, IntentFilter filter);</div><div class="line">localBroadcastManager.unregisterReceiver(BroadcastReceiver receiver);</div><div class="line">localBroadcastManager.sendBroadcast(Intent intent)</div></pre></td></tr></table></figure>
+<ul>
+<li>开源库（EventBus）</li>
+</ul>
+<p>观察者模式的三个典型方法它都具有，即注册，取消注册，发送事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">EventBus.getDefault().register(Object subscriber);</div><div class="line">EventBus.getDefault().unregister(Object subscriber);</div><div class="line"></div><div class="line">EventBus.getDefault().post(Object event);</div></pre></td></tr></table></figure>
+<ul>
+<li>重量级的库，它就是RxJava</li>
+</ul>
+<p>创建一个被观察者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Observable&lt;String&gt; myObservable = Observable.create(  </div><div class="line">    <span class="keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;  </div><div class="line">        <span class="meta">@Override</span>  </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> String&gt; sub)</span> </span>&#123;  </div><div class="line">            sub.onNext(<span class="string">"Hello, world!"</span>);  </div><div class="line">            sub.onCompleted();  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">);</div></pre></td></tr></table></figure>
+<p>创建一个观察者，也就是订阅者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Subscriber&lt;String&gt; mySubscriber = <span class="keyword">new</span> Subscriber&lt;String&gt;() &#123;  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123; System.out.println(s); &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">()</span> </span>&#123; &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123; &#125;  </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>观察者进行事件的订阅</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">myObservable.subscribe(mySubscriber);</div></pre></td></tr></table></figure>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=453062799&auto=1&height=66"></iframe>
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/16/设计模式之策略模式/" rel="next" title="设计模式之策略模式">
+                <i class="fa fa-chevron-left"></i> 设计模式之策略模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/19/设计模式之原型模式/" rel="prev" title="设计模式之原型模式">
+                设计模式之原型模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              基情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式之观察者模式"><span class="nav-number">1.</span> <span class="nav-text">设计模式之观察者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是观察者模式"><span class="nav-number">1.1.</span> <span class="nav-text">什么是观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组成"><span class="nav-number">1.2.1.</span> <span class="nav-text">组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java中的体现"><span class="nav-number">1.2.2.</span> <span class="nav-text">java中的体现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">1.2.3.</span> <span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android中的应用"><span class="nav-number">1.3.</span> <span class="nav-text">Android中的应用</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <!-- 背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- 宠物 -->
+
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
+})();
+</script>
+
+</body>
+</html>

@@ -1,7 +1,9 @@
 ---
 title: Android　阴影布局(继承FrameLayout)
 date: 2017-03-15 17:52:55
-tags: Android
+tags: 
+- Android
+categories: View
 ---
 # 阴影布局(继承FrameLayout) #
 

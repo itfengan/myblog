@@ -71,6 +71,13 @@
   {% include '_scripts/third-party/mathjax.swig' %}
   {% include '_scripts/third-party/lean-analytics.swig' %}
   {% include '_scripts/baidu-push.swig' %}
-
+  <!-- 背景 -->
+{% if theme.canvas_nest %}
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+{% endif %}
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- 宠物 -->
+{{ live2d() }}
 </body>
 </html>

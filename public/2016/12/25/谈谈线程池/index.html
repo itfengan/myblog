@@ -1,0 +1,906 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前置知识线程基本概念，线程基本概念和Android启动线程的三种方式(点击查看)
+new Thread（）的弊端
+总是new Thread（）开启线程，线程执行完会被回收，导致频繁的GC
+多线程缺乏统一管理，各线程之间互相竞争
+无法实现停止线程（如果一个item滑出页面，则要停止该item上图片的加载，但是如果使用这种方式来创建线程，则无法实现线程停止执行）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈线程池">
+<meta property="og:url" content="http://yoursite.com/2016/12/25/谈谈线程池/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="前置知识线程基本概念，线程基本概念和Android启动线程的三种方式(点击查看)
+new Thread（）的弊端
+总是new Thread（）开启线程，线程执行完会被回收，导致频繁的GC
+多线程缺乏统一管理，各线程之间互相竞争
+无法实现停止线程（如果一个item滑出页面，则要停止该item上图片的加载，但是如果使用这种方式来创建线程，则无法实现线程停止执行）">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1fmt3dofim9j311o0fqtc9.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1fmt4c3mgklj31eq15kdqq.jpg">
+<meta property="og:updated_time" content="2017-12-25T10:45:49.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈线程池">
+<meta name="twitter:description" content="前置知识线程基本概念，线程基本概念和Android启动线程的三种方式(点击查看)
+new Thread（）的弊端
+总是new Thread（）开启线程，线程执行完会被回收，导致频繁的GC
+多线程缺乏统一管理，各线程之间互相竞争
+无法实现停止线程（如果一个item滑出页面，则要停止该item上图片的加载，但是如果使用这种方式来创建线程，则无法实现线程停止执行）">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcgy1fmt3dofim9j311o0fqtc9.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 谈谈线程池 | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                谈谈线程池
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-25T15:52:32+08:00" content="2016-12-25">
+              2016-12-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/notes/" itemprop="url" rel="index">
+                    <span itemprop="name">notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>线程基本概念，<a href="http://blog.csdn.net/cswhale/article/details/39053857" target="_blank" rel="external">线程基本概念</a>和<a href="https://www.cnblogs.com/propheterLiu/p/6082666.html" target="_blank" rel="external">Android启动线程的三种方式</a>(点击查看)</p>
+<h4 id="new-Thread（）的弊端"><a href="#new-Thread（）的弊端" class="headerlink" title="new Thread（）的弊端"></a>new Thread（）的弊端</h4><ul>
+<li>总是new Thread（）开启线程，线程执行完会被回收，导致频繁的<a href="https://www.jianshu.com/p/5db05db4f5ab" target="_blank" rel="external">GC</a></li>
+<li>多线程缺乏统一管理，各线程之间互相竞争</li>
+<li>无法实现停止线程（如果一个item滑出页面，则要停止该item上图片的加载，但是如果使用这种方式来创建线程，则无法实现线程停止执行）</li>
+</ul>
+<a id="more"></a>
+<h4 id="使用线程池的好处"><a href="#使用线程池的好处" class="headerlink" title="使用线程池的好处"></a>使用线程池的好处</h4><ul>
+<li>提高线程的复用性，避免频繁创建线程进而导致频繁的GC</li>
+<li>控制线程并发数，合理利用资源</li>
+<li>线程可控性，比如可以定时执行和取消执行某个线程的任务</li>
+</ul>
+<h4 id="线程池的实现"><a href="#线程池的实现" class="headerlink" title="线程池的实现"></a>线程池的实现</h4><ul>
+<li>Android中的线程池其实源于Java，Android开发中线程池的使用和Java中线程池的使用基本一致</li>
+<li>Java中和线程有关的东东叫做Executor，Executor本身是一个接口</li>
+<li>这个接口有一个非常有用的实现类叫做ThreadPoolExecutor</li>
+<li>Android中常用的线程池<strong>都是通过对ThreadPoolExecutor</strong>进行不同配置来实现的</li>
+</ul>
+<p><strong>类的继承结构</strong></p>
+<p>Windows：Ctrl+H</p>
+<p>Mac：Control+H</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1fmt3dofim9j311o0fqtc9.jpg" alt="类的继承结构"></p>
+<h4 id="关于ThreadPoolExecutor"><a href="#关于ThreadPoolExecutor" class="headerlink" title="关于ThreadPoolExecutor"></a>关于ThreadPoolExecutor</h4><p>ThreadPoolExecutor有四个重载的构造方法，我们这里来说说参数最多的那一个重载的构造方法，这样大家就知道其他方法参数的含义了</p>
+<p>构造函数源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Creates a new &#123;<span class="doctag">@code</span> ThreadPoolExecutor&#125; with the given initial</div><div class="line"> * parameters and default thread factory.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> corePoolSize the number of threads to keep in the pool, even</div><div class="line"> *        if they are idle, unless &#123;<span class="doctag">@code</span> allowCoreThreadTimeOut&#125; is set</div><div class="line"> * <span class="doctag">@param</span> maximumPoolSize the maximum number of threads to allow in the</div><div class="line"> *        pool</div><div class="line"> * <span class="doctag">@param</span> keepAliveTime when the number of threads is greater than</div><div class="line"> *        the core, this is the maximum time that excess idle threads</div><div class="line"> *        will wait for new tasks before terminating.</div><div class="line"> * <span class="doctag">@param</span> unit the time unit for the &#123;<span class="doctag">@code</span> keepAliveTime&#125; argument</div><div class="line"> * <span class="doctag">@param</span> workQueue the queue to use for holding tasks before they are</div><div class="line"> *        executed.  This queue will hold only the &#123;<span class="doctag">@code</span> Runnable&#125;</div><div class="line"> *        tasks submitted by the &#123;<span class="doctag">@code</span> execute&#125; method.</div><div class="line"> * <span class="doctag">@param</span> handler the handler to use when execution is blocked</div><div class="line"> *        because the thread bounds and queue capacities are reached</div><div class="line"> * <span class="doctag">@throws</span> IllegalArgumentException if one of the following holds:&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> corePoolSize &lt; 0&#125;&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> keepAliveTime &lt; 0&#125;&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> maximumPoolSize &lt;= 0&#125;&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> maximumPoolSize &lt; corePoolSize&#125;</div><div class="line"> * <span class="doctag">@throws</span> NullPointerException if &#123;<span class="doctag">@code</span> workQueue&#125;</div><div class="line"> *         or &#123;<span class="doctag">@code</span> handler&#125; is null</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></div><div class="line">                          <span class="keyword">int</span> maximumPoolSize,</div><div class="line">                          <span class="keyword">long</span> keepAliveTime,</div><div class="line">                          TimeUnit unit,</div><div class="line">                          BlockingQueue&lt;Runnable&gt; workQueue,</div><div class="line">                          RejectedExecutionHandler handler) &#123;</div><div class="line">    <span class="keyword">this</span>(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,</div><div class="line">         Executors.defaultThreadFactory(), handler);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Creates a new &#123;<span class="doctag">@code</span> ThreadPoolExecutor&#125; with the given initial</div><div class="line"> * parameters.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> corePoolSize the number of threads to keep in the pool, even</div><div class="line"> *        if they are idle, unless &#123;<span class="doctag">@code</span> allowCoreThreadTimeOut&#125; is set</div><div class="line"> * <span class="doctag">@param</span> maximumPoolSize the maximum number of threads to allow in the</div><div class="line"> *        pool</div><div class="line"> * <span class="doctag">@param</span> keepAliveTime when the number of threads is greater than</div><div class="line"> *        the core, this is the maximum time that excess idle threads</div><div class="line"> *        will wait for new tasks before terminating.</div><div class="line"> * <span class="doctag">@param</span> unit the time unit for the &#123;<span class="doctag">@code</span> keepAliveTime&#125; argument</div><div class="line"> * <span class="doctag">@param</span> workQueue the queue to use for holding tasks before they are</div><div class="line"> *        executed.  This queue will hold only the &#123;<span class="doctag">@code</span> Runnable&#125;</div><div class="line"> *        tasks submitted by the &#123;<span class="doctag">@code</span> execute&#125; method.</div><div class="line"> * <span class="doctag">@param</span> threadFactory the factory to use when the executor</div><div class="line"> *        creates a new thread</div><div class="line"> * <span class="doctag">@param</span> handler the handler to use when execution is blocked</div><div class="line"> *        because the thread bounds and queue capacities are reached</div><div class="line"> * <span class="doctag">@throws</span> IllegalArgumentException if one of the following holds:&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> corePoolSize &lt; 0&#125;&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> keepAliveTime &lt; 0&#125;&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> maximumPoolSize &lt;= 0&#125;&lt;br&gt;</div><div class="line"> *         &#123;<span class="doctag">@code</span> maximumPoolSize &lt; corePoolSize&#125;</div><div class="line"> * <span class="doctag">@throws</span> NullPointerException if &#123;<span class="doctag">@code</span> workQueue&#125;</div><div class="line"> *         or &#123;<span class="doctag">@code</span> threadFactory&#125; or &#123;<span class="doctag">@code</span> handler&#125; is null</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></div><div class="line">                          <span class="keyword">int</span> maximumPoolSize,</div><div class="line">                          <span class="keyword">long</span> keepAliveTime,</div><div class="line">                          TimeUnit unit,</div><div class="line">                          BlockingQueue&lt;Runnable&gt; workQueue,</div><div class="line">                          ThreadFactory threadFactory,</div><div class="line">                          RejectedExecutionHandler handler) &#123;</div><div class="line">    <span class="keyword">if</span> (corePoolSize &lt; <span class="number">0</span> ||</div><div class="line">        maximumPoolSize &lt;= <span class="number">0</span> ||</div><div class="line">        maximumPoolSize &lt; corePoolSize ||</div><div class="line">        keepAliveTime &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">    <span class="keyword">if</span> (workQueue == <span class="keyword">null</span> || threadFactory == <span class="keyword">null</span> || handler == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">    <span class="keyword">this</span>.corePoolSize = corePoolSize;</div><div class="line">    <span class="keyword">this</span>.maximumPoolSize = maximumPoolSize;</div><div class="line">    <span class="keyword">this</span>.workQueue = workQueue;</div><div class="line">    <span class="keyword">this</span>.keepAliveTime = unit.toNanos(keepAliveTime);</div><div class="line">    <span class="keyword">this</span>.threadFactory = threadFactory;</div><div class="line">    <span class="keyword">this</span>.handler = handler;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>这里是7个参数(我们在开发中用的更多的是5个参数的构造方法)，OK，那我们来看看这里七个参数的含义：</strong></p>
+<ol>
+<li><strong>corePoolSize</strong>：核心线程的数量</li>
+<li><strong>maximumPoolSize</strong>：最大线程数量</li>
+<li><strong>keepAliveTime</strong>：非核心线程的超时时长，当系统中<strong>非核心线程闲置时间超过</strong>keepAliveTime之后，则会<strong>被回收</strong>。如果ThreadPoolExecutor的allowCoreThreadTimeOut属性设置为true，则该参数也表示核心线程的超时时长</li>
+<li><strong>unit</strong>：第三个参数的单位，有纳秒、微秒、毫秒、秒、分、时、天等</li>
+<li><strong>workQueue</strong>：线程池中的任务队列，该队列存储已经被提交，但是尚未执行的任务，存储在这里的任务是由ThreadPoolExecutor的execute方法提交来的。</li>
+<li><strong>threadFactory</strong>  为线程池提供创建新线程的功能，这个我们一般<strong>使用默认即可</strong></li>
+<li><strong>handler</strong> 拒绝策略，当线程无法执行新任务时（一般是由于线程池中的线程数量已经达到最大数或者线程池关闭导致的），默认情况下，当线程池无法处理新线程时，会抛出一个RejectedExecutionException。</li>
+</ol>
+<p><strong>关于workQueue</strong></p>
+<ul>
+<li>workQueue是一个BlockingQueue类型</li>
+<li>BlockingQueue是一个特殊的队列</li>
+<li>从BlockingQueue中取数据时，<ul>
+<li>如果BlockingQueue是空的，则取数据的操作会进入到阻塞状态</li>
+<li>当BlockingQueue中有了新数据时，这个取数据的操作又会被重新唤醒</li>
+<li>如果BlockingQueue中的数据已经满了，往BlockingQueue中存数据的操作又会进入阻塞状态(直到BlockingQueue中又有新的空间，存数据的操作又会被冲洗唤醒</li>
+</ul>
+</li>
+<li>BlockingQueue的种类<ul>
+<li><strong>ArrayBlockingQueue</strong>:这个表示一个<strong>规定了大小</strong>的BlockingQueue，ArrayBlockingQueue的构造函数接受一个int类型的数据，该数据表示BlockingQueue的大小，存储在ArrayBlockingQueue中的元素按照FIFO（先进先出）的方式来进行存取。</li>
+<li><strong>LinkedBlockingQueue</strong>:这个表示一个大小不确定的BlockingQueue，在LinkedBlockingQueue的构造方法中可以传一个int类型的数据，这样创建出来的LinkedBlockingQueue是有大小的，也可以不传，不传的话，LinkedBlockingQueue的大小就为Integer.MAX_VALUE</li>
+<li><strong>PriorityBlockingQueue</strong>:这个队列和LinkedBlockingQueue类似，不同的是PriorityBlockingQueue中的元素不是按照FIFO来排序的，而是按照元素的Comparator来决定存取顺序的（这个功能也反映了存入PriorityBlockingQueue中的数据必须实现了Comparator接口）。</li>
+<li><strong>SynchronousQueue</strong>:这个是同步Queue，属于线程安全的BlockingQueue的一种，在SynchronousQueue中，生产者线程的插入操作必须要等待消费者线程的移除操作，Synchronous内部没有数据缓存空间，因此我们无法对SynchronousQueue进行读取或者遍历其中的数据，元素只有在你试图取走的时候才有可能存在。我们可以理解为生产者和消费者互相等待，等到对方之后然后再一起离开。</li>
+</ul>
+</li>
+</ul>
+<h4 id="ThreadPoolExecuto线程池执行任务时："><a href="#ThreadPoolExecuto线程池执行任务时：" class="headerlink" title="ThreadPoolExecuto线程池执行任务时："></a>ThreadPoolExecuto线程池执行任务时：</h4><p><strong>execute一个线程之后</strong>：</p>
+<ul>
+<li>如果线程池中的线程数未达到核心线程数，则会立马启用一个核心线程去执行</li>
+<li>如果线程池中的线程数已经达到核心线程数，且workQueue未满，则将新线程放入workQueue中等待执行</li>
+<li>如果线程池中的线程数已经达到核心线程数但未超过非核心线程数，且workQueue已满，则开启一个非核心线程来执行任务</li>
+<li>如果线程池中的线程数已经超过非核心线程数，则拒绝执行该任务</li>
+</ul>
+<h4 id="如何配置这些参数（参考AsycTask）"><a href="#如何配置这些参数（参考AsycTask）" class="headerlink" title="如何配置这些参数（参考AsycTask）"></a>如何配置这些参数（参考AsycTask）</h4><p><img src="https://ws1.sinaimg.cn/large/006tKfTcgy1fmt4c3mgklj31eq15kdqq.jpg" alt="类的继承结构"></p>
+<ul>
+<li>核心线程数为手机CPU数量+1（cpu数量获取方式Runtime.getRuntime().availableProcessors()）</li>
+<li>最大线程数为手机CPU数量×2+1</li>
+<li>线程队列的大小为128</li>
+</ul>
+<h4 id="系统帮我们配置好的线程池四种对比"><a href="#系统帮我们配置好的线程池四种对比" class="headerlink" title="系统帮我们配置好的线程池四种对比"></a><span id="jumpback">系统帮我们配置好的线程池</span><a href="#jump">四种对比</a></h4><ul>
+<li><p>FixedThreadPool</p>
+<ul>
+<li><p>核心线程数量固定的线程池</p>
+</li>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ExecutorService fixedThreadPool = Executors.newFixedThreadPool(<span class="number">3</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>源码：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</div><div class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,</div><div class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>核心线程数和最大线程数一样</li>
+<li>FixedThreadPool中没有非核心线程，所有的线程都是核心线程</li>
+<li>线程的超时时间为0</li>
+<li>核心线程即使在没有任务可执行的时候也不会被销毁（这样可让FixedThreadPool更快速的响应请求）</li>
+<li>LinkedBlockingQueue却没有参数，这说明线程队列的大小为Integer.MAX_VALUE（2的31次方减1)</li>
+<li>所有的核心线程都在执行任务的时候，新的任务只能进入线程队列中进行等待，直到有线程被空闲出来</li>
+</ul>
+</li>
+<li><p>SingleThreadExecutor</p>
+<ul>
+<li><p>singleThreadExecutor和FixedThreadPool很像，不同的就是SingleThreadExecutor的核心线程数只有1</p>
+</li>
+<li><p>​</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService</div><div class="line">          (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</div><div class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,</div><div class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>最大好处就是可以避免我们去处理线程同步问题</p>
+</li>
+<li><p>只有一个核心线程，确保所有任务都在同一线程中按顺序完成。因此不需要处理线程同步的问题。</p>
+</li>
+<li><p>FixedThreadPool的参数传个1效果一样</p>
+</li>
+</ul>
+</li>
+<li><p>CachedThreadPool</p>
+<ul>
+<li><p>最大的优势是它可以根据程序的运行情况自动来调整线程池中的线程数量</p>
+</li>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</div><div class="line">                                  <span class="number">60L</span>, TimeUnit.SECONDS,</div><div class="line">                                  <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>CachedThreadPool中是没有核心线程的，但是它的最大线程数却为Integer.MAX_VALUE</p>
+</li>
+<li><p>它是有线程超时机制的，超时时间为60秒</p>
+</li>
+<li><p>最大线程数为无限大</p>
+</li>
+<li><p>添加一个新任务进来的时候，如果线程池中有空闲的线程，则由该空闲的线程执行新任务</p>
+</li>
+<li><p>没有空闲线程，则创建新线程来执行任务</p>
+</li>
+<li><p>CachedThreadPool中没有新任务的时候，它里边所有的线程都会因为超时而被终止</p>
+</li>
+<li><p>任务队列SynchronousQueue相当于一个空集合，导致任何任务都会被立即执行</p>
+</li>
+<li><p>可以在有大量任务请求的时候使用CachedThreadPool</p>
+</li>
+</ul>
+</li>
+<li><p>ScheduleThreadPool</p>
+<ul>
+<li><p>具有定时定期执行任务功能的线程池</p>
+</li>
+<li><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE,</div><div class="line">          DEFAULT_KEEPALIVE_MILLIS, MILLISECONDS,</div><div class="line">          <span class="keyword">new</span> DelayedWorkQueue());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>核心线程数量是固定的</p>
+</li>
+<li>非核心线程是无穷大,当非核心线程闲置时，则会被立即回收。</li>
+<li>支持延迟执行任务；定时执行任务；延迟定时执行任务</li>
+</ul>
+</li>
+</ul>
+<h4 id="线程池的其他功能"><a href="#线程池的其他功能" class="headerlink" title="线程池的其他功能"></a>线程池的其他功能</h4><ol>
+<li><strong>shutDown（）</strong>：关闭线程池，不影响已经提交的任务</li>
+<li><strong>shutDownNow（）</strong>：关闭线程池，并尝试终止正在执行的线程</li>
+<li><strong>allowCoreThreadTimeOut(boolean value)</strong>：允许核心线程闲置超时被回收</li>
+<li><strong>submit</strong>：一般情况下我们使用execute来提交任务，但是有时候可能也会用到submit，使用submit的好处是submit有返回值</li>
+</ol>
+<h4 id="线程池简单封装"><a href="#线程池简单封装" class="headerlink" title="线程池简单封装"></a>线程池简单封装</h4><p>ThreadPoolManager.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.LinkedBlockingQueue;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ThreadPoolExecutor;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by fengan on 2017/12/25.</div><div class="line"> * email:fengan1102@gmail.com</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolManager</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadPoolManager Instance;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ThreadPoolExecutor threadPoolExecutor;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ThreadPoolManager</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="comment">//核心线程数量</span></div><div class="line"><span class="comment">//最大线程数量</span></div><div class="line"><span class="comment">//非核心线程的超时时长</span></div><div class="line"><span class="comment">//时间单位</span></div><div class="line"><span class="comment">//缓冲队列，用于存放等待任务，Linked的先进先出</span></div><div class="line"><span class="comment">//创建线程的工厂</span></div><div class="line"><span class="comment">//用来对超出maximumPoolSize的任务的处理策略</span></div><div class="line">        threadPoolExecutor = <span class="keyword">new</span> ThreadPoolExecutor(corePoolSize,<span class="comment">//核心线程数量</span></div><div class="line">                maximumPoolSize,<span class="comment">//最大线程数量</span></div><div class="line">                keepAliveTime,<span class="comment">//非核心线程的超时时长</span></div><div class="line">                unit,<span class="comment">//时间单位</span></div><div class="line">                <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(),<span class="comment">//缓冲队列，用于存放等待任务，Linked的先进先出</span></div><div class="line">                Executors.defaultThreadFactory(), <span class="comment">//创建线程的工厂</span></div><div class="line">                <span class="keyword">new</span> ThreadPoolExecutor.AbortPolicy() <span class="comment">//用来对超出maximumPoolSize的任务的处理策略</span></div><div class="line">        );</div><div class="line">        threadPoolExecutor.allowCoreThreadTimeOut(<span class="keyword">true</span>);<span class="comment">//设置核心线程超时时间可用</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ThreadPoolManager <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (Instance == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (ThreadPoolManager.class) &#123;</div><div class="line">                <span class="keyword">if</span> (Instance == <span class="keyword">null</span>) &#123;</div><div class="line">                    Instance = <span class="keyword">new</span> ThreadPoolManager();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> Instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//当前设备可用处理器核心数*2 + 1,能够让cpu的效率得到最大程度执行（有研究论证的）</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> corePoolSize = Runtime.getRuntime().availableProcessors() * <span class="number">2</span> + <span class="number">1</span>;</div><div class="line">    <span class="comment">//最大线程数等于核心线程数</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> maximumPoolSize = corePoolSize;</div><div class="line">    <span class="comment">//超时时间，1小时</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> keepAliveTime = <span class="number">1</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TimeUnit unit = TimeUnit.HOURS;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 执行任务</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable runnable)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (runnable == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        threadPoolExecutor.execute(runnable);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 从线程池中移除任务</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(Runnable runnable)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (runnable == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        threadPoolExecutor.remove(runnable);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="再次比较四种常见的线程池详细比较"><a href="#再次比较四种常见的线程池详细比较" class="headerlink" title="再次比较四种常见的线程池详细比较"></a><span id="jump">再次比较四种常见的线程池</span><a href="#jumpback">详细比较</a></h4><p><strong>不管哪种线程池，都是靠ThreadPoolExecutor的七个参数的构造来实现的</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>核心线程</th>
+<th>最大线程</th>
+<th></th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><font color="red">FixThreadPool</font></td>
+<td>有</td>
+<td>无（非核心线程）</td>
+<td>不会被回收</td>
+<td>只有固定数量的核心线程，线程都活动时，新任务等待</td>
+</tr>
+<tr>
+<td><font color="red">SingleThreadPool</font></td>
+<td>1</td>
+<td>无（非核心线程）</td>
+<td>不会被回收</td>
+<td>所有任务都在统一线程执行，不需要处理线程同步问题</td>
+</tr>
+<tr>
+<td><font color="red">CachedThreadPool</font></td>
+<td>无</td>
+<td>Integer.MAX_VALUE</td>
+<td>超时时间60秒</td>
+<td>任何任务立即执行</td>
+</tr>
+<tr>
+<td><font color="red">ScheduledThreadPool</font></td>
+<td>有</td>
+<td>Integer.MAX_VALUE</td>
+<td>非核心线程闲置，立即回收</td>
+<td>可以延迟和定时执行</td>
+</tr>
+</tbody>
+</table>
+<p>相关资料：</p>
+<p><a href="http://blog.csdn.net/xiangyunwan/article/details/72550948" target="_blank" rel="external">1</a><a href="http://blog.csdn.net/u012702547/article/details/52259529" target="_blank" rel="external">2</a><a href="http://blog.csdn.net/cswhale/article/details/39053857" target="_blank" rel="external">3</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/20/AsyncTask缺陷总结/" rel="next" title="AsyncTask的弊端">
+                <i class="fa fa-chevron-left"></i> AsyncTask的弊端
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/15/Android-阴影布局-继承FrameLayout/" rel="prev" title="Android　阴影布局(继承FrameLayout)">
+                Android　阴影布局(继承FrameLayout) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              基情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前置知识"><span class="nav-number">1.</span> <span class="nav-text">前置知识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#new-Thread（）的弊端"><span class="nav-number">2.</span> <span class="nav-text">new Thread（）的弊端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用线程池的好处"><span class="nav-number">3.</span> <span class="nav-text">使用线程池的好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池的实现"><span class="nav-number">4.</span> <span class="nav-text">线程池的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于ThreadPoolExecutor"><span class="nav-number">5.</span> <span class="nav-text">关于ThreadPoolExecutor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadPoolExecuto线程池执行任务时："><span class="nav-number">6.</span> <span class="nav-text">ThreadPoolExecuto线程池执行任务时：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何配置这些参数（参考AsycTask）"><span class="nav-number">7.</span> <span class="nav-text">如何配置这些参数（参考AsycTask）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统帮我们配置好的线程池四种对比"><span class="nav-number">8.</span> <span class="nav-text">系统帮我们配置好的线程池四种对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池的其他功能"><span class="nav-number">9.</span> <span class="nav-text">线程池的其他功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池简单封装"><span class="nav-number">10.</span> <span class="nav-text">线程池简单封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#再次比较四种常见的线程池详细比较"><span class="nav-number">11.</span> <span class="nav-text">再次比较四种常见的线程池详细比较</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <!-- 背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- 宠物 -->
+
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
+})();
+</script>
+
+</body>
+</html>

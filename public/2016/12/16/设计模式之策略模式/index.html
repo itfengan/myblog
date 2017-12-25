@@ -1,0 +1,749 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="概念描述策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之策略模式">
+<meta property="og:url" content="http://yoursite.com/2016/12/16/设计模式之策略模式/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="概念描述策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
+<meta property="og:updated_time" content="2017-12-25T03:49:18.004Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之策略模式">
+<meta name="twitter:description" content="概念描述策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 设计模式之策略模式 | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式之策略模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-16T09:43:45+08:00" content="2016-12-16">
+              2016-12-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="概念描述"><a href="#概念描述" class="headerlink" title="概念描述"></a>概念描述</h4><p>策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到<strong>具有公共接口</strong>的<strong>独立的类</strong>中，从而在不影响客户端的情况下可以切换相应的算法。<br><a id="more"></a></p>
+<h4 id="未使用策略模式案例"><a href="#未使用策略模式案例" class="headerlink" title="未使用策略模式案例"></a>未使用策略模式案例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TravelStrategy</span> </span>&#123;</div><div class="line">	<span class="keyword">enum</span> Strategy&#123;</div><div class="line">		WALK,PLANE,SUBWAY</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> Strategy strategy;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TravelStrategy</span><span class="params">(Strategy strategy)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.strategy=strategy;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(strategy==Strategy.WALK)&#123;</div><div class="line">			print(<span class="string">"walk"</span>);</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(strategy==Strategy.PLANE)&#123;</div><div class="line">			print(<span class="string">"plane"</span>);</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(strategy==Strategy.SUBWAY)&#123;</div><div class="line">			print(<span class="string">"subway"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(String str)</span></span>&#123;</div><div class="line">		System.out.println(<span class="string">"出行旅游的方式为："</span>+str);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		TravelStrategy walk=<span class="keyword">new</span> TravelStrategy(Strategy.WALK);</div><div class="line">		walk.travel();</div><div class="line">		</div><div class="line">		TravelStrategy plane=<span class="keyword">new</span> TravelStrategy(Strategy.PLANE);</div><div class="line">		plane.travel();</div><div class="line">		</div><div class="line">		TravelStrategy subway=<span class="keyword">new</span> TravelStrategy(Strategy.SUBWAY);</div><div class="line">		subway.travel();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过switch或者if语句，来判断选择哪一种策略算法，一旦策略增加或者减少修改，就不得不增加新的语句，这就违背了面向对象的原则之一，对修改封闭。</p>
+<h4 id="使用策略模式案例"><a href="#使用策略模式案例" class="headerlink" title="使用策略模式案例"></a>使用策略模式案例</h4><p><strong>定义策略接口（抽象策略）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Strategy</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>将不同的算法封装到实现该策略接口的具体的类中（具体策略）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WalkStrategy</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"walk"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PlaneStrategy</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"plane"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubwayStrategy</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"subway"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>策略环境（持有抽象策略引用的环境类）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TravelContext</span> </span>&#123;</div><div class="line">	Strategy strategy;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> Strategy <span class="title">getStrategy</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> strategy;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setStrategy</span><span class="params">(Strategy strategy)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.strategy = strategy;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (strategy != <span class="keyword">null</span>) &#123;</div><div class="line">			strategy.travel();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>具体使用</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		TravelContext travelContext=<span class="keyword">new</span> TravelContext();</div><div class="line">		travelContext.setStrategy(<span class="keyword">new</span> PlaneStrategy());</div><div class="line">		travelContext.travel();</div><div class="line">		travelContext.setStrategy(<span class="keyword">new</span> WalkStrategy());</div><div class="line">		travelContext.travel();</div><div class="line">		travelContext.setStrategy(<span class="keyword">new</span> SubwayStrategy());</div><div class="line">		travelContext.travel();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>若想增加新的策略（添加新的策略实现类即可）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BikeStrategy</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"bike"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">TravelContext travelContext=<span class="keyword">new</span> TravelContext();</div><div class="line">		travelContext.setStrategy(<span class="keyword">new</span> BikeStrategy());</div><div class="line">		travelContext.travel();</div></pre></td></tr></table></figure>
+<p><strong>总结</strong></p>
+<p>面向对象的<strong>对修改封闭</strong>，<strong>对扩展开放</strong>。</p>
+<h4 id="Android源码中的使用"><a href="#Android源码中的使用" class="headerlink" title="Android源码中的使用"></a>Android源码中的使用</h4><ul>
+<li><strong>属性动画的插值器</strong></li>
+</ul>
+<p>策略接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TypeEvaluator</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">evaluate</span><span class="params">(<span class="keyword">float</span> fraction, T startValue, T endValue)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>多个策略实现例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntEvaluator</span> <span class="keyword">implements</span> <span class="title">TypeEvaluator</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">evaluate</span><span class="params">(<span class="keyword">float</span> fraction, Integer startValue, Integer endValue)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> startInt = startValue;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>)(startInt + fraction * (endValue - startInt));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FloatEvaluator</span> <span class="keyword">implements</span> <span class="title">TypeEvaluator</span>&lt;<span class="title">Number</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Float <span class="title">evaluate</span><span class="params">(<span class="keyword">float</span> fraction, Number startValue, Number endValue)</span> </span>&#123;</div><div class="line">        <span class="keyword">float</span> startFloat = startValue.floatValue();</div><div class="line">        <span class="keyword">return</span> startFloat + fraction * (endValue.floatValue() - startFloat);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其他略…</p>
+<h4 id="其他使用场景举例"><a href="#其他使用场景举例" class="headerlink" title="其他使用场景举例"></a>其他使用场景举例</h4><p><strong>例如：一个电商类平台等购物车系统，除了把货品的单价乘以数量之外，可能会有一些优惠活动。比如说，对高级会员提供5折优惠，对中级会员提供7折优惠，对初级会员提供9折优惠</strong></p>
+<p>那么这就涉及到了三种算法</p>
+<p><strong>首先定义折扣抽样策略接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MemberStrategy</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 计算图书的价格</div><div class="line">     * <span class="doctag">@param</span> booksPrice    图书的原价</div><div class="line">     * <span class="doctag">@return</span>    计算出打折后的价格</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">calcPrice</span><span class="params">(<span class="keyword">double</span> booksPrice)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>初级会员折扣策略</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrimaryMemberStrategy</span> <span class="keyword">implements</span> <span class="title">MemberStrategy</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">calcPrice</span><span class="params">(<span class="keyword">double</span> booksPrice)</span> </span>&#123;</div><div class="line">        </div><div class="line">        System.out.println(<span class="string">"对于初级会员的9折折扣"</span>);</div><div class="line">        <span class="keyword">return</span> booksPrice*<span class="number">0.9</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdvancedMemberStrategy</span> <span class="keyword">implements</span> <span class="title">MemberStrategy</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">calcPrice</span><span class="params">(<span class="keyword">double</span> booksPrice)</span> </span>&#123;</div><div class="line">        </div><div class="line">        System.out.println(<span class="string">"对于高级会员的折扣为5折"</span>);</div><div class="line">        <span class="keyword">return</span> booksPrice * <span class="number">0.5</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntermediateMemberStrategy</span> <span class="keyword">implements</span> <span class="title">MemberStrategy</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">calcPrice</span><span class="params">(<span class="keyword">double</span> booksPrice)</span> </span>&#123;</div><div class="line"></div><div class="line">        System.out.println(<span class="string">"对于中级会员的折扣为7折"</span>);</div><div class="line">        <span class="keyword">return</span> booksPrice * <span class="number">0.7</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>策略环境类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Price</span> </span>&#123;</div><div class="line">    <span class="comment">//持有一个具体的策略对象</span></div><div class="line">    <span class="keyword">private</span> MemberStrategy strategy;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 构造函数，传入一个具体的策略对象</div><div class="line">     * <span class="doctag">@param</span> strategy    具体的策略对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Price</span><span class="params">(MemberStrategy strategy)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.strategy = strategy;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 计算图书的价格</div><div class="line">     * <span class="doctag">@param</span> booksPrice    图书的原价</div><div class="line">     * <span class="doctag">@return</span>    计算出打折后的价格</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">quote</span><span class="params">(<span class="keyword">double</span> booksPrice)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.strategy.calcPrice(booksPrice);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>客户端的使用</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">//选择并创建需要使用的策略对象</span></div><div class="line">        MemberStrategy strategy = <span class="keyword">new</span> AdvancedMemberStrategy();</div><div class="line">        <span class="comment">//创建环境</span></div><div class="line">        Price price = <span class="keyword">new</span> Price(strategy);</div><div class="line">        <span class="comment">//计算价格</span></div><div class="line">        <span class="keyword">double</span> quote = price.quote(<span class="number">300</span>);</div><div class="line">        System.out.println(<span class="string">"图书的最终价格为："</span> + quote);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>可以看出</strong></p>
+<ol>
+<li>策略模式的重心不是提供算法，而是对多种算法的封装</li>
+<li>各个算法相对独立平等</li>
+<li>算法可以相互切换，但在同一时刻只能使用一种策略</li>
+<li>面向对象的：对修改封闭，对拓展开放</li>
+<li>避免使用switch和if多重条件语句，方便维护</li>
+<li>缺点：客户端事先知道有多少种策略，并且每个策略的区别</li>
+</ol>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=28864975&auto=1&height=66"></iframe>
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/15/设计模式之建造者模式/" rel="next" title="设计模式之建造者模式">
+                <i class="fa fa-chevron-left"></i> 设计模式之建造者模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/19/设计模式之观察者模式/" rel="prev" title="设计模式之观察者模式">
+                设计模式之观察者模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              基情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#概念描述"><span class="nav-number">1.</span> <span class="nav-text">概念描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#未使用策略模式案例"><span class="nav-number">2.</span> <span class="nav-text">未使用策略模式案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用策略模式案例"><span class="nav-number">3.</span> <span class="nav-text">使用策略模式案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android源码中的使用"><span class="nav-number">4.</span> <span class="nav-text">Android源码中的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他使用场景举例"><span class="nav-number">5.</span> <span class="nav-text">其他使用场景举例</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <!-- 背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- 宠物 -->
+
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
+})();
+</script>
+
+</body>
+</html>

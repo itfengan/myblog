@@ -1,0 +1,885 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="软键盘遮挡和点击空白区域关闭键盘
+登陆button挡住输入框
+软键盘弹出挡住其他控件
+软键盘弹出，点击空白区域关闭软件盘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="view被软键盘挡住和点击外部软键盘消失">
+<meta property="og:url" content="http://yoursite.com/2016/08/21/view被软键盘挡住和点击外部软键盘消失/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="软键盘遮挡和点击空白区域关闭键盘
+登陆button挡住输入框
+软键盘弹出挡住其他控件
+软键盘弹出，点击空白区域关闭软件盘">
+<meta property="og:image" content="http://img.blog.csdn.net/20170615102440904?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-12-25T04:24:47.194Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="view被软键盘挡住和点击外部软键盘消失">
+<meta name="twitter:description" content="软键盘遮挡和点击空白区域关闭键盘
+登陆button挡住输入框
+软键盘弹出挡住其他控件
+软键盘弹出，点击空白区域关闭软件盘">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170615102440904?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> view被软键盘挡住和点击外部软键盘消失 | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                view被软键盘挡住和点击外部软键盘消失
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-21T11:02:01+08:00" content="2016-08-21">
+              2016-08-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/code/" itemprop="url" rel="index">
+                    <span itemprop="name">code</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="软键盘遮挡和点击空白区域关闭键盘"><a href="#软键盘遮挡和点击空白区域关闭键盘" class="headerlink" title="软键盘遮挡和点击空白区域关闭键盘"></a>软键盘遮挡和点击空白区域关闭键盘</h1><ul>
+<li>登陆button挡住输入框</li>
+<li>软键盘弹出挡住其他控件</li>
+<li>软键盘弹出，点击空白区域关闭软件盘</li>
+</ul>
+<a id="more"></a>
+<h3 id="设置：点击button，键盘将button顶上去"><a href="#设置：点击button，键盘将button顶上去" class="headerlink" title="设置：点击button，键盘将button顶上去"></a>设置：点击button，键盘将button顶上去</h3><blockquote>
+<p><img src="http://img.blog.csdn.net/20170615102440904?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="引用块内容"></p>
+</blockquote>
+<pre><code>//    控制是否移动布局。比如只有密码输入框获取到焦点时才执行。
+public  boolean flag = true;
+
+/**
+ * @param act          activiry用于获取底部导航栏高度。
+ * @param root         最外层布局，需要调整的布局
+ * @param scrollToView 被键盘遮挡的scrollToView，滚动root,使scrollToView在root可视区域的底部
+ */
+public  void controlKeyboardLayout(Context act, final View root, final View scrollToView) {
+    final int navigationBarHeight = getNavigationBarHeight(act);
+
+    root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            Rect rect = new Rect();
+            //获取root在窗体的可视区域
+            root.getWindowVisibleDisplayFrame(rect);
+            //获取root在窗体的不可视区域高度(被其他View遮挡的区域高度)
+            int rootInvisibleHeight = root.getRootView().getHeight() - rect.bottom;
+            //若不可视区域高度大于100，则键盘显示
+            if (rootInvisibleHeight &gt; navigationBarHeight &amp;&amp; flag) {
+                int[] location = new int[2];
+                //获取scrollToView在窗体的坐标
+                scrollToView.getLocationInWindow(location);
+                //计算root滚动高度，使scrollToView在可见区域
+                int srollHeight = (location[1] + scrollToView.getHeight()) - rect.bottom;
+                if (root.getScrollY() != 0) {// 如果已经滚动，要根据上次滚动，重新计算位置。
+                    srollHeight += root.getScrollY();
+                }
+                root.scrollTo(0, srollHeight);
+            } else {
+                //键盘隐藏
+                root.scrollTo(0, 0);
+            }
+        }
+    });
+}
+</code></pre><h3 id="解决控制点击可选择的区域让软键盘消失或者不消失"><a href="#解决控制点击可选择的区域让软键盘消失或者不消失" class="headerlink" title="解决控制点击可选择的区域让软键盘消失或者不消失"></a>解决控制点击可选择的区域让软键盘消失或者不消失</h3><pre><code>  /**
+ * 获取底部导航栏高度
+ *
+ * @param act
+ * @return
+ */
+private  int getNavigationBarHeight(Context act) {
+    Resources resources = act.getResources();
+    int resourceId = resources.getIdentifier(&quot;navigation_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;);
+    int height = resources.getDimensionPixelSize(resourceId);
+    Log.v(&quot;dbw&quot;, &quot;Navi height:&quot; + height);
+    return height;
+}
+
+//软键盘消失的管理
+//region软键盘的处理
+
+/**
+ * 清除editText的焦点
+ *
+ * @param v   焦点所在View
+ * @param ids 输入框
+ */
+public void clearViewFocus(View v, int... ids) {
+    if (null != v &amp;&amp; null != ids &amp;&amp; ids.length &gt; 0) {
+        for (int id : ids) {
+            if (v.getId() == id) {
+                v.clearFocus();
+                break;
+            }
+        }
+    }
+}
+/**
+ * 隐藏键盘
+ *
+ * @param v   焦点所在View
+ * @param ids 输入框
+ * @return true代表焦点在edit上
+ */
+public boolean isFocusEditText(View v, int... ids) {
+    if (v instanceof EditText) {
+        EditText tmp_et = (EditText) v;
+        for (int id : ids) {
+            if (tmp_et.getId() == id) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+//是否触摸在指定view上面,对某个控件过滤
+public boolean isTouchView(View[] views, MotionEvent ev) {
+    if (views == null || views.length == 0) return false;
+    int[] location = new int[2];
+    for (View view : views) {
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        if (ev.getX() &gt; x &amp;&amp; ev.getX() &lt; (x + view.getWidth())
+                &amp;&amp; ev.getY() &gt; y &amp;&amp; ev.getY() &lt; (y + view.getHeight())) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//region 右滑返回上级
+@Override
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+        if (isTouchView(filterViewByIds(), ev)) return super.dispatchTouchEvent(ev);
+        if (hideSoftByEditViewIds() == null || hideSoftByEditViewIds().length == 0)
+            return super.dispatchTouchEvent(ev);
+        View v = getCurrentFocus();
+        if (isFocusEditText(v, hideSoftByEditViewIds())) {
+            //隐藏键盘
+            hideInputForce(this);
+            clearViewFocus(v, hideSoftByEditViewIds());
+        }
+    }
+    return super.dispatchTouchEvent(ev);
+
+}
+
+
+/**
+ * 传入EditText的Id
+ * 没有传入的EditText不做处理
+ *
+ * @return id 数组
+ */
+public int[] hideSoftByEditViewIds() {
+    return null;
+}
+
+/**
+ * 传入要过滤的View
+ * 过滤之后点击将不会有隐藏软键盘的操作
+ *
+ * @return id 数组
+ */
+public View[] filterViewByIds() {
+    return null;
+}
+
+/**
+ * des:隐藏软键盘,这种方式参数为activity
+ *
+ * @param activity
+ */
+public static void hideInputForce(Activity activity) {
+    if (activity == null || activity.getCurrentFocus() == null)
+        return;
+
+    ((InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE))
+            .hideSoftInputFromWindow(activity.getCurrentFocus()
+                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+}
+</code></pre><h3 id="以下Demo全部代码"><a href="#以下Demo全部代码" class="headerlink" title="以下Demo全部代码"></a>以下Demo全部代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"><span class="keyword">private</span> EditText mEt1;</div><div class="line"><span class="keyword">private</span> EditText mEt2;</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">    setContentView(R.layout.activity_main);</div><div class="line">    Button btn = (Button) findViewById(R.id.btn);</div><div class="line">    mEt1 = (EditText) findViewById(R.id.et1);</div><div class="line">    mEt2 = (EditText) findViewById(R.id.et2);</div><div class="line">    LinearLayout LL = (LinearLayout) findViewById(R.id.LL);</div><div class="line">    controlKeyboardLayout(<span class="keyword">this</span>,LL,btn);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//    控制是否移动布局。比如只有密码输入框获取到焦点时才执行。</span></div><div class="line"><span class="keyword">public</span>  <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@param</span> act          activiry用于获取底部导航栏高度。</div><div class="line"> * <span class="doctag">@param</span> root         最外层布局，需要调整的布局</div><div class="line"> * <span class="doctag">@param</span> scrollToView 被键盘遮挡的scrollToView，滚动root,使scrollToView在root可视区域的底部</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">controlKeyboardLayout</span><span class="params">(Context act, <span class="keyword">final</span> View root, <span class="keyword">final</span> View scrollToView)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> navigationBarHeight = getNavigationBarHeight(act);</div><div class="line"></div><div class="line">    root.getViewTreeObserver().addOnGlobalLayoutListener(<span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</div><div class="line">            Rect rect = <span class="keyword">new</span> Rect();</div><div class="line">            <span class="comment">//获取root在窗体的可视区域</span></div><div class="line">            root.getWindowVisibleDisplayFrame(rect);</div><div class="line">            <span class="comment">//获取root在窗体的不可视区域高度(被其他View遮挡的区域高度)</span></div><div class="line">            <span class="keyword">int</span> rootInvisibleHeight = root.getRootView().getHeight() - rect.bottom;</div><div class="line">            <span class="comment">//若不可视区域高度大于100，则键盘显示</span></div><div class="line">            <span class="keyword">if</span> (rootInvisibleHeight &gt; navigationBarHeight &amp;&amp; flag) &#123;</div><div class="line">                <span class="keyword">int</span>[] location = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</div><div class="line">                <span class="comment">//获取scrollToView在窗体的坐标</span></div><div class="line">                scrollToView.getLocationInWindow(location);</div><div class="line">                <span class="comment">//计算root滚动高度，使scrollToView在可见区域</span></div><div class="line">                <span class="keyword">int</span> srollHeight = (location[<span class="number">1</span>] + scrollToView.getHeight()) - rect.bottom;</div><div class="line">                <span class="keyword">if</span> (root.getScrollY() != <span class="number">0</span>) &#123;<span class="comment">// 如果已经滚动，要根据上次滚动，重新计算位置。</span></div><div class="line">                    srollHeight += root.getScrollY();</div><div class="line">                &#125;</div><div class="line">                root.scrollTo(<span class="number">0</span>, srollHeight);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">//键盘隐藏</span></div><div class="line">                root.scrollTo(<span class="number">0</span>, <span class="number">0</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 获取底部导航栏高度</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> act</div><div class="line"> * <span class="doctag">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span>  <span class="keyword">int</span> <span class="title">getNavigationBarHeight</span><span class="params">(Context act)</span> </span>&#123;</div><div class="line">    Resources resources = act.getResources();</div><div class="line">    <span class="keyword">int</span> resourceId = resources.getIdentifier(<span class="string">"navigation_bar_height"</span>, <span class="string">"dimen"</span>, <span class="string">"android"</span>);</div><div class="line">    <span class="keyword">int</span> height = resources.getDimensionPixelSize(resourceId);</div><div class="line">    Log.v(<span class="string">"dbw"</span>, <span class="string">"Navi height:"</span> + height);</div><div class="line">    <span class="keyword">return</span> height;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//软键盘消失的管理</span></div><div class="line"><span class="comment">//region软键盘的处理</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 清除editText的焦点</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> v   焦点所在View</div><div class="line"> * <span class="doctag">@param</span> ids 输入框</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearViewFocus</span><span class="params">(View v, <span class="keyword">int</span>... ids)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> != v &amp;&amp; <span class="keyword">null</span> != ids &amp;&amp; ids.length &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> id : ids) &#123;</div><div class="line">            <span class="keyword">if</span> (v.getId() == id) &#123;</div><div class="line">                v.clearFocus();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * 隐藏键盘</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> v   焦点所在View</div><div class="line"> * <span class="doctag">@param</span> ids 输入框</div><div class="line"> * <span class="doctag">@return</span> true代表焦点在edit上</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isFocusEditText</span><span class="params">(View v, <span class="keyword">int</span>... ids)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (v <span class="keyword">instanceof</span> EditText) &#123;</div><div class="line">        EditText tmp_et = (EditText) v;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> id : ids) &#123;</div><div class="line">            <span class="keyword">if</span> (tmp_et.getId() == id) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//是否触摸在指定view上面,对某个控件过滤</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isTouchView</span><span class="params">(View[] views, MotionEvent ev)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (views == <span class="keyword">null</span> || views.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">int</span>[] location = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</div><div class="line">    <span class="keyword">for</span> (View view : views) &#123;</div><div class="line">        view.getLocationOnScreen(location);</div><div class="line">        <span class="keyword">int</span> x = location[<span class="number">0</span>];</div><div class="line">        <span class="keyword">int</span> y = location[<span class="number">1</span>];</div><div class="line">        <span class="keyword">if</span> (ev.getX() &gt; x &amp;&amp; ev.getX() &lt; (x + view.getWidth())</div><div class="line">                &amp;&amp; ev.getY() &gt; y &amp;&amp; ev.getY() &lt; (y + view.getHeight())) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//region 右滑返回上级</span></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">        <span class="keyword">if</span> (isTouchView(filterViewByIds(), ev)) <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);</div><div class="line">        <span class="keyword">if</span> (hideSoftByEditViewIds() == <span class="keyword">null</span> || hideSoftByEditViewIds().length == <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);</div><div class="line">        View v = getCurrentFocus();</div><div class="line">        <span class="keyword">if</span> (isFocusEditText(v, hideSoftByEditViewIds())) &#123;</div><div class="line">            <span class="comment">//隐藏键盘</span></div><div class="line">            hideInputForce(<span class="keyword">this</span>);</div><div class="line">            clearViewFocus(v, hideSoftByEditViewIds());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 传入EditText的Id</div><div class="line"> * 没有传入的EditText不做处理</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> id 数组</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] hideSoftByEditViewIds() &#123;</div><div class="line">    <span class="keyword">int</span> []  ids = &#123;R.id.et1,R.id.et2&#125;;</div><div class="line">    <span class="keyword">return</span> ids;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 传入要过滤的View</div><div class="line"> * 过滤之后点击将不会有隐藏软键盘的操作</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> id 数组</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> View[] filterViewByIds() &#123;</div><div class="line">    View [] views = &#123;mEt1,mEt2&#125;;<span class="comment">//点击这两个控件,软键盘不会消失</span></div><div class="line">    <span class="keyword">return</span> views;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * des:隐藏软键盘,这种方式参数为activity</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> activity</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">hideInputForce</span><span class="params">(Activity activity)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (activity == <span class="keyword">null</span> || activity.getCurrentFocus() == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">return</span>;</div><div class="line"></div><div class="line">    ((InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE))</div><div class="line">            .hideSoftInputFromWindow(activity.getCurrentFocus()</div><div class="line">                    .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="以下是布局文件"><a href="#以下是布局文件" class="headerlink" title="以下是布局文件"></a>以下是布局文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line"><span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line"><span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line"><span class="attr">android:id</span>=<span class="string">"@+id/activity_main"</span></div><div class="line"><span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line"><span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line"><span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line"><span class="attr">tools:context</span>=<span class="string">"fengan.softinputdemo.MainActivity"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/LL"</span></div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"100dp"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">EditText</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/et1"</span></div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"60dp"</span></div><div class="line">    <span class="attr">android:background</span>=<span class="string">"#ff0"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span>/&gt;</div><div class="line"><span class="tag">&lt;<span class="name">EditText</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/et2"</span></div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"20dp"</span></div><div class="line">    <span class="attr">android:background</span>=<span class="string">"#ff0"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span>/&gt;</div><div class="line"><span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">    <span class="attr">android:text</span>=<span class="string">"软键盘挡住button"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/btn"</span></div><div class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"30dp"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>可以将隐藏显示的代码封装到BaseActivity</li>
+</ul>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=448707059&auto=1&height=66"></iframe>
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/21/保存图片到本地/" rel="next" title="保存图片到本地">
+                <i class="fa fa-chevron-left"></i> 保存图片到本地
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/21/Gson封装/" rel="prev" title="Gson封装">
+                Gson封装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              基情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#软键盘遮挡和点击空白区域关闭键盘"><span class="nav-number">1.</span> <span class="nav-text">软键盘遮挡和点击空白区域关闭键盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置：点击button，键盘将button顶上去"><span class="nav-number">1.0.1.</span> <span class="nav-text">设置：点击button，键盘将button顶上去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决控制点击可选择的区域让软键盘消失或者不消失"><span class="nav-number">1.0.2.</span> <span class="nav-text">解决控制点击可选择的区域让软键盘消失或者不消失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以下Demo全部代码"><span class="nav-number">1.0.3.</span> <span class="nav-text">以下Demo全部代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以下是布局文件"><span class="nav-number">1.0.4.</span> <span class="nav-text">以下是布局文件</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <!-- 背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- 宠物 -->
+
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
+})();
+</script>
+
+</body>
+</html>

@@ -1,9 +1,15 @@
 ---
 title: Gson封装
-date: 2017-08-21 11:20:34
-tags:
+date: 2016-08-21 11:20:34
+tags: 
+- Android
+categories: code
 ---
 Gson封装
+
+- Gson封装的工具类
+- javabean和集合相互转换
+
 <!--more-->
 --
 

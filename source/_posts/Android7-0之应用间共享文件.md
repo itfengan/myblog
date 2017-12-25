@@ -1,7 +1,9 @@
 ---
 title: Android7.0之应用间共享文件
-date: 2017-01-23 16:58:17
-tags: Android
+date: 2016-07-23 16:58:17
+tags: 
+- Android
+categories: notes
 ---
 ## Android7.0适配之应用间共享文件 ##
 

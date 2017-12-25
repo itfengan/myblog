@@ -1,0 +1,917 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="随滑动改变的动态矩形背景
+前言
+
+可能看到这个标题有点懵逼,本屌的表达能力有限,最近工作比较清闲,朋友公司正在做到这个效果,所以就帮基友写了一个小Demo,总体来说就是以下效果.
+github移步:https://github.com/itfengan/DynamicRectangleView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="随滑动改变的的动态矩形背景">
+<meta property="og:url" content="http://yoursite.com/2016/10/11/随滑动改变的的动态矩形背景/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="随滑动改变的动态矩形背景
+前言
+
+可能看到这个标题有点懵逼,本屌的表达能力有限,最近工作比较清闲,朋友公司正在做到这个效果,所以就帮基友写了一个小Demo,总体来说就是以下效果.
+github移步:https://github.com/itfengan/DynamicRectangleView">
+<meta property="og:image" content="http://img.blog.csdn.net/20171011155803164?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20171011155905764?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-12-22T09:41:46.313Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="随滑动改变的的动态矩形背景">
+<meta name="twitter:description" content="随滑动改变的动态矩形背景
+前言
+
+可能看到这个标题有点懵逼,本屌的表达能力有限,最近工作比较清闲,朋友公司正在做到这个效果,所以就帮基友写了一个小Demo,总体来说就是以下效果.
+github移步:https://github.com/itfengan/DynamicRectangleView">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20171011155803164?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 随滑动改变的的动态矩形背景 | 风中追风 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">风中追风</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                随滑动改变的的动态矩形背景
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-11T16:11:06+08:00" content="2016-10-11">
+              2016-10-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/View/" itemprop="url" rel="index">
+                    <span itemprop="name">View</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="随滑动改变的动态矩形背景"><a href="#随滑动改变的动态矩形背景" class="headerlink" title="随滑动改变的动态矩形背景"></a>随滑动改变的动态矩形背景</h1><blockquote>
+<p>前言</p>
+</blockquote>
+<p>可能看到这个标题有点懵逼,本屌的表达能力有限,最近工作比较清闲,朋友公司正在做到这个效果,所以就帮基友写了一个小Demo,总体来说就是以下效果.</p>
+<p>github移步:<br><a href="https://github.com/itfengan/DynamicRectangleView" target="_blank" rel="external">https://github.com/itfengan/DynamicRectangleView</a></p>
+<a id="more"></a>
+<blockquote>
+<p>朋友公司需要达到的效果</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20171011155803164?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<blockquote>
+<p>Demo中的效果</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20171011155905764?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h2 id="使用过程"><a href="#使用过程" class="headerlink" title="使用过程"></a>使用过程</h2><blockquote>
+<p>layout</p>
+</blockquote>
+<pre><code>&lt;com.fengan.dynamicrectangledemo.DynamicRectangleView
+android:id=&quot;@+id/drv&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;250dp&quot;
+app:fengan_limit_percent=&quot;0.2&quot;
+app:fengan_percent=&quot;0.5&quot;
+&gt;&lt;/com.fengan.dynamicrectangledemo.DynamicRectangleView&gt;
+</code></pre><blockquote>
+<p>code</p>
+</blockquote>
+<pre><code> @Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    SeekBar seekBar = (SeekBar) findViewById(R.id.sb);
+    final DynamicRectangleView dynamicRectangleView = (DynamicRectangleView) findViewById(R.id.drv);
+    seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            dynamicRectangleView.setPercent((float)i/100);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    });
+    findViewById(R.id.btn_scrollview).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(MainActivity.this,ScrollViewActivity.class));
+        }
+    });
+}
+</code></pre><blockquote>
+<p>attrs.xml(有灵性的哥哥们应该猜得到分别对应的什么意思咯)</p>
+</blockquote>
+<pre><code>&lt;resources&gt;
+&lt;declare-styleable name=&quot;DynamicRectangleView&quot;&gt;
+    &lt;attr name=&quot;fengan_percent&quot; format=&quot;float&quot;/&gt;
+    &lt;attr name=&quot;fengan_limit_percent&quot; format=&quot;float&quot;/&gt;
+    &lt;attr name=&quot;fengan_start_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;fengan_end_color&quot; format=&quot;color&quot;/&gt;
+&lt;/declare-styleable&gt;
+&lt;/resources&gt;
+</code></pre><ol>
+<li>fengan_percent:右侧短边占左侧的百分比</li>
+<li>fengan_limit_percent:当滑动到最小的百分比</li>
+<li>fengan_start_color:渐变色的初始颜色(ps:朋友公司效果图是渐变色,当然也可以不需要)</li>
+<li>fengan_end_color:渐变色的终止颜色</li>
+</ol>
+<blockquote>
+<p>DynamicRectangleView.java</p>
+</blockquote>
+<pre><code>package com.fengan.dynamicrectangledemo;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Shader;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+
+/**
+ * Created by fengan on 2017/10/11/011.
+     */
+
+public class DynamicRectangleView extends View {
+
+// Default  values
+private final static int DEFAULT_START_COLOR = Color.parseColor(&quot;#88D94600&quot;);
+private final static int DEFAULT_END_COLOR = Color.parseColor(&quot;#D94600&quot;);
+private final static float DEFAULT_PERCENT = (float) 0.5;//右边高度占左边高度的百分比
+private final static float DEFAULT_LIMIT_PERCENT = (float) 0.2;//最小高度占左边高度的百分比
+
+private Paint mPaint;
+private float OriginalRightHeight;
+private float OriginalLeftHeight;
+private float currentRightHeight;
+private float currentLeftHeight;
+private float minHeight;
+private float maxHeight;
+private int mStartColor;
+private int mEndColor;
+private float mPercent;
+private float mLimitPercent;
+private Path mPath;
+
+
+public DynamicRectangleView(Context context) {
+    this(context, null);
+}
+
+public DynamicRectangleView(Context context, AttributeSet attrs) {
+    this(context, attrs, 0);
+}
+
+
+public DynamicRectangleView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    // Retrieve attributes from xml
+    final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DynamicRectangleView);
+    try {
+        mPercent = typedArray.getFloat(R.styleable.DynamicRectangleView_fengan_percent, DEFAULT_PERCENT);
+        mLimitPercent = typedArray.getFloat(R.styleable.DynamicRectangleView_fengan_percent, DEFAULT_LIMIT_PERCENT);
+        mStartColor = typedArray.getColor(R.styleable.DynamicRectangleView_fengan_start_color, DEFAULT_START_COLOR);
+        mEndColor = typedArray.getColor(R.styleable.DynamicRectangleView_fengan_end_color, DEFAULT_END_COLOR);
+    } finally {
+        typedArray.recycle();
+    }
+    initView(context);
+}
+
+private void initView(Context context) {
+    mPaint = new Paint();
+    mPath = new Path();
+    mPaint.setAntiAlias(true);
+//        mPaint.setColor(Color.RED);//纯色
+}
+
+@Override
+protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+}
+
+@Override
+protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    super.onSizeChanged(w, h, oldw, oldh);
+    OriginalLeftHeight = getMeasuredHeight();
+    OriginalRightHeight = getMeasuredHeight()*mPercent;
+    minHeight = getMeasuredHeight() *mLimitPercent;
+    maxHeight = OriginalRightHeight;
+    //设置当前高度
+    currentRightHeight = OriginalRightHeight;
+    currentLeftHeight = OriginalLeftHeight;
+    // LinearGradient 第一个参数第二个参数为 起始位置x,y  三四参数为终点位置x,y。
+    // 如果x不变则为y轴渐变， y不变则为x轴渐变
+    // 第五个参数为颜色渐变，此处为红色渐变为绿色
+    // 第七个参数为渐变次数，可repeat
+    Shader mShader = new LinearGradient(0, 0, maxHeight, maxHeight,
+            new int[]{mStartColor, mEndColor},
+            null, Shader.TileMode.CLAMP);
+    // Shader.TileMode三种模式
+    // REPEAT:沿着渐变方向循环重复
+    // CLAMP:如果在预先定义的范围外画的话，就重复边界的颜色
+    // MIRROR:与REPEAT一样都是循环重复，但这个会对称重复
+    mPaint.setShader(mShader);// 用Shader中定义定义的颜色来话
+}
+@Override
+protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+    mPath.reset();
+    mPath.moveTo(0, 0);
+    mPath.lineTo(getMeasuredWidth(), 0);
+    mPath.lineTo(getMeasuredWidth(), currentRightHeight);
+    mPath.lineTo(0, currentLeftHeight);
+    mPath.close();
+    canvas.drawPath(mPath, mPaint);
+}
+
+public void setPercent(float percent) {
+    Log.e(&quot;fengan&quot;, &quot;percent=&quot; + percent);
+    currentRightHeight = OriginalRightHeight * (1 - percent);
+    currentLeftHeight = OriginalLeftHeight * (1 - percent);
+    if (currentLeftHeight &lt; minHeight) {
+        currentLeftHeight = minHeight;
+    }
+    if (currentRightHeight &lt; minHeight) {
+        currentRightHeight = minHeight;
+    }
+    postInvalidate();
+}
+}
+</code></pre><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=455345562&auto=1&height=66"></iframe>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
+    <div>这是我的微信,欢迎来约~</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/23/Android7-0之广播变动/" rel="next" title="Android7.0之广播变动">
+                <i class="fa fa-chevron-left"></i> Android7.0之广播变动
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/15/设计模式之单例模式/" rel="prev" title="设计模式之单例模式">
+                设计模式之单例模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
+               alt="冯安" />
+          <p class="site-author-name" itemprop="name">冯安</p>
+          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              基情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#随滑动改变的动态矩形背景"><span class="nav-number">1.</span> <span class="nav-text">随滑动改变的动态矩形背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用过程"><span class="nav-number">1.1.</span> <span class="nav-text">使用过程</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">冯安</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+<!--
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+-->
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <!-- 背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+  <!-- 宠物 -->
+
+<div id="hexo-helper-live2d">
+  <canvas id="live2dcanvas" width="150" height="300"></canvas>
+</div>
+<style>
+  #live2dcanvas{
+    position: fixed;
+    width: 150px;
+    height: 300px;
+    opacity:0.7;
+    right: 0px;
+    z-index: 999;
+    pointer-events: none;
+    bottom: -20px;
+  }
+</style>
+<script type="text/javascript" src="/live2d/device.min.js"></script>
+<script type="text/javascript">
+const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
+(function(){
+  if((typeof(device) != 'undefined') && (device.mobile())){
+    document.getElementById("live2dcanvas").style.width = '75px';
+    document.getElementById("live2dcanvas").style.height = '150px';
+  }else
+    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
+  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
+})();
+</script>
+
+</body>
+</html>
