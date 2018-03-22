@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。
+2014年6月谷歌I/O大会上，Android L(5.0)改动幅度比较大，删除了Dalvik，而是用ART代替。
+之前对本块的知识理解比较零散，再此本文总结下Dalvik和ART的原理，和二者的区别，以及Jvm和Dalvik的区别，以及Andro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析Dalvik和ART的区别">
+<meta property="og:url" content="http://www.fengan.info/2018/03/05/浅析Dalvik和ART的区别/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。
+2014年6月谷歌I/O大会上，Android L(5.0)改动幅度比较大，删除了Dalvik，而是用ART代替。
+之前对本块的知识理解比较零散，再此本文总结下Dalvik和ART的原理，和二者的区别，以及Jvm和Dalvik的区别，以及Andro">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fp1zktmabmj30hm0r6780.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fp1zfxzxttj30jq0o8tau.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fp230bcp69j31ie11m4e4.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1fp230q7envj31hw0l277h.jpg">
+<meta property="og:updated_time" content="2018-03-05T09:50:44.028Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析Dalvik和ART的区别">
+<meta name="twitter:description" content="Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。
+2014年6月谷歌I/O大会上，Android L(5.0)改动幅度比较大，删除了Dalvik，而是用ART代替。
+之前对本块的知识理解比较零散，再此本文总结下Dalvik和ART的原理，和二者的区别，以及Jvm和Dalvik的区别，以及Andro">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fp1zktmabmj30hm0r6780.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>浅析Dalvik和ART的区别 | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-浅析Dalvik和ART的区别" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/05/浅析Dalvik和ART的区别/" class="article-date">
+      <time datetime="2018-03-05T07:00:14.000Z" itemprop="datePublished">2018-03-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅析Dalvik和ART的区别
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。</p>
+<p>2014年6月谷歌I/O大会上，Android L(5.0)改动幅度比较大，删除了Dalvik，而是用ART代替。</p>
+<p>之前对本块的知识理解比较零散，再此本文总结下Dalvik和ART的原理，和二者的区别，以及Jvm和Dalvik的区别，以及Android的Apk编译打包的流程</p>
+<a id="more"></a>
+<h3 id="Dalvik的相关知识"><a href="#Dalvik的相关知识" class="headerlink" title="Dalvik的相关知识"></a>Dalvik的相关知识</h3><ul>
+<li><strong>Google</strong>公司自己设计<strong>用于Android平台</strong>的<strong>java虚拟机</strong></li>
+<li>支持.dex（即Dalvik Executable）格式的java应用程序运行</li>
+<li>基于寄存器，寄存器CPU的一部分（适合内存和处理器有限的系统）</li>
+<li>允许有限的内存同时运行多个Dalvik虚拟机的实例</li>
+<li>每个Dalvik应用作为一个独立的Linux进程执行，防止一个程序崩溃导致所有程序崩溃</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fp1zktmabmj30hm0r6780.jpg" alt=""></p>
+<h3 id="Jvm的相关知识"><a href="#Jvm的相关知识" class="headerlink" title="Jvm的相关知识"></a>Jvm的相关知识</h3><ul>
+<li>基于栈（内存的一部分）</li>
+<li>javac把程序源码编译成JAVA字节码后，JVM通过逐条解释字节码翻译成机器指令</li>
+</ul>
+<h3 id="Dalvik和Jvm的区别与联系"><a href="#Dalvik和Jvm的区别与联系" class="headerlink" title="Dalvik和Jvm的区别与联系"></a>Dalvik和Jvm的区别与联系</h3><h4 id="图表区别"><a href="#图表区别" class="headerlink" title="图表区别"></a>图表区别</h4><table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">本质</th>
+<th style="text-align:center">字节码文件</th>
+<th style="text-align:center">效率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Dalvik</td>
+<td style="text-align:center">基于寄存器</td>
+<td style="text-align:center">一个.Dex文件</td>
+<td style="text-align:center">高</td>
+</tr>
+<tr>
+<td style="text-align:center">Jvm</td>
+<td style="text-align:center">基于栈</td>
+<td style="text-align:center">多个.class文件</td>
+<td style="text-align:center">低</td>
+</tr>
+</tbody>
+</table>
+<h4 id="首要区别"><a href="#首要区别" class="headerlink" title="首要区别"></a>首要区别</h4><ul>
+<li>DVM基于寄存器，Jvm基于栈，基于寄存器的编译花费时间更短（在.dex字节码中，变量会赋值给65535个可用寄存器中的任何一个，Dalvik指令直接操作这些寄存器，而不是访问堆栈中的元素。）</li>
+<li>dex字节码更适合于内存和处理器速度有限的系统</li>
+<li>基于寄存器的Dalvik实现虽然牺牲了一些<strong>平台无关性</strong>，但是它在代码的执行效率上要更胜一筹。</li>
+<li>每一个Android 的App是独立跑在一个VM中的。因此一个App crash只会影响到自身的VM，不会影响到其他。Dalvik经过优化，允许在有限的内存中同时运行多个虚拟机的实例，并且每一个 Dalvik应用作为一个独立的Linux进程执行。</li>
+</ul>
+<h4 id="字节码区别"><a href="#字节码区别" class="headerlink" title="字节码区别"></a>字节码区别</h4><ul>
+<li>JVM字节码由.class组成，每个java文件对应一个.class</li>
+<li>DVM字节码只包含一个.dex文件，这个文件包含了程序中所有的类</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fp1zfxzxttj30jq0o8tau.jpg" alt="图解.class和.dex文件生成过程"></p>
+<p><strong>Dalvik可执行文件体积小。Android SDK中有一个叫dx的工具负责将Java字节码转换为Dalvik字节码。</strong></p>
+<p>简单来讲，dex格式文件就是将多个class文件中公有的部分统一存放，去除冗余信息。</p>
+<h3 id="ART的相关知识（Android-Runtime）"><a href="#ART的相关知识（Android-Runtime）" class="headerlink" title="ART的相关知识（Android Runtime）"></a>ART的相关知识（Android Runtime）</h3><p>Android Runtime（缩写为 ART），是一种在Android操作系统上的运行环境，由Google公司研发，并在2013年作为Android 4.4系统中的一项测试功能正式对外发布，在Android 5.0及后续Android版本中作为正式的运行时库取代了以往的Dalvik虚拟机。ART能够把应用程序的字节码转换为机器码，是Android所使用的一种新的虚拟机。它与Dalvik的主要不同在于：Dalvik采用的是JIT技术，而ART采用Ahead-of-time（AOT）技术。 ART同时也改善了性能、垃圾回收(Garbage Collection)、应用程序除错以及性能分析。</p>
+<p>JIT最早在Android 2.2系统中引进到Dalvik虚拟机中，在应用程序启动时，JIT通过进行连续的性能分析来优化程序代码的执行，在程序运行的过程中，Dalvik虚拟机在不断的进行将字节码编译成机器码的工作。 与Dalvik虚拟机不同的是，ART引入了AOT这种预编译技术，在应用程序安装的过程中，ART就已经将所有的字节码重新编译成了机器码。应用程序运行过程中无需进行实时的编译工作，只需要进行直接调用。因此，ART极大的提高了应用程序的运行效率，同时也减少了手机的电量消耗，提高了移动设备的续航能力，在垃圾回收等机制上也有了较大的提升。 为了保证向下兼容，ART使用了相同的Dalvik字节码文件（dex），即在应用程序目录下保留了dex文件供旧程序调用然而.odex文件则替换成了可执行与可链接格式（ELF）可执行文件。一旦一个程序被ART的dex2oat命令编译，那么这个程序将会指通过ELF可执行文件来运行。因此，相对于Dalvik虚拟机模式，ART模式下Android应用程序的安装需要消耗更多的时间，同时也会占用更大的储存空间（指内部储存，用于储存编译后的代码）,但节省了很多Dalvik虚拟机用于实时编译的时间。</p>
+<p>Google公司在Android 4.4中带来的ART模式仅仅是ART的一个预览版，系统默认仍然使用的是Dalvik虚拟机，4.4上面提供的预览版ART相对于Android 5.0以后的ART运行时库有较大的不同，尤其体现在兼容性上。</p>
+<p>总结一下上诉内容：</p>
+<ul>
+<li>Android 4.4系统后出现（预览版），系统默认仍然使用的是Dalvik虚拟机，5.0以后是正式版取代了Dalvik虚拟机</li>
+<li>ART能够把应用程序的字节码转换为机器码，是Android所使用的一种新的虚拟机</li>
+<li>为了保证向下兼容，ART使用了相同的Dalvik字节码文件（dex）（而在安装过程中，会通过dex2oat工具生成OAT文件，具体见下面分析）</li>
+</ul>
+<h3 id="Android运行时ART加载OAT文件过程分析"><a href="#Android运行时ART加载OAT文件过程分析" class="headerlink" title="Android运行时ART加载OAT文件过程分析"></a>Android运行时ART加载OAT文件过程分析</h3><p><a href="http://blog.csdn.net/luoshengyang/article/details/39307813" target="_blank" rel="external">查看其他博客分析</a></p>
+<ul>
+<li>ART核心是OAT文件</li>
+<li>是APK在安装的过程中，会通过dex2oat工具生成一个OAT文件</li>
+<li>APK安装过程中生成的OAT文件的输入只有一个DEX文件，也就是来自于打包在要安装的APK文件里面的classes.dex文件（实际上，一个OAT文件是可以由若干个DEX生成的）</li>
+<li>OAT文件是一种Android私有ELF</li>
+<li>它不仅包含有从DEX文件翻译而来的本地机器指令，还包含有原来的DEX文件内容</li>
+</ul>
+<h3 id="Dalvik和ART的区别与联系"><a href="#Dalvik和ART的区别与联系" class="headerlink" title="Dalvik和ART的区别与联系"></a>Dalvik和ART的区别与联系</h3><ul>
+<li>Dalvik和ART使用的的都是.dex字节码，事实上我们把apk解压后确实只有classes.dex文件，但是在ART虚拟机在安装过程中通过dex2oat工具将一个或者诺干个dex生成一个OAT文件</li>
+<li>ART（Ahead-of-time   AOT预编译技术）：应用程序在<strong>安装过程</strong>中，ART将所有的字节码重新编译成了机器码，所以应用程序<strong>运行中</strong>无需进行实时编译工作，只需要进行直接调用，因此，ART极大的提高了应用程序的运行效率，同时也减少了手机的电量消耗，提高了移动设备的续航能力，在垃圾回收等机制上也有了较大的提升，但是安装需要更多的内存空间（存储编译后的代码）和时间，节省了很多Dalvik虚拟机用于实时编译的时间</li>
+<li>Dalvik（Just-in-time  JIT即时编译技术）：（jvm也是JIT即时编译），在Dalvik下，<strong>应用每次运行</strong>都需要通过即时编译器（JIT）将<strong>字节码转换为机器码</strong>，即每次都要编译加运行。虽然安装过程比较快，但是拖慢了应用每次启动的速度</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">编译技术</th>
+<th style="text-align:center">（时机）字节码编译机器码</th>
+<th style="text-align:center">占用空间</th>
+<th>安装时间</th>
+<th style="text-align:center">运行效率（）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Dalvik</td>
+<td style="text-align:center">JIT（即时编译）</td>
+<td style="text-align:center">首次安装时</td>
+<td style="text-align:center">小</td>
+<td>快</td>
+<td style="text-align:center">慢</td>
+</tr>
+<tr>
+<td style="text-align:center">ART</td>
+<td style="text-align:center">AOT（预编译技术）</td>
+<td style="text-align:center">应用每次启动时</td>
+<td style="text-align:center">大（10-20%）</td>
+<td>满</td>
+<td style="text-align:center">快</td>
+</tr>
+</tbody>
+</table>
+<h3 id="几张截图总结"><a href="#几张截图总结" class="headerlink" title="几张截图总结"></a>几张截图总结</h3><p><a href="http://blog.csdn.net/jason0539/article/details/50440669" target="_blank" rel="external">查看原文</a></p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fp230bcp69j31ie11m4e4.jpg" alt=""></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1fp230q7envj31hw0l277h.jpg" alt=""></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2018-03-05, 15:00:14</p>
+        <p><span>最后更新:</span>2018-03-05, 17:50:44</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/05/浅析Dalvik和ART的区别/" title="浅析Dalvik和ART的区别">http://www.fengan.info/2018/03/05/浅析Dalvik和ART的区别/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2018/03/05/浅析Dalvik和ART的区别/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/03/02/ThreadLocal的理解/">
+                    ThreadLocal的理解
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik的相关知识"><span class="toc-number">1.</span> <span class="toc-text">Dalvik的相关知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jvm的相关知识"><span class="toc-number">2.</span> <span class="toc-text">Jvm的相关知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik和Jvm的区别与联系"><span class="toc-number">3.</span> <span class="toc-text">Dalvik和Jvm的区别与联系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#图表区别"><span class="toc-number">3.1.</span> <span class="toc-text">图表区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#首要区别"><span class="toc-number">3.2.</span> <span class="toc-text">首要区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#字节码区别"><span class="toc-number">3.3.</span> <span class="toc-text">字节码区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ART的相关知识（Android-Runtime）"><span class="toc-number">4.</span> <span class="toc-text">ART的相关知识（Android Runtime）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android运行时ART加载OAT文件过程分析"><span class="toc-number">5.</span> <span class="toc-text">Android运行时ART加载OAT文件过程分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik和ART的区别与联系"><span class="toc-number">6.</span> <span class="toc-text">Dalvik和ART的区别与联系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#几张截图总结"><span class="toc-number">7.</span> <span class="toc-text">几张截图总结</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"浅析Dalvik和ART的区别　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.fengan.info/2018/03/05/浅析Dalvik和ART的区别/';
+            this.page.identifier = '2018/03/05/浅析Dalvik和ART的区别/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//null.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/03/02/ThreadLocal的理解/" title="下一篇: ThreadLocal的理解">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

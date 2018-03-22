@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="前言
+最近翻阅EventBus源码，在subscribe方法中，看到了CopyOnWriteArrayList这个类，一时竟不知其原理是什么，本文简要记录一下CopyOnWriteArrayList的相关介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程安全的CopyOnWriteArrayList">
+<meta property="og:url" content="http://www.fengan.info/2017/02/16/线程安全的CopyOnWriteArrayList/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="前言
+最近翻阅EventBus源码，在subscribe方法中，看到了CopyOnWriteArrayList这个类，一时竟不知其原理是什么，本文简要记录一下CopyOnWriteArrayList的相关介绍">
+<meta property="og:image" content="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/vj1ty.png">
+<meta property="og:image" content="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/7cbd4.png">
+<meta property="og:image" content="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/bmcdz.png">
+<meta property="og:updated_time" content="2018-03-15T16:47:40.410Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程安全的CopyOnWriteArrayList">
+<meta name="twitter:description" content="前言
+最近翻阅EventBus源码，在subscribe方法中，看到了CopyOnWriteArrayList这个类，一时竟不知其原理是什么，本文简要记录一下CopyOnWriteArrayList的相关介绍">
+<meta name="twitter:image" content="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/vj1ty.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>线程安全的CopyOnWriteArrayList | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-线程安全的CopyOnWriteArrayList" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/16/线程安全的CopyOnWriteArrayList/" class="article-date">
+      <time datetime="2017-02-15T16:28:47.000Z" itemprop="datePublished">2017-02-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      线程安全的CopyOnWriteArrayList
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>前言</strong></p>
+<p>最近翻阅EventBus源码，在subscribe方法中，看到了CopyOnWriteArrayList这个类，一时竟不知其原理是什么，本文简要记录一下CopyOnWriteArrayList的相关介绍</p>
+<a id="more"></a>
+<h3 id="先看一段EventBus的subscribe（）的代码"><a href="#先看一段EventBus的subscribe（）的代码" class="headerlink" title="先看一段EventBus的subscribe（）的代码"></a>先看一段EventBus的subscribe（）的代码</h3><p><img src="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/vj1ty.png" alt=""></p>
+<p>这段代码是EventBus中subscribe方法，里面涉及到了subscriptionsByEventType的遍历过程中按照优先级排序</p>
+<p>关于EventBus的具体源码我将在后面会整理，这里我们只关注CopyOnWriteArrayList即可</p>
+<p>可以看到，在遍历的过程中，调用了<code>subscriptions.add(i,newSubscription)</code>来按照优先级进行排序，我相信任何一个懂java的都知道如果使用普通Arraylist，都会报错（并发修改异常），那么我们下面来证实一下</p>
+<h3 id="不使用CopyOnWriteArrayList"><a href="#不使用CopyOnWriteArrayList" class="headerlink" title="不使用CopyOnWriteArrayList"></a>不使用CopyOnWriteArrayList</h3><p>先写一段代码证明<code>CopyOnWriteArrayList</code>确实是线程安全的。</p>
+<blockquote>
+<p>ReadThread.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;Integer&gt; list;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ReadThread</span><span class="params">(List&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.list = list;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (Integer ele : list) &#123;</div><div class="line">            System.out.println(<span class="string">"ReadThread:"</span>+ele);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>WriteThread.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WriteThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;Integer&gt; list;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WriteThread</span><span class="params">(List&lt;Integer&gt; list)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.list = list;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.list.add(<span class="number">9</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>TestCopyOnWriteArrayList.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CopyOnWriteArrayList;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCopyOnWriteArrayList</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//1、初始化CopyOnWriteArrayList</span></div><div class="line">        List&lt;Integer&gt; tempList = Arrays.asList(<span class="keyword">new</span> Integer [] &#123;<span class="number">1</span>,<span class="number">2</span>&#125;);</div><div class="line">        CopyOnWriteArrayList&lt;Integer&gt; copyList = <span class="keyword">new</span> CopyOnWriteArrayList&lt;&gt;(tempList);</div><div class="line"></div><div class="line"></div><div class="line">        <span class="comment">//2、模拟多线程对list进行读和写</span></div><div class="line">        ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</div><div class="line">        executorService.execute(<span class="keyword">new</span> ReadThread(copyList));</div><div class="line">        executorService.execute(<span class="keyword">new</span> WriteThread(copyList));</div><div class="line">        executorService.execute(<span class="keyword">new</span> WriteThread(copyList));</div><div class="line">        executorService.execute(<span class="keyword">new</span> WriteThread(copyList));</div><div class="line">        executorService.execute(<span class="keyword">new</span> ReadThread(copyList));</div><div class="line">        executorService.execute(<span class="keyword">new</span> WriteThread(copyList));</div><div class="line">        executorService.execute(<span class="keyword">new</span> ReadThread(copyList));</div><div class="line">        executorService.execute(<span class="keyword">new</span> WriteThread(copyList));</div><div class="line"></div><div class="line">        System.out.println(<span class="string">"copyList size:"</span>+copyList.size());</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> TestCopyOnWriteArrayList().test();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行上面的代码，没有报出</p>
+<p>java.util.ConcurrentModificationException</p>
+<p>说明了CopyOnWriteArrayList并发多线程的环境下，仍然能很好的工作。</p>
+<h3 id="CopyOnWriteArrayList如何做到线程安全"><a href="#CopyOnWriteArrayList如何做到线程安全" class="headerlink" title="CopyOnWriteArrayList如何做到线程安全"></a>CopyOnWriteArrayList如何做到线程安全</h3><p><code>CopyOnWriteArrayList</code>使用了一种叫<strong>写时复制</strong>的方法，当有新元素添加到<code>CopyOnWriteArrayList</code>时，先从原有的数组中拷贝一份出来，然后在新的数组做写操作，写完之后，再将原来的数组引用指向到新数组。</p>
+<p>当有新元素加入的时候，如下图，创建新数组，并往新数组中加入一个新元素,这个时候，array这个引用仍然是指向原数组的。</p>
+<p><img src="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/7cbd4.png" alt=""></p>
+<p>当元素在新数组添加成功后，将array这个引用指向新数组。</p>
+<p><img src="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/bmcdz.png" alt=""></p>
+<h3 id="CopyOnWriteArrayList的源码"><a href="#CopyOnWriteArrayList的源码" class="headerlink" title="CopyOnWriteArrayList的源码"></a>CopyOnWriteArrayList的源码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</div><div class="line">    <span class="comment">//1、先加锁</span></div><div class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">    lock.lock();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        Object[] elements = getArray();</div><div class="line">        <span class="keyword">int</span> len = elements.length;</div><div class="line">        <span class="comment">//2、拷贝数组</span></div><div class="line">        Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);</div><div class="line">        <span class="comment">//3、将元素加入到新数组中</span></div><div class="line">        newElements[len] = e;</div><div class="line">        <span class="comment">//4、将array引用指向到新数组</span></div><div class="line">        setArray(newElements);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">       <span class="comment">//5、解锁</span></div><div class="line">        lock.unlock();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于所有的写操作都是在新数组进行的，这个时候如果有线程并发的写，则通过锁来控制，如果有线程并发的读，则分几种情况：<br>1、如果写操作未完成，那么直接读取原数组的数据；<br>2、如果写操作完成，但是引用还未指向新数组，那么也是读取原数组数据；<br>3、如果写操作完成，并且引用已经指向了新的数组，那么直接从新数组中读取数据。</p>
+<p>可见，<code>CopyOnWriteArrayList</code>的<strong>读操作</strong>是可以不用<strong>加锁</strong>的。</p>
+<h3 id="CopyOnWriteArrayList使用场景"><a href="#CopyOnWriteArrayList使用场景" class="headerlink" title="CopyOnWriteArrayList使用场景"></a>CopyOnWriteArrayList使用场景</h3><p>通过上面的分析，<code>CopyOnWriteArrayList</code> 有几个缺点：<br>1、由于写操作的时候，需要拷贝数组，会消耗内存，如果原数组的内容比较多的情况下，可能导致<code>young gc</code>或者<code>full gc</code></p>
+<p>2、不能用于<strong>实时读</strong>的场景，像拷贝数组、新增元素都需要时间，所以调用一个<code>set</code>操作后，读取到数据可能还是旧的,虽然<code>CopyOnWriteArrayList</code> 能做到<strong>最终一致性</strong>,但是还是没法满足实时性要求；</p>
+<p><code>CopyOnWriteArrayList</code> 合适<strong>读多写少</strong>的场景，不过这类慎用<br>因为谁也没法保证<code>CopyOnWriteArrayList</code> 到底要放置多少数据，万一数据稍微有点多，每次add/set都要重新复制数组，这个代价实在太高昂了。在高性能的互联网应用中，这种操作分分钟引起故障。</p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>如上面的分析CopyOnWriteArrayList表达的一些思想：<br>1、读写分离，读和写分开<br>2、最终一致性<br>3、使用另外开辟空间的思路，来解决并发冲突</p>
+<p>参考文章：</p>
+<p><a href="http://blog.csdn.net/linsongbin1/article/details/54581787" target="_blank" rel="external">1</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2017-02-16, 00:28:47</p>
+        <p><span>最后更新:</span>2018-03-16, 00:47:40</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/02/16/线程安全的CopyOnWriteArrayList/" title="线程安全的CopyOnWriteArrayList">http://www.fengan.info/2017/02/16/线程安全的CopyOnWriteArrayList/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2017/02/16/线程安全的CopyOnWriteArrayList/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/03/07/浅析volatile关键字/">
+                    浅析volatile关键字
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/02/07/retrofit和动态代理/">
+                    retrofit和动态代理
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#先看一段EventBus的subscribe（）的代码"><span class="toc-number">1.</span> <span class="toc-text">先看一段EventBus的subscribe（）的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不使用CopyOnWriteArrayList"><span class="toc-number">2.</span> <span class="toc-text">不使用CopyOnWriteArrayList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CopyOnWriteArrayList如何做到线程安全"><span class="toc-number">3.</span> <span class="toc-text">CopyOnWriteArrayList如何做到线程安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CopyOnWriteArrayList的源码"><span class="toc-number">4.</span> <span class="toc-text">CopyOnWriteArrayList的源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CopyOnWriteArrayList使用场景"><span class="toc-number">5.</span> <span class="toc-text">CopyOnWriteArrayList使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思想"><span class="toc-number">6.</span> <span class="toc-text">思想</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"线程安全的CopyOnWriteArrayList　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.fengan.info/2017/02/16/线程安全的CopyOnWriteArrayList/';
+            this.page.identifier = '2017/02/16/线程安全的CopyOnWriteArrayList/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//null.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/03/07/浅析volatile关键字/" title="上一篇: 浅析volatile关键字">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/02/07/retrofit和动态代理/" title="下一篇: retrofit和动态代理">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

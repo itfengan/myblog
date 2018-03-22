@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="前言
+
+在看java并发的书的时候，看到了关于java的单例模式使用了volatile关键字，但是对volatile关键字的真正含义一直很模糊，本文就尝试浅析总结一下volatile的作用和具体用法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析volatile关键字">
+<meta property="og:url" content="http://www.fengan.info/2017/03/07/浅析volatile关键字/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="前言
+
+在看java并发的书的时候，看到了关于java的单例模式使用了volatile关键字，但是对volatile关键字的真正含义一直很模糊，本文就尝试浅析总结一下volatile的作用和具体用法。">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fp4by9i6z9j31gc0n2qf8.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fp4c550vj9j311g174wnw.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1fp4eo3argaj30te14ab0o.jpg">
+<meta property="og:updated_time" content="2018-03-07T13:28:01.813Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析volatile关键字">
+<meta name="twitter:description" content="前言
+
+在看java并发的书的时候，看到了关于java的单例模式使用了volatile关键字，但是对volatile关键字的真正含义一直很模糊，本文就尝试浅析总结一下volatile的作用和具体用法。">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1fp4by9i6z9j31gc0n2qf8.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>浅析volatile关键字 | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-浅析volatile关键字" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/07/浅析volatile关键字/" class="article-date">
+      <time datetime="2017-03-07T06:51:10.000Z" itemprop="datePublished">2017-03-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅析volatile关键字
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>前言</p>
+</blockquote>
+<p>在看java并发的书的时候，看到了关于java的单例模式使用了volatile关键字，但是对volatile关键字的真正含义一直很模糊，本文就尝试浅析总结一下volatile的作用和具体用法。</p>
+<a id="more"></a>
+<h3 id="单例模式中的volatile关键字"><a href="#单例模式中的volatile关键字" class="headerlink" title="单例模式中的volatile关键字"></a>单例模式中的volatile关键字</h3><p><a href="http://blog.csdn.net/u011248395/article/details/71087379" target="_blank" rel="external">查看原文</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestInstance</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> TestInstance instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TestInstance <span class="title">getInstance</span><span class="params">()</span> </span>&#123; <span class="comment">//1</span></div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;                  <span class="comment">//2</span></div><div class="line">            <span class="keyword">synchronized</span> (TestInstance.class) &#123;<span class="comment">//3</span></div><div class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123; <span class="comment">//4</span></div><div class="line">                    instance = <span class="keyword">new</span> TestInstance();<span class="comment">//5</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;<span class="comment">//6</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>在并发情况下，如果没有volatile关键字，在第5行会出现问题</strong></p>
+<p> instance = new TestInstance();//5    可以分解以下三部</p>
+<p>1，申请内存</p>
+<p>2，通过构造方法初始化对象</p>
+<p>3，将对象指向申请的内存</p>
+<p>但当A线程进行第五部初始化的时候，可能是因为构造函数里面的操作太多，所以A线程还没有初始化完毕，但已经被赋值了，也就是以上的顺序由1-2-3变成了1-3-2。此时B线程进来判断TestInstance不为null，错以为已经实例化完毕返回了一个未初始化的对象（因为构造函数未完全，初始设置值未完全的对象），就出问题了。如果声明称volatile，2和3步骤不会被排序</p>
+<h3 id="volatile的作用与特点"><a href="#volatile的作用与特点" class="headerlink" title="volatile的作用与特点"></a>volatile的作用与特点</h3><p>通过上诉单例模式中volatile的使用，那么volatile关键字具体的作用到底是什么呢？</p>
+<p>首先看一张图</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1fp4by9i6z9j31gc0n2qf8.jpg" alt="多线程中，主内存和线程工作内存关系"></p>
+<p>由上图，需要知道的几点</p>
+<ul>
+<li><p>java内存模型规定了所有的变量都存储在主内存中</p>
+</li>
+<li><p>Java内存模型分为<strong>主内存</strong>，和<strong>工作内存</strong></p>
+</li>
+<li><p>主内存是所有的线程所共享的，工作内存是每个线程自己有一个，不是共享的。</p>
+</li>
+<li><p>线程的<strong>工作内存</strong>中保存了被该线程使用到的变量的<strong>主内存副本拷贝</strong></p>
+</li>
+<li><p>线程对变量的所有操作（读取、赋值），都必须在工作内存中进行，而不能直接读写主内存中的变量</p>
+</li>
+<li><p>不同线程之间也<strong>无法直接访问对方工作内存</strong>中的变量</p>
+<p>基于上诉的主内存和工作内存的描述，那么</p>
+<p><strong>volatile</strong>的作用：</p>
+<p>volatile赋予了变量可见——<strong>禁止编译器对成员变量进行优化，它修饰的成员变量在每次被线程访问时，都强迫从内存中重读该成员变量的值；而且，当成员变量发生变化时，强迫线程将变化值回写到共享内存，这样在任何时刻两个不同线程总是看到某一成员变量的同一个值</strong>，这就是保证了可见性。</p>
+<p>​</p>
+<p>从网上看见了一篇博客可以很好的说明，我将相关部分截了个图如下：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fp4c550vj9j311g174wnw.jpg" alt=""></p>
+</li>
+</ul>
+<h4 id="多线程的三个特性"><a href="#多线程的三个特性" class="headerlink" title="多线程的三个特性"></a>多线程的三个特性</h4><p><a href="https://www.cnblogs.com/chihirotan/p/6486436.html" target="_blank" rel="external">相关文章</a></p>
+<ul>
+<li><strong>原子性（Atomicity）</strong></li>
+</ul>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">原子性是指一个原子操作在<span class="meta">cpu</span>中不可以暂停然后再调度，既不被中断操作，要不执行完成，要不就不执行。原子操作保证了原子性问题。</div></pre></td></tr></table></figure>
+<p>需要注意的是：<strong>i++不是原子操作</strong>：</p>
+<p>x++（包含三个原子操作）a.将变量x 值取出放在寄存器中 b.将将寄存器中的值+1 c.将寄存器中的值赋值给x</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">synchronized</span>块之间的操作也具备原子性</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>可见性(Visibility)</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">可见性就是指当一个线程修改了线程共享变量的值，其它线程能够立即得知这个修改。无论是普通变量还是<span class="keyword">volatile</span>变量都是如此，普通变量与<span class="keyword">volatile</span>变量的区别是<span class="keyword">volatile</span>的特殊规则保证了新值能立即同步到主内存，以及每使用前立即从内存刷新。因为我们可以说<span class="keyword">volatile</span>保证了线程操作时变量的可见性，而普通变量则不能保证这一点。</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>有序性(Ordering)</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Java内存模型中的程序天然有序性可以总结为一句话：如果在本线程内观察，所有操作都是有序的；如果在一个线程中观察另一个线程，所有操作都是无序的。前半句是指“线程内表现为串行语义”，后半句是指“指令重排序”现象和“工作内存主主内存同步延迟”现象。（比如上述单例模式中对象初始化的顺序对另外一个线程来讲可能会错序）</div></pre></td></tr></table></figure>
+<h3 id="volatile和synchronized的区别和联系"><a href="#volatile和synchronized的区别和联系" class="headerlink" title="volatile和synchronized的区别和联系"></a>volatile和synchronized的区别和联系</h3><p><a href="https://www.cnblogs.com/hapjin/p/5492880.html" target="_blank" rel="external">相关文章</a></p>
+<p>用法上：</p>
+<ul>
+<li>synchronized往往作用于方法或代码块</li>
+<li>volatile往往修饰变量。</li>
+</ul>
+<p>实现机制：</p>
+<ul>
+<li>synchronized是利用锁实现互斥访问，多线程访问会阻塞</li>
+<li>Volatile没有利用锁，而是利用内存共享，强制线程每次从主内存中讲到变量，而不是从线程的私有内存中读取变量，多线程访问不回阻塞</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>syncchronized不仅保证了可见性，还保证了原子性，因为只有获得锁对象的线程才能进入同步代码块，从而保证同步代码块的所有语句全部都能执行。多个线程争抢syncchronized锁对象的时候，会出现阻塞</li>
+<li>volatile只保证了可见性，不能保证原子性，不可保证同步，多个线程同时访问不会发生阻塞</li>
+</ul>
+<ul>
+<li><h3 id="volatile关键字的正确使用（一句话概括volatile）"><a href="#volatile关键字的正确使用（一句话概括volatile）" class="headerlink" title="volatile关键字的正确使用（一句话概括volatile）"></a>volatile关键字的正确使用（一句话概括volatile）</h3></li>
+</ul>
+<p>一个线程修改某个变量后，其他线程需要知道这个变量修改后的最新的值，此时就需要使用volatile，保证多线程访问的是主内存的值，而不是访问各自线程的工作内存的副本值（其实仍然访问的是副本值，只不过副本值有修改后立即刷新到主内存中）也就是说保证了线程的可见性，但是不能像syncchronized保证原子性，volatile没有利用锁的机制，多线程访问时不会发生阻塞，也就是说volatile修饰的变量可以保证在一个线程中修改的时候，其他线程可以继续访问，一旦该变量修改完毕，其他线程再获取的一定是修改后的最新的值</p>
+<h3 id="synchronized同步的死锁是怎么产生的"><a href="#synchronized同步的死锁是怎么产生的" class="headerlink" title="synchronized同步的死锁是怎么产生的"></a>synchronized同步的死锁是怎么产生的</h3><p>多线程死锁案例：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fp4eo3argaj30te14ab0o.jpg" alt="多线程死锁案例"></p>
+<p>什么是死锁：</p>
+<p>多个线程同时被阻塞,它们中的一个或者全部都在等待某个资源被释放.由于线程被无限期地阻塞,因此程序不能正常运行</p>
+<p><a href="https://www.cnblogs.com/chihirotan/p/6486436.html" target="_blank" rel="external">多线程相关知识</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2017-03-07, 14:51:10</p>
+        <p><span>最后更新:</span>2018-03-07, 21:28:01</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/03/07/浅析volatile关键字/" title="浅析volatile关键字">http://www.fengan.info/2017/03/07/浅析volatile关键字/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2017/03/07/浅析volatile关键字/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/03/12/Webview使用总结/">
+                    Webview使用总结
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/02/16/线程安全的CopyOnWriteArrayList/">
+                    线程安全的CopyOnWriteArrayList
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#单例模式中的volatile关键字"><span class="toc-number">1.</span> <span class="toc-text">单例模式中的volatile关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile的作用与特点"><span class="toc-number">2.</span> <span class="toc-text">volatile的作用与特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#多线程的三个特性"><span class="toc-number">2.1.</span> <span class="toc-text">多线程的三个特性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile和synchronized的区别和联系"><span class="toc-number">3.</span> <span class="toc-text">volatile和synchronized的区别和联系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile关键字的正确使用（一句话概括volatile）"><span class="toc-number">4.</span> <span class="toc-text">volatile关键字的正确使用（一句话概括volatile）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized同步的死锁是怎么产生的"><span class="toc-number">5.</span> <span class="toc-text">synchronized同步的死锁是怎么产生的</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"浅析volatile关键字　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.fengan.info/2017/03/07/浅析volatile关键字/';
+            this.page.identifier = '2017/03/07/浅析volatile关键字/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//null.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/03/12/Webview使用总结/" title="上一篇: Webview使用总结">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/02/16/线程安全的CopyOnWriteArrayList/" title="下一篇: 线程安全的CopyOnWriteArrayList">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

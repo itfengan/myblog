@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="简述动态代理在Retrofit的应用
+
+动态代理
+
+代理类在运行前不存在，运行时由程序动态生成的代理方式称为动态代理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="retrofit和动态代理">
+<meta property="og:url" content="http://www.fengan.info/2017/02/07/retrofit和动态代理/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="简述动态代理在Retrofit的应用
+
+动态代理
+
+代理类在运行前不存在，运行时由程序动态生成的代理方式称为动态代理">
+<meta property="og:updated_time" content="2018-02-07T05:52:09.774Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="retrofit和动态代理">
+<meta name="twitter:description" content="简述动态代理在Retrofit的应用
+
+动态代理
+
+代理类在运行前不存在，运行时由程序动态生成的代理方式称为动态代理">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>retrofit和动态代理 | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-retrofit和动态代理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/07/retrofit和动态代理/" class="article-date">
+      <time datetime="2017-02-07T01:45:11.000Z" itemprop="datePublished">2017-02-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      retrofit和动态代理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>简述动态代理在Retrofit的应用</p>
+<blockquote>
+<p>动态代理</p>
+</blockquote>
+<p>代理类在运行前不存在，运行时由程序动态生成的代理方式称为动态代理</p>
+<a id="more"></a>
+<h4 id="关于Retrofit"><a href="#关于Retrofit" class="headerlink" title="关于Retrofit"></a>关于Retrofit</h4><p>Square公司的OkHttp简直是完美的一个网络请求库，而在其上又封装了一层的Retrofit库，使其调用Restful Api更方便</p>
+<h4 id="简述Retrofit调用流程"><a href="#简述Retrofit调用流程" class="headerlink" title="简述Retrofit调用流程"></a>简述Retrofit调用流程</h4><p>因为本篇只是简述动态代理在Retrofit的使用，所以不过多总结Retrofit的详细使用，在上家公司的项目都网络层，用的retrofit，现在这家公司的项目因为刚开始是我独立开发，所以网络层框架我也是用的Retrofit，功能强大，详细使用，以后再总结</p>
+<p>熟悉Retrofit使用的都对下面几个步骤比较熟悉了：</p>
+<ul>
+<li>定义一个ApiService接口，通过注解可以标记请求方法，请求参数，以及添加的头信息</li>
+<li>然后创建Retrofit对象，通过建造者模式设置BaseUrl等一些参数，通过Retrofit对象create一个你定义的接口对象</li>
+<li>拿到接口对象调用具体的方法完成请求</li>
+</ul>
+<p>具体的代码大概如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApiService</span> </span>&#123;</div><div class="line">  <span class="meta">@GET</span>(<span class="string">"users/&#123;user&#125;/repos"</span>)</div><div class="line">  Call&lt;List&lt;Repo&gt;&gt; listRepos(<span class="meta">@Path</span>(<span class="string">"user"</span>) String user);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">    .baseUrl(<span class="string">"https://api.github.com"</span>)</div><div class="line">    .build();</div><div class="line">ApiService service = retrofit.create(ApiService.class);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Call&lt;List&lt;Repo&gt;&gt; repos = service.listRepos(<span class="string">"fengan"</span>);</div></pre></td></tr></table></figure>
+<h4 id="ApiService是如何产生的"><a href="#ApiService是如何产生的" class="headerlink" title="ApiService是如何产生的"></a>ApiService是如何产生的</h4><p>因为接口是不可以直接new出来的，那么ApiService是如何产生的呢？</p>
+<p>ApiService service = retrofit.create(ApiService.class);方法内部到底做了什么？</p>
+<p>没错，就是动态代理</p>
+<p>为了更好的理解动态代理，下面过一下简易版的Retrofit，</p>
+<figure class="highlight plain"><figcaption><span>a v</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public interface Callback&lt;T&gt; &#123;</div><div class="line"></div><div class="line">    void onSuccess(Object t);</div><div class="line"></div><div class="line">    void onFailed(Exception e);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    <span class="comment">/**</span></div><div class="line">     * 约定最后一个参数是callback</div><div class="line">     */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GithubService</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GET</span>(<span class="string">"users/&#123;user&#125;/repos"</span>)</div><div class="line"></div><div class="line">    <span class="keyword">void</span> list&lt;Repos&gt;(<span class="meta">@Path</span>(<span class="string">"user"</span>) String user,Callback&lt;List&lt;Repo&gt;&gt; callback);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用到了两个注解，一个是方法注解，一个是参数注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"></div><div class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> GET &#123;</div><div class="line"></div><div class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"></div><div class="line"><span class="meta">@Target</span>(ElementType.PARAMETER)</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Path &#123;</div><div class="line"></div><div class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Repo实体类是使用GsonFormat根据json自动生成的。现实使用中，我们在构建Retrofit过程传入GsonFactory</p>
+<p>Retrofit这个类应该是一个builder模式，里面可以设置baseUrl，姑且忽略其他所有参数。还有一个create方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Retrofit</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String baseUrl;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Retrofit</span><span class="params">(Builder builder)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.baseUrl = builder.baseUrl;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">create</span><span class="params">(Class&lt;T&gt; clazz)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> String baseUrl;</div><div class="line">        <span class="function">Builder <span class="title">baseUrl</span><span class="params">(String host)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.baseUrl = host;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function">Retrofit <span class="title">build</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Retrofit(<span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最关键的就是create这个方法了，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">create</span><span class="params">(Class&lt;T&gt; clazz)</span> </span>&#123;</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 缓存中去</div><div class="line">         */</div><div class="line">        Object o = serviceMap.get(clazz);</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 取不到则取构造代理对象</div><div class="line">         */</div><div class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</div><div class="line">            o = (T) Proxy.newProxyInstance(Retrofit.class.getClassLoader(), <span class="keyword">new</span> Class[]&#123;clazz&#125;, <span class="keyword">new</span> InvocationHandler() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">                    <span class="keyword">final</span> Callback&lt;?&gt; callback = (Callback&lt;?&gt;) args[args.length - <span class="number">1</span>];</div><div class="line"></div><div class="line"></div><div class="line">                    <span class="keyword">final</span> GET get = method.getAnnotation(GET.class);</div><div class="line">                    <span class="keyword">if</span> (get != <span class="keyword">null</span>) &#123;</div><div class="line">                        <span class="comment">/**</span></div><div class="line">                         * 获得GET注解的值</div><div class="line">                         */</div><div class="line">                        String getValue = get.value();</div><div class="line"></div><div class="line">                        System.out.println(getValue);</div><div class="line"></div><div class="line">                        <span class="comment">/**</span></div><div class="line">                         * 获得所有参数上的注解</div><div class="line">                         */</div><div class="line">                        Annotation[][] methodParameterAnnotationArrays = method.getParameterAnnotations();</div><div class="line"></div><div class="line">                        <span class="keyword">if</span> (methodParameterAnnotationArrays != <span class="keyword">null</span>) &#123;</div><div class="line">                            <span class="keyword">int</span> count = methodParameterAnnotationArrays.length;</div><div class="line">                            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">                                <span class="comment">/**</span></div><div class="line">                                 * 获得单个参数上的注解</div><div class="line">                                 */</div><div class="line">                                Annotation[] methodParameterAnnotations = methodParameterAnnotationArrays[i];</div><div class="line"></div><div class="line">                                <span class="keyword">if</span> (methodParameterAnnotations != <span class="keyword">null</span>) &#123;</div><div class="line">                                    <span class="keyword">for</span> (Annotation methodParameterAnnotation : methodParameterAnnotations) &#123;</div><div class="line"></div><div class="line">                                        <span class="comment">/**</span></div><div class="line">                                         * 如果是Path注解</div><div class="line">                                         */</div><div class="line">                                        <span class="keyword">if</span> (methodParameterAnnotation <span class="keyword">instanceof</span> Path) &#123;</div><div class="line"></div><div class="line">                                            <span class="comment">/**</span></div><div class="line">                                             * 取得path注解上的值</div><div class="line">                                             */</div><div class="line">                                            Path path = (Path) methodParameterAnnotation;</div><div class="line">                                            String pathValue = path.value();</div><div class="line">                                            System.out.println(pathValue);</div><div class="line"></div><div class="line">                                            <span class="comment">/**</span></div><div class="line">                                             * 这是对应的参数的值</div><div class="line">                                             */</div><div class="line">                                            System.out.println(args[i]);</div><div class="line"></div><div class="line"></div><div class="line">                                            Request.Builder builder = <span class="keyword">new</span> Request.Builder();</div><div class="line"></div><div class="line"></div><div class="line">                                            <span class="comment">/**</span></div><div class="line">                                             * 使用path注解替换get注解中的值为参数值</div><div class="line">                                             */</div><div class="line">                                            String result = getValue.replaceAll(<span class="string">"\\&#123;"</span> + pathValue + <span class="string">"\\&#125;"</span>, (String) args[i]);</div><div class="line"></div><div class="line">                                            System.out.println(result);</div><div class="line"></div><div class="line">                                            <span class="comment">/**</span></div><div class="line">                                             * 开始构造请求</div><div class="line">                                             */</div><div class="line">                                            Request request = builder.get()</div><div class="line">                                                    .url(baseUrl + <span class="string">"/"</span> + result)</div><div class="line">                                                    .build();</div><div class="line"></div><div class="line">                                            okHttpClient.newCall(request).enqueue(<span class="keyword">new</span> okhttp3.Callback() &#123;</div><div class="line">                                                <span class="meta">@Override</span></div><div class="line">                                                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call call, IOException e)</span> </span>&#123;</div><div class="line">                                                    <span class="comment">/**</span></div><div class="line">                                                     * 失败则回调失败的方法</div><div class="line">                                                     */</div><div class="line">                                                    callback.onFailed(e);</div><div class="line">                                                &#125;</div><div class="line"></div><div class="line">                                                <span class="meta">@Override</span></div><div class="line">                                                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call call, Response response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">                                                    <span class="keyword">if</span> (response.isSuccessful()) &#123;</div><div class="line">                                                        <span class="comment">/**</span></div><div class="line">                                                         * 请求成功</div><div class="line">                                                         */</div><div class="line">                                                        String body = response.body().string();</div><div class="line"></div><div class="line">                                                        <span class="comment">/**</span></div><div class="line">                                                         * 使用fastjson进行zhuan转换</div><div class="line">                                                         */</div><div class="line">                                                        Type type = callback.getClass().getGenericInterfaces()[<span class="number">0</span>];</div><div class="line"></div><div class="line">                                                        Object o1 = JSON.parse(body);</div><div class="line"></div><div class="line">                                                        <span class="comment">/**</span></div><div class="line">                                                         * 回调成功</div><div class="line">                                                         */</div><div class="line">                                                        callback.onSuccess(o1);</div><div class="line">                                                    &#125;</div><div class="line">                                                &#125;</div><div class="line">                                            &#125;);</div><div class="line"></div><div class="line">                                        &#125;</div><div class="line">                                    &#125;</div><div class="line">                                &#125;</div><div class="line"></div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line"></div><div class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            <span class="comment">/**</span></div><div class="line">             * 扔到缓存中</div><div class="line">             */</div><div class="line">            serviceMap.put(clazz, o);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (T) o;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>然后我们就可以根据Retrofit那样进行调用了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">        .baseUrl(<span class="string">"https://api.github.com"</span>)</div><div class="line">        .build();</div><div class="line"></div><div class="line">GithubService githubService = retrofit.create(GithubService.class);</div><div class="line"></div><div class="line">githubService.listRepos(<span class="string">"lizhangqu"</span>, <span class="keyword">new</span> Callback&lt;List&lt;Repo&gt;&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(Object t)</span> </span>&#123;</div><div class="line">        System.out.println(t);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailed</span><span class="params">(Exception e)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="retrofit动态代理原理"><a href="#retrofit动态代理原理" class="headerlink" title="retrofit动态代理原理"></a>retrofit动态代理原理</h4><p>原理就是先拿到最后一个参数，也就是回调，再拿到方法上的注解，获得具体的值，然后拿到除了回调之外的其他参数，获得参数上的注解，然后根据注解取得对应的值，还有原来的参数值，将方法上的注解的值中进行替换。使用OkHttp构造请求，请求完成后根据将结果解析为回调中的类型。整个过程如下</p>
+<p>拦截到方法、参数，再根据我们在方法上的注解，去拼接为一个正常的Okhttp请求，然后执行。</p>
+<h4 id="java中的动态代理"><a href="#java中的动态代理" class="headerlink" title="java中的动态代理"></a>java中的动态代理</h4><p>在java的动态代理机制中，有两个重要的类或接口，一个是 InvocationHandler(Interface)、另一个则是 Proxy(Class)，这一个类和接口是实现我们动态代理所必须用到的</p>
+<p>每一个动态代理类都必须要实现InvocationHandler这个接口，并且每个代理类的实例都关联到了一个handler，当我们通过代理对象调用一个方法的时候，这个方法的调用就会被转发为由InvocationHandler这个接口的 invoke 方法来进行调用。我们来看看InvocationHandler这个接口的唯一一个方法 invoke 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function">Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span></div><div class="line"></div><div class="line">proxy:　　指代我们所代理的那个真实对象</div><div class="line">method:　　指代的是我们所要调用真实对象的某个方法的Method对象</div><div class="line">args:　　指代的是调用真实对象某个方法时接受的参数</div></pre></td></tr></table></figure>
+<p>Proxy这个类的作用就是用来动态创建一个代理对象的类，它提供了许多的方法，但是我们用的最多的就是 newProxyInstance 这个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces,  InvocationHandler h)</span>  <span class="keyword">throws</span> IllegalArgumentException</span></div></pre></td></tr></table></figure>
+<p>这个方法的作用就是得到一个动态的代理对象，其接收三个参数，我们来看看这三个参数所代表的含义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</span> <span class="keyword">throws</span> IllegalArgumentException</span></div><div class="line"></div><div class="line">loader:　　一个ClassLoader对象，定义了由哪个ClassLoader对象来对生成的代理对象进行加载</div><div class="line"></div><div class="line">interfaces:　　一个Interface对象的数组，表示的是我将要给我需要代理的对象提供一组什么接口，如果我提供了一组接口给它，那么这个代理对象就宣称实现了该接口<span class="params">(多态)</span>，这样我就能调用这组接口中的方法了</div><div class="line"></div><div class="line">h:　　一个InvocationHandler对象，表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上</div></pre></td></tr></table></figure>
+<p>使用如下：</p>
+<ul>
+<li>定义被代理对象</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span></span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span></span>;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">(String str)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span></span></div><div class="line">&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        System.out.println(<span class="string">"I want to rent my house"</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">(String str)</span></span></div><div class="line">    &#123;</div><div class="line">        System.out.println(<span class="string">"hello: "</span> + str);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>定义动态代理类，任何动态代理类都必须实现InvotionHandler这个接口，重写invoke方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">//　这个就是我们要代理的真实对象</span></div><div class="line">    <span class="keyword">private</span> Object subject;</div><div class="line">    </div><div class="line">    <span class="comment">//    构造方法，给我们要代理的真实对象赋初值</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Object subject)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">this</span>.subject = subject;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object object, Method method, Object[] args)</span></span></div><div class="line">            <span class="keyword">throws</span> Throwable</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//　　在代理真实对象前我们可以添加一些自己的操作</span></div><div class="line">        System.out.println(<span class="string">"before rent house"</span>);</div><div class="line">        </div><div class="line">        System.out.println(<span class="string">"Method:"</span> + method);</div><div class="line">        </div><div class="line">        <span class="comment">//    当代理对象调用真实对象的方法时，其会自动的跳转到代理对象关联的handler对象的invoke方法来进行调用</span></div><div class="line">        method.invoke(subject, args);</div><div class="line">        </div><div class="line">        <span class="comment">//　　在代理真实对象后我们也可以添加一些自己的操作</span></div><div class="line">        System.out.println(<span class="string">"after rent house"</span>);</div><div class="line">        </div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>使用</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span></span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="comment">//    我们要代理的真实对象</span></div><div class="line">        Subject realSubject = <span class="keyword">new</span> RealSubject();</div><div class="line"></div><div class="line">        <span class="comment">//    我们要代理哪个真实对象，就将该对象传进去，最后是通过该真实对象来调用其方法的</span></div><div class="line">        InvocationHandler handler = <span class="keyword">new</span> DynamicProxy(realSubject);</div><div class="line"></div><div class="line">        <span class="comment">/*</span></div><div class="line">         * 通过Proxy的newProxyInstance方法来创建我们的代理对象，我们来看看其三个参数</div><div class="line">         * 第一个参数 handler.getClass().getClassLoader() ，我们这里使用handler这个类的ClassLoader对象来加载我们的代理对象</div><div class="line">         * 第二个参数realSubject.getClass().getInterfaces()，我们这里为代理对象提供的接口是真实对象所实行的接口，表示我要代理的是该真实对象，这样我就能调用这组接口中的方法了</div><div class="line">         * 第三个参数handler， 我们这里将这个代理对象关联到了上方的 InvocationHandler 这个对象上</div><div class="line">         */</div><div class="line">        Subject subject = (Subject)Proxy.newProxyInstance(handler.getClass().getClassLoader(), realSubject</div><div class="line">                .getClass().getInterfaces(), handler);</div><div class="line">        </div><div class="line">        System.out.println(subject.getClass().getName());</div><div class="line">        subject.rent();</div><div class="line">        subject.hello(<span class="string">"world"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2017-02-07, 09:45:11</p>
+        <p><span>最后更新:</span>2018-02-07, 13:52:09</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/02/07/retrofit和动态代理/" title="retrofit和动态代理">http://www.fengan.info/2017/02/07/retrofit和动态代理/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2017/02/07/retrofit和动态代理/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/02/16/线程安全的CopyOnWriteArrayList/">
+                    线程安全的CopyOnWriteArrayList
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/01/20/事件分发小结/">
+                    事件分发小结
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于Retrofit"><span class="toc-number">1.</span> <span class="toc-text">关于Retrofit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简述Retrofit调用流程"><span class="toc-number">2.</span> <span class="toc-text">简述Retrofit调用流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ApiService是如何产生的"><span class="toc-number">3.</span> <span class="toc-text">ApiService是如何产生的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#retrofit动态代理原理"><span class="toc-number">4.</span> <span class="toc-text">retrofit动态代理原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#java中的动态代理"><span class="toc-number">5.</span> <span class="toc-text">java中的动态代理</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"retrofit和动态代理　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.fengan.info/2017/02/07/retrofit和动态代理/';
+            this.page.identifier = '2017/02/07/retrofit和动态代理/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//null.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/02/16/线程安全的CopyOnWriteArrayList/" title="上一篇: 线程安全的CopyOnWriteArrayList">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/01/20/事件分发小结/" title="下一篇: 事件分发小结">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

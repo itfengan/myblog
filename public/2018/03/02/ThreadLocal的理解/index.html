@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="什么是ThreadLocalJDK1.2提供
+
+根据JDK文档中的解释：
+
+ThreadLocal的作用是提供线程内的局部变量，这种变量在多线程环境下访问时能够保证各个线程里变量的独立性。
+当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立改变该变量的副本，而不会影响其他线程所对应的副本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThreadLocal的理解">
+<meta property="og:url" content="http://www.fengan.info/2018/03/02/ThreadLocal的理解/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="什么是ThreadLocalJDK1.2提供
+
+根据JDK文档中的解释：
+
+ThreadLocal的作用是提供线程内的局部变量，这种变量在多线程环境下访问时能够保证各个线程里变量的独立性。
+当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立改变该变量的副本，而不会影响其他线程所对应的副本。">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1foyhets3pvj31kw15p4ac.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1foyhxjqs0qj31kw0zyn9s.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1foylpjjmbuj31jg0w6k0i.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1foylttuf5dj31i40ectj5.jpg">
+<meta property="og:updated_time" content="2018-03-02T11:20:20.840Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ThreadLocal的理解">
+<meta name="twitter:description" content="什么是ThreadLocalJDK1.2提供
+
+根据JDK文档中的解释：
+
+ThreadLocal的作用是提供线程内的局部变量，这种变量在多线程环境下访问时能够保证各个线程里变量的独立性。
+当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立改变该变量的副本，而不会影响其他线程所对应的副本。">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1foyhets3pvj31kw15p4ac.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>ThreadLocal的理解 | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-ThreadLocal的理解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/02/ThreadLocal的理解/" class="article-date">
+      <time datetime="2018-03-02T06:02:18.000Z" itemprop="datePublished">2018-03-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ThreadLocal的理解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="什么是ThreadLocal"><a href="#什么是ThreadLocal" class="headerlink" title="什么是ThreadLocal"></a>什么是ThreadLocal</h3><p>JDK1.2提供</p>
+<ul>
+<li>根据JDK文档中的解释：</li>
+</ul>
+<p>ThreadLocal的作用是提供线程内的局部变量，这种变量在多线程环境下访问时能够保证各个线程里变量的独立性。</p>
+<p>当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立改变该变量的副本，而不会影响其他线程所对应的副本。</p>
+<a id="more"></a>
+<h3 id="ThreadLocal的使用："><a href="#ThreadLocal的使用：" class="headerlink" title="ThreadLocal的使用："></a>ThreadLocal的使用：</h3><p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1foyhets3pvj31kw15p4ac.jpg" alt=""></p>
+<p>可以看到我们用ThreadLocal存放了一个String字符串，在不同的线程set数值后，只在当前线程管用，所以说，如同上述所说的</p>
+<ul>
+<li>一个ThreadLocal可以被多个线程共享</li>
+<li>每个线程对同一个ThreadLocal的set get操作只针对当前线程管用</li>
+</ul>
+<h3 id="ThreadLocal的原理以及源码介绍"><a href="#ThreadLocal的原理以及源码介绍" class="headerlink" title="ThreadLocal的原理以及源码介绍"></a>ThreadLocal的原理以及源码介绍</h3><p>大概了解了ThreadLocal如何使用，那么请问，ThreadLocal如何保证不同线程的独立性的呢？</p>
+<h4 id="ThreadLocal几个内部方法"><a href="#ThreadLocal几个内部方法" class="headerlink" title="ThreadLocal几个内部方法"></a>ThreadLocal几个内部方法</h4><h5 id="protected-T-initialValue-（如果不想初始值返回null，需要重写initialValue方法）"><a href="#protected-T-initialValue-（如果不想初始值返回null，需要重写initialValue方法）" class="headerlink" title="protected T initialValue()（如果不想初始值返回null，需要重写initialValue方法）"></a><strong>protected T initialValue()</strong>（如果不想初始值返回null，需要重写initialValue方法）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1foyhxjqs0qj31kw0zyn9s.jpg" alt="如果不想初始值返回null，需要重写initialValue方法"></p>
+<h5 id="public-T-get-（该方法返回当前线程变量副本。如果这是线程第一次调用该方法，则创建并初始化此副本。）"><a href="#public-T-get-（该方法返回当前线程变量副本。如果这是线程第一次调用该方法，则创建并初始化此副本。）" class="headerlink" title="public T get()（该方法返回当前线程变量副本。如果这是线程第一次调用该方法，则创建并初始化此副本。）"></a><strong>public T get()</strong>（该方法返回当前线程变量副本。如果这是线程第一次调用该方法，则创建并初始化此副本。）</h5><p>/**</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"> * Returns the value in the current thread's copy of this</div><div class="line"> * thread-local variable.  If the variable has no value for the</div><div class="line"> * current thread, it is first initialized to the value returned</div><div class="line"> * by an invocation of the &#123;@link #initialValue&#125; method.</div><div class="line"> *</div><div class="line"> * @return the current thread's value of this thread-local</div><div class="line"> */</div><div class="line">public T get() &#123;</div><div class="line">    Thread t = Thread.currentThread();</div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    if (map != null) &#123;</div><div class="line">        ThreadLocalMap.Entry e = map.getEntry(this);</div><div class="line">        if (e != null)</div><div class="line">            return (T)e.value;</div><div class="line">    &#125;</div><div class="line">    return setInitialValue();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="public-void-set-T-value"><a href="#public-void-set-T-value" class="headerlink" title="public void set(T value)"></a><strong>public void set(T value)</strong></h5><p>/**</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> * Sets the current thread's copy of this thread-local variable</div><div class="line"> * to the specified value.  Most subclasses will have no need to</div><div class="line"> * override this method, relying solely on the &#123;@link #initialValue&#125;</div><div class="line"> * method to set the values of thread-locals.</div><div class="line"> *</div><div class="line"> * @param value the value to be stored in the current thread's copy of</div><div class="line"> *        this thread-local.</div><div class="line"> */</div><div class="line">public void set(T value) &#123;</div><div class="line">    Thread t = Thread.currentThread();</div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    if (map != null)</div><div class="line">        map.set(this, value);</div><div class="line">    else</div><div class="line">        createMap(t, value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>由get和set源码可以看出，数据的存取都是先获取ThreadLocalMap对象，从<strong>ThreadLocalMap</strong>存取</li>
+<li>ThreadLocalMap是一个map，它的key，就是threadLocal本身，值就是存放的变量副本</li>
+<li><strong>每个线程对应一个本地变量的map，每个可以存放多个线程本地变量（即不同的ThreadLocal）</strong></li>
+</ol>
+<h5 id="public-void-remove-（jdk1-5后出现）"><a href="#public-void-remove-（jdk1-5后出现）" class="headerlink" title="public void remove()（jdk1.5后出现）"></a><strong>public void remove()</strong>（jdk1.5后出现）</h5><p>/**</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">* Removes the current thread's value for this thread-local</div><div class="line">* variable.  If this thread-local variable is subsequently</div><div class="line">* &#123;@linkplain #get read&#125; by the current thread, its value will be</div><div class="line">* reinitialized by invoking its &#123;@link #initialValue&#125; method,</div><div class="line">* unless its value is &#123;@linkplain #set set&#125; by the current thread</div><div class="line">* in the interim.  This may result in multiple invocations of the</div><div class="line">* &lt;tt&gt;initialValue&lt;/tt&gt; method in the current thread.</div><div class="line">*</div><div class="line">* @since 1.5</div><div class="line">*/</div><div class="line">public void remove() &#123;</div><div class="line">    ThreadLocalMap m = getMap(Thread.currentThread());</div><div class="line">    if (m != null)</div><div class="line">        m.remove(this);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过remove源码可以看到，</p>
+<ol>
+<li>先通过ThreadLocal的getMap（Thread.currentThread()）方法拿到当前线程的ThreadLocalMap</li>
+<li>然后再在当前线程的ThreadLocalMap中get，set，remove</li>
+</ol>
+<p>关于remove需要知道的几点：</p>
+<ul>
+<li>为什么移除某个ThreadLocal的值：</li>
+</ul>
+<p>目的是减少内存缓存，remove之后如果再次访问此线程局部变量的值，将返回initiValue初始值</p>
+<p>线程结束后，该线程对应的所有局部变量将自动被垃圾回收，但是显示调用remove清楚线程局部变量不是必须操作，但是可以加快内存回收的速度</p>
+<h3 id="ThreadLocal和同步机制synchonzied的区别"><a href="#ThreadLocal和同步机制synchonzied的区别" class="headerlink" title="ThreadLocal和同步机制synchonzied的区别"></a>ThreadLocal和同步机制synchonzied的区别</h3><ul>
+<li>ThreadLocal：以空间换时间</li>
+<li>synchonzied：以时间换空间</li>
+</ul>
+<p>synchonzied同步机制：</p>
+<p>为多线程对相同资源的并发访问控制，保证了多线程之间的数据共享，<strong>同步会带来巨大的性能开销，所以同步操作应该是细粒度的（对象中的不同元素使用不同的锁，而不是整个对象一个锁）</strong>，以时间换空间的意思是：<strong>使用同步真正的风险是复杂性和可能破坏资源安全,而不是性能。</strong></p>
+<p>ThreadLocal线程局部变量机制：</p>
+<p>空间换取时间，不同线程访问同一ThreadLocal，数据的存取是当前线程的数据副本，也就是说不同线程在某一时间访问到的并不是同一对象，所以效率比较高，但是占用内存比较大，当线程结束之后，remove会加快内存的回收速度。</p>
+<p>Synchronized着重于线程间的数据共享，而ThreadLocal则着重于线程间的数据隔离。 </p>
+<h3 id="ThreadLocal的弊端（内存泄露）"><a href="#ThreadLocal的弊端（内存泄露）" class="headerlink" title="ThreadLocal的弊端（内存泄露）"></a>ThreadLocal的弊端（内存泄露）</h3><h4 id="内存泄露原因"><a href="#内存泄露原因" class="headerlink" title="内存泄露原因"></a>内存泄露原因</h4><p>ThreadLocalMap使用ThreadLocal的弱引用作为key，如果一个ThreadLocal没有外部的强引用，那么在系统GC的时候，这个ThreadLocal就会被回收掉</p>
+<p>ThreadLocal被回收掉之后，那么当前Thread的ThreadLocalMap中间就会出现key为null的Entry</p>
+<p>key为null的话就意味着，没有办法访问这些key对应的值，就会存在以下的这样一个强引用链</p>
+<p>value —Entry—TreadLocalMap–Thread</p>
+<h4 id="内存泄露解决"><a href="#内存泄露解决" class="headerlink" title="内存泄露解决"></a>内存泄露解决</h4><p><code>ThreadLocalMap</code>的设计中已经考虑到这种情况，也加上了一些防护措施：在<code>ThreadLocal</code>的<code>get()</code>,<code>set()</code>,<code>remove()</code>的时候都会清除线程<code>ThreadLocalMap</code>里所有<code>key</code>为<code>null</code>的<code>value</code>。</p>
+<h4 id="以下操作会导致内存泄露"><a href="#以下操作会导致内存泄露" class="headerlink" title="以下操作会导致内存泄露"></a>以下操作会导致内存泄露</h4><ol>
+<li><p>使用static的ThreadLocal，延长了<code>ThreadLocal</code>的生命周期，导致某个线程Thread结束后，但是Thread内部的ThreadLocalMap中存在这个静态的ThreadLocal，导致ThreadLocalMap没法被回收，导致该Thread没法被回收</p>
+</li>
+<li><p>分配使用了<code>ThreadLocal</code>又不再调用<code>get()</code>,<code>set()</code>,<code>remove()</code>方法，那么就会导致内存泄漏。因为如上所说</p>
+<p><code>get()</code>,<code>set()</code>,<code>remove()</code>会清理线程ThreadLocalMap里所有key为null的value</p>
+</li>
+</ol>
+<h3 id="Android中ThreadLocal的体现"><a href="#Android中ThreadLocal的体现" class="headerlink" title="Android中ThreadLocal的体现"></a>Android中ThreadLocal的体现</h3><h4 id="Handler消息机制"><a href="#Handler消息机制" class="headerlink" title="Handler消息机制"></a>Handler消息机制</h4><p>熟悉Handler机制的都知道</p>
+<p>在ActivityThread的main方法中Looper.prepareMainLooper();或者在自己创建的线程中Looper.pepare()的时候</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">prepare</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (sThreadLocal.get() != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Only one Looper may be created per thread"</span>);</div><div class="line">    &#125;</div><div class="line">    sThreadLocal.set(<span class="keyword">new</span> Looper(quitAllowed));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建了一个Looper对象并使用sThreadLocal的set方法进行保存</p>
+<p>并且这个ThreadLocal在Looper类中是静态的，如下</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1foylpjjmbuj31jg0w6k0i.jpg" alt=""></p>
+<p>那就是说，这个静态的ThreadLocal，可以供任何线程访问，但是任意线程中取出来的looper，都只是线程局部变量，都是在副本</p>
+<p>所以说，每个线程对应一个looper，</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1foylttuf5dj31i40ectj5.jpg" alt=""></p>
+<p><strong>对于ThreadLocal的总结，暂时整理到这里，后续补充 ♨</strong></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2018-03-02, 14:02:18</p>
+        <p><span>最后更新:</span>2018-03-02, 19:20:20</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/02/ThreadLocal的理解/" title="ThreadLocal的理解">http://www.fengan.info/2018/03/02/ThreadLocal的理解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2018/03/02/ThreadLocal的理解/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/03/05/浅析Dalvik和ART的区别/">
+                    浅析Dalvik和ART的区别
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/12/29/谈谈启动流程/">
+                    谈谈启动流程
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是ThreadLocal"><span class="toc-number">1.</span> <span class="toc-text">什么是ThreadLocal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadLocal的使用："><span class="toc-number">2.</span> <span class="toc-text">ThreadLocal的使用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadLocal的原理以及源码介绍"><span class="toc-number">3.</span> <span class="toc-text">ThreadLocal的原理以及源码介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocal几个内部方法"><span class="toc-number">3.1.</span> <span class="toc-text">ThreadLocal几个内部方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#protected-T-initialValue-（如果不想初始值返回null，需要重写initialValue方法）"><span class="toc-number">3.1.1.</span> <span class="toc-text">protected T initialValue()（如果不想初始值返回null，需要重写initialValue方法）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#public-T-get-（该方法返回当前线程变量副本。如果这是线程第一次调用该方法，则创建并初始化此副本。）"><span class="toc-number">3.1.2.</span> <span class="toc-text">public T get()（该方法返回当前线程变量副本。如果这是线程第一次调用该方法，则创建并初始化此副本。）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#public-void-set-T-value"><span class="toc-number">3.1.3.</span> <span class="toc-text">public void set(T value)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#public-void-remove-（jdk1-5后出现）"><span class="toc-number">3.1.4.</span> <span class="toc-text">public void remove()（jdk1.5后出现）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadLocal和同步机制synchonzied的区别"><span class="toc-number">4.</span> <span class="toc-text">ThreadLocal和同步机制synchonzied的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadLocal的弊端（内存泄露）"><span class="toc-number">5.</span> <span class="toc-text">ThreadLocal的弊端（内存泄露）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#内存泄露原因"><span class="toc-number">5.1.</span> <span class="toc-text">内存泄露原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内存泄露解决"><span class="toc-number">5.2.</span> <span class="toc-text">内存泄露解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#以下操作会导致内存泄露"><span class="toc-number">5.3.</span> <span class="toc-text">以下操作会导致内存泄露</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android中ThreadLocal的体现"><span class="toc-number">6.</span> <span class="toc-text">Android中ThreadLocal的体现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Handler消息机制"><span class="toc-number">6.1.</span> <span class="toc-text">Handler消息机制</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"ThreadLocal的理解　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.fengan.info/2018/03/02/ThreadLocal的理解/';
+            this.page.identifier = '2018/03/02/ThreadLocal的理解/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//null.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/03/05/浅析Dalvik和ART的区别/" title="上一篇: 浅析Dalvik和ART的区别">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/12/29/谈谈启动流程/" title="下一篇: 谈谈启动流程">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
