@@ -1,1693 +1,1077 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion">
+<!DOCTYPE html>
+<html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
 
 
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
     
     
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Android" />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
-
-
-
-
 
 
 <meta name="description" content="懈怠意味着淘汰">
 <meta property="og:type" content="website">
 <meta property="og:title" content="风中追风">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://www.fengan.info/index.html">
 <meta property="og:site_name" content="风中追风">
 <meta property="og:description" content="懈怠意味着淘汰">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="风中追风">
 <meta name="twitter:description" content="懈怠意味着淘汰">
 
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
 
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: undefined,
-      author: '博主'
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <style> .article { opacity: 0;} </style>
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: true,
+        isPost: false,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
     }
-  };
 </script>
 
-  <title> 风中追风 </title>
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
 </head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">风中追风</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
 
         
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
                 
-                <a class="post-title-link" href="/2017/12/20/谈谈加密算法/" itemprop="url">
-                  谈谈加密算法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-20T13:48:31+08:00" content="2017-12-20">
-              2017-12-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/notes/" itemprop="url" rel="index">
-                    <span itemprop="name">notes</span>
-                  </a>
-                </span>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                    </div>
+                </section>
+                
 
                 
                 
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动端开发</div>
+                </section>
+                
+            </div>
         </div>
-      </header>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-浅析Dalvik和ART的区别" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/05/浅析Dalvik和ART的区别/" class="article-date">
+      <time datetime="2018-03-05T07:00:14.000Z" itemprop="datePublished">2018-03-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
     
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
-          <p><strong>谈谈加密算法</strong></p>
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。</p>
+<p>2014年6月谷歌I/O大会上，Android L(5.0)改动幅度比较大，删除了Dalvik，而是用ART代替。</p>
+<p>之前对本块的知识理解比较零散，再此本文总结下Dalvik和ART的原理，和二者的区别，以及Jvm和Dalvik的区别，以及Android的Apk编译打包的流程</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/03/05/浅析Dalvik和ART的区别/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ThreadLocal的理解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/02/ThreadLocal的理解/" class="article-date">
+      <time datetime="2018-03-02T06:02:18.000Z" itemprop="datePublished">2018-03-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="什么是ThreadLocal"><a href="#什么是ThreadLocal" class="headerlink" title="什么是ThreadLocal"></a>什么是ThreadLocal</h3><p>JDK1.2提供</p>
+<ul>
+<li>根据JDK文档中的解释：</li>
+</ul>
+<p>ThreadLocal的作用是提供线程内的局部变量，这种变量在多线程环境下访问时能够保证各个线程里变量的独立性。</p>
+<p>当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立改变该变量的副本，而不会影响其他线程所对应的副本。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/03/02/ThreadLocal的理解/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-谈谈启动流程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/29/谈谈启动流程/" class="article-date">
+      <time datetime="2017-12-29T03:13:57.000Z" itemprop="datePublished">2017-12-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ReactNative start" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/25/ReactNative start/" class="article-date">
+      <time datetime="2017-12-25T07:52:32.000Z" itemprop="datePublished">2017-12-25</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/25/ReactNative start/">ReactNative start</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="ReactNative-start"><a href="#ReactNative-start" class="headerlink" title="ReactNative start"></a>ReactNative start</h1>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/12/25/ReactNative start/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-谈谈加密算法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/12/20/谈谈加密算法/" class="article-date">
+      <time datetime="2017-12-20T05:48:31.000Z" itemprop="datePublished">2017-12-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p><strong>谈谈加密算法</strong></p>
 <blockquote>
 <p>前言</p>
 </blockquote>
 <p>在应用开发的过程中，客户端和移动端要频繁的进行数据传输，涉及到重要隐私信息的时候，就需要进行数据加密，，即使传输的过程中被截取，也不会信息泄漏。对于加密算法，不少开发者也早有耳闻，例如：Base64，MD5，RSA，AES，DES加密等等，今天就总结一下加密算法</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/12/20/谈谈加密算法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+          
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
     
+    <div class="article-info article-info-index">
       
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
 
-  
-  
 
-  
-  
-  
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
+      
+        <p class="article-more-link">
+          <a href="/2017/12/20/谈谈加密算法/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
     
-      <header class="post-header">
+  </div>
+  
+</article>
 
+
+
+
+
+
+
+
+
+  
+    <article id="post-transient关键字的作用" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/15/transient关键字的作用/" class="article-date">
+      <time datetime="2017-03-15T12:51:11.000Z" itemprop="datePublished">2017-03-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/" itemprop="url">
-                  Android　阴影布局(继承FrameLayout)
-                </a>
-              
-            
-          </h1>
-        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a>
+    </h1>
+  
 
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-15T17:52:55+08:00" content="2017-03-15">
-              2017-03-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/View/" itemprop="url" rel="index">
-                    <span itemprop="name">View</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
       </header>
+      
     
-
-
-    <div class="post-body" itemprop="articleBody">
-
+    <div class="article-entry" itemprop="articleBody">
       
-      
-
-      
-        
-          <h1 id="阴影布局-继承FrameLayout"><a href="#阴影布局-继承FrameLayout" class="headerlink" title="阴影布局(继承FrameLayout)"></a>阴影布局(继承FrameLayout)</h1><p>前言：<br>很多情况下，美腻的UI美眉喜欢搞一些花里胡哨阴影什么的,作为一名有追求的程序员迎合美眉的需求，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有时候不起作用，网上也有解决不起作用的方法，我试了，都不太起作用，用cardview的话，如果cardview包裹的太多太复杂的控件，效果也不是太明显，所以有一个自定义FrameLayout来自己画阴影，以后再碰见阴影就又多了一种手段，满足应付设计师</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/03/15/Android-阴影布局-继承FrameLayout/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+          
+              <p><strong>前言</strong></p>
+<p>transient的作用及使用方法，官方解释：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Variables may be marked <span class="keyword">transient</span> to indicate that they are not part of the persistent state of an object.</div></pre></td></tr></table></figure>
+          
       
     </div>
-
-    <div>
+    
+    <div class="article-info article-info-index">
       
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
     </div>
 
-    <div>
+
       
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
     </div>
 
-    <footer class="post-footer">
       
-
+        <p class="article-more-link">
+          <a href="/2017/03/15/transient关键字的作用/#more">阅读全文 >></a>
+        </p>
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
+      <div class="clearfix"></div>
+    </div>
     
-      
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
 
   
+    <article id="post-Android-阴影布局-继承FrameLayout" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2017/03/15/Android-阴影布局-继承FrameLayout/" class="article-date">
+      <time datetime="2017-03-15T09:52:55.000Z" itemprop="datePublished">2017-03-15</time>
+</a>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
+    </div>
+  
+  <div class="article-inner">
     
-      <header class="post-header">
-
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/25/谈谈线程池/" itemprop="url">
-                  谈谈线程池
-                </a>
-              
-            
-          </h1>
-        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a>
+    </h1>
+  
 
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-25T15:52:32+08:00" content="2016-12-25">
-              2016-12-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/notes/" itemprop="url" rel="index">
-                    <span itemprop="name">notes</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
       </header>
+      
     
-
-
-    <div class="post-body" itemprop="articleBody">
-
+    <div class="article-entry" itemprop="articleBody">
       
-      
-
-      
-        
-          <h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>线程基本概念，<a href="http://blog.csdn.net/cswhale/article/details/39053857">线程基本概念</a>和<a href="https://www.cnblogs.com/propheterLiu/p/6082666.html">Android启动线程的三种方式</a>(点击查看)</p>
-<h4 id="new-Thread（）的弊端"><a href="#new-Thread（）的弊端" class="headerlink" title="new Thread（）的弊端"></a>new Thread（）的弊端</h4><ul>
-<li>总是new Thread（）开启线程，线程执行完会被回收，导致频繁的<a href="https://www.jianshu.com/p/5db05db4f5ab">GC</a></li>
-<li>多线程缺乏统一管理，各线程之间互相竞争</li>
-<li>无法实现停止线程（如果一个item滑出页面，则要停止该item上图片的加载，但是如果使用这种方式来创建线程，则无法实现线程停止执行）</li>
-</ul>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/25/谈谈线程池/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+          
+              <h1 id="阴影布局-继承FrameLayout"><a href="#阴影布局-继承FrameLayout" class="headerlink" title="阴影布局(继承FrameLayout)"></a>阴影布局(继承FrameLayout)</h1><p>前言：<br>很多情况下，美腻的UI美眉喜欢搞一些花里胡哨阴影什么的,作为一名有追求的程序员迎合美眉的需求，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有时候不起作用，网上也有解决不起作用的方法，我试了，都不太起作用，用cardview的话，如果cardview包裹的太多太复杂的控件，效果也不是太明显，所以有一个自定义FrameLayout来自己画阴影，以后再碰见阴影就又多了一种手段，满足应付设计师</p>
+          
       
     </div>
-
-    <div>
+    
+    <div class="article-info article-info-index">
       
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/View/">View</a>
     </div>
 
-    <div>
+
       
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
     </div>
 
-    <footer class="post-footer">
       
-
+        <p class="article-more-link">
+          <a href="/2017/03/15/Android-阴影布局-继承FrameLayout/#more">阅读全文 >></a>
+        </p>
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
+      <div class="clearfix"></div>
+    </div>
     
-      
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
 
   
+    <article id="post-Sources-for-‘Android-API-xx-Platform’-not-found" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/" class="article-date">
+      <time datetime="2017-03-13T08:38:47.000Z" itemprop="datePublished">2017-03-13</time>
+</a>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
+    </div>
+  
+  <div class="article-inner">
     
-      <header class="post-header">
-
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/20/AsyncTask缺陷总结/" itemprop="url">
-                  AsyncTask的弊端
-                </a>
-              
-            
-          </h1>
-        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a>
+    </h1>
+  
 
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-20T10:42:03+08:00" content="2016-12-20">
-              2016-12-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/notes/" itemprop="url" rel="index">
-                    <span itemprop="name">notes</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
       </header>
+      
     
-
-
-    <div class="post-body" itemprop="articleBody">
-
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p><strong>前言</strong></p>
+<p>在Android Studio翻源码多时候，明明下载了对应的SDK，却点进去都是.class看不到源码，本文记录一下解决办法</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
       
       
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/others/">others</a>
+    </div>
+
 
       
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Webview使用总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/12/Webview使用总结/" class="article-date">
+      <time datetime="2017-03-12T08:00:27.000Z" itemprop="datePublished">2017-03-12</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
-          <h1 id="AsyncTask的弊端"><a href="#AsyncTask的弊端" class="headerlink" title="AsyncTask的弊端"></a>AsyncTask的弊端</h1><blockquote>
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/12/Webview使用总结/">Webview使用总结</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="WebView使用总结"><a href="#WebView使用总结" class="headerlink" title="WebView使用总结"></a>WebView使用总结</h3><p><strong>前言：</strong></p>
+<p>最近，修改了项目中网页中点击图片跳转查看大图页面的需求，激发了我归纳总结WebView的想法，今天再次整理一下。</p>
+<p>包含：使用过程，关键类，js交互，注意事项，以及几个常见的需求解决思路等。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/webview/">webview</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/03/12/Webview使用总结/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-浅析volatile关键字" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/07/浅析volatile关键字/" class="article-date">
+      <time datetime="2017-03-07T06:51:10.000Z" itemprop="datePublished">2017-03-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <blockquote>
 <p>前言</p>
 </blockquote>
-<p>Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/20/AsyncTask缺陷总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+<p>在看java并发的书的时候，看到了关于java的单例模式使用了volatile关键字，但是对volatile关键字的真正含义一直很模糊，本文就尝试浅析总结一下volatile的作用和具体用法。</p>
+          
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
     
+    <div class="article-info article-info-index">
       
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
 
-  
-  
 
-  
-  
-  
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
+      
+        <p class="article-more-link">
+          <a href="/2017/03/07/浅析volatile关键字/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/19/设计模式之原型模式/" itemprop="url">
-                  设计模式之原型模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-19T15:38:23+08:00" content="2016-12-19">
-              2016-12-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>原型设计模式的是一种创建型的设计模式，如果创建过程笔记复杂耗时的话，可以考虑使用原型设计模式；通过克隆已有的对象来获取一个新的对象，你可以直接使用它，也可以修改克隆对象的部分属性再使用，使得我们的程序更加高效<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/19/设计模式之原型模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/19/设计模式之观察者模式/" itemprop="url">
-                  设计模式之观察者模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-19T14:38:23+08:00" content="2016-12-19">
-              2016-12-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="设计模式之观察者模式"><a href="#设计模式之观察者模式" class="headerlink" title="设计模式之观察者模式"></a>设计模式之观察者模式</h1><h2 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h2><p>定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变，所有依赖于它的对象都能得到通知并可以自动作出处理</p>
-<p>…</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/19/设计模式之观察者模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/16/设计模式之策略模式/" itemprop="url">
-                  设计模式之策略模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-16T09:43:45+08:00" content="2016-12-16">
-              2016-12-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="概念描述"><a href="#概念描述" class="headerlink" title="概念描述"></a>概念描述</h4><p>策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到<strong>具有公共接口</strong>的<strong>独立的类</strong>中，从而在不影响客户端的情况下可以切换相应的算法。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/16/设计模式之策略模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/15/设计模式之建造者模式/" itemprop="url">
-                  设计模式之建造者模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-15T16:45:50+08:00" content="2016-12-15">
-              2016-12-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="设计模式之建造者模式"><a href="#设计模式之建造者模式" class="headerlink" title="设计模式之建造者模式"></a>设计模式之建造者模式</h1><h2 id="什么是Build模式"><a href="#什么是Build模式" class="headerlink" title="什么是Build模式"></a>什么是Build模式</h2><p>将一个复杂对象的构建与它的表示分离，使得构建过程可以以分部进行的链式调用来完成</p>
-<p>…</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/15/设计模式之建造者模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/15/设计模式之单例模式/" itemprop="url">
-                  设计模式之单例模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-15T09:43:45+08:00" content="2016-12-15">
-              2016-12-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Android设计模式-单例模式"><a href="#Android设计模式-单例模式" class="headerlink" title="Android设计模式-单例模式"></a>Android设计模式-单例模式</h1><ul>
-<li>什么是单例模式</li>
-</ul>
-<p>使用时，单例模式的对象只有一个实例存在，不允许自由的构造对象</p>
-<ul>
-<li>单例模式使用场景</li>
-</ul>
-<p>确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例</p>
-<p>… …</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/15/设计模式之单例模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/11/随滑动改变的的动态矩形背景/" itemprop="url">
-                  随滑动改变的的动态矩形背景
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-11T16:11:06+08:00" content="2016-10-11">
-              2016-10-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/View/" itemprop="url" rel="index">
-                    <span itemprop="name">View</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="随滑动改变的动态矩形背景"><a href="#随滑动改变的动态矩形背景" class="headerlink" title="随滑动改变的动态矩形背景"></a>随滑动改变的动态矩形背景</h1><blockquote>
-<p>前言</p>
-</blockquote>
-<p>可能看到这个标题有点懵逼,本屌的表达能力有限,最近工作比较清闲,朋友公司正在做到这个效果,所以就帮基友写了一个小Demo,总体来说就是以下效果.</p>
-<p>github移步:<br><a href="https://github.com/itfengan/DynamicRectangleView">https://github.com/itfengan/DynamicRectangleView</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/11/随滑动改变的的动态矩形背景/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-
-          
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
   </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
-               alt="冯安" />
-          <p class="site-author-name" itemprop="name">冯安</p>
-          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">19</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
-
-          
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
-                  
-                    <i class="fa fa-fw fa-twitter"></i>
-                  
-                  Twitter
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              基情链接
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
-                </li>
-              
-            </ul>
-          </div>
-        
-
-      </section>
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright" >
   
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">冯安</span>
-</div>
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
-  本站访客数:<span id="busuanzi_value_site_pv"></span>
-</span>
-</div>
-<!--
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
+</article>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
--->
 
-        
 
-        
-      </div>
-    </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
+
+
+
+
 
   
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
 </script>
 
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
 
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
-
-  
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-  <!-- 背景 -->
-
-<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-
-<!-- 页面点击小红心 -->
-<script type="text/javascript" src="/js/src/love.js"></script>
-  <!-- 宠物 -->
-
-<div id="hexo-helper-live2d">
-  <canvas id="live2dcanvas" width="150" height="300"></canvas>
-</div>
-<style>
-  #live2dcanvas{
-    position: fixed;
-    width: 150px;
-    height: 300px;
-    opacity:0.7;
-    right: 0px;
-    z-index: 999;
-    pointer-events: none;
-    bottom: -20px;
-  }
-</style>
-<script type="text/javascript" src="/live2d/device.min.js"></script>
-<script type="text/javascript">
-const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
-(function(){
-  if((typeof(device) != 'undefined') && (device.mobile())){
-    document.getElementById("live2dcanvas").style.width = '75px';
-    document.getElementById("live2dcanvas").style.height = '150px';
-  }else
-    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
-  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
-})();
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
-
+  </div>
 </body>
 </html>

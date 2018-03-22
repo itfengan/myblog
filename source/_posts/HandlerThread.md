@@ -13,6 +13,9 @@ categories: notes
 > Handy class for starting a new thread that has a looper. The looper can then be used to create handler classes. Note that start() must still be called.
 
 意思就是HandlerThread能够新建拥有Looper的线程(除了主线程,我们新建线程是需要手动调用Looper.prepare来初始化looper和messagequeue的),而这个looper能够来新建其他的Handler(新建的这个handler是属于子线程的,并且looper和messagequeue都是初始化好了的)
+
+<!--more-->
+
 **如以下代码：**
 
 ```java

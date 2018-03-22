@@ -1,86 +1,17 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion">
+<!DOCTYPE html>
+<html lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
 
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Android," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.png?v=5.0.1" />
-
-
-
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
 
 
 
@@ -88,223 +19,300 @@
 123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android7.0之应用间共享文件">
-<meta property="og:url" content="http://yoursite.com/2016/07/23/Android7-0之应用间共享文件/index.html">
+<meta property="og:url" content="http://www.fengan.info/2016/07/23/Android7-0之应用间共享文件/index.html">
 <meta property="og:site_name" content="风中追风">
 <meta property="og:description" content="Android7.0适配之应用间共享文件出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
 123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond a">
-<meta property="og:image" content="http://yoursite.com/./1485158383668.png">
+<meta property="og:image" content="http://www.fengan.info/./1485158383668.png">
 <meta property="og:updated_time" content="2017-12-22T09:43:01.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android7.0之应用间共享文件">
 <meta name="twitter:description" content="Android7.0适配之应用间共享文件出现问题Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
 123456789    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond a">
-<meta name="twitter:image" content="http://yoursite.com/./1485158383668.png">
+<meta name="twitter:image" content="http://www.fengan.info/./1485158383668.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: undefined,
-      author: '博主'
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Android7.0之应用间共享文件 | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
     }
-  };
 </script>
 
-  <title> Android7.0之应用间共享文件 | 风中追风 </title>
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
 </head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">风中追风</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle">个人邮箱 fengan1102@gmail.com</p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
 
         
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Android7.0之应用间共享文件
-              
-            
-          </h1>
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
         
 
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-23T16:58:17+08:00" content="2016-07-23">
-              2016-07-23
-            </time>
-          </span>
+        
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/notes/" itemprop="url" rel="index">
-                    <span itemprop="name">notes</span>
-                  </a>
-                </span>
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                    </div>
+                </section>
+                
 
                 
                 
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于移动端开发</div>
+                </section>
+                
+            </div>
         </div>
-      </header>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Android7-0之应用间共享文件" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/23/Android7-0之应用间共享文件/" class="article-date">
+      <time datetime="2016-07-23T08:58:17.000Z" itemprop="datePublished">2016-07-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
     
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android7.0之应用间共享文件
+    </h1>
+  
 
-
-    <div class="post-body" itemprop="articleBody">
-
+      </header>
       
-      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+    </div>
 
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
       
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
         <h2 id="Android7-0适配之应用间共享文件"><a href="#Android7-0适配之应用间共享文件" class="headerlink" title="Android7.0适配之应用间共享文件"></a>Android7.0适配之应用间共享文件</h2><h3 id="出现问题"><a href="#出现问题" class="headerlink" title="出现问题"></a>出现问题</h3><p>Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    android<span class="selector-class">.os</span><span class="selector-class">.FileUriExposedException</span>: file:<span class="comment">////storage/emulated/0/temp/1474956193735.jpg exposed beyond app through Intent.getData()</span></div><div class="line">at android<span class="selector-class">.os</span><span class="selector-class">.StrictMode</span><span class="selector-class">.onFileUriExposed</span>(StrictMode<span class="selector-class">.java</span>:<span class="number">1799</span>)</div><div class="line">at android<span class="selector-class">.net</span><span class="selector-class">.Uri</span><span class="selector-class">.checkFileUriExposed</span>(Uri<span class="selector-class">.java</span>:<span class="number">2346</span>)</div><div class="line">at android<span class="selector-class">.content</span><span class="selector-class">.Intent</span><span class="selector-class">.prepareToLeaveProcess</span>(Intent<span class="selector-class">.java</span>:<span class="number">8933</span>)</div><div class="line">at android<span class="selector-class">.content</span><span class="selector-class">.Intent</span><span class="selector-class">.prepareToLeaveProcess</span>(Intent<span class="selector-class">.java</span>:<span class="number">8894</span>)</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Instrumentation</span><span class="selector-class">.execStartActivity</span>(Instrumentation<span class="selector-class">.java</span>:<span class="number">1517</span>)</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Activity</span><span class="selector-class">.startActivityForResult</span>(Activity<span class="selector-class">.java</span>:<span class="number">4223</span>)</div><div class="line">...</div><div class="line">at android<span class="selector-class">.app</span><span class="selector-class">.Activity</span><span class="selector-class">.startActivityForResult</span>(Activity<span class="selector-class">.java</span>:<span class="number">4182</span>)</div></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -325,399 +333,253 @@
 
       
     </div>
-
-    <div>
-      
-        
-<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
-    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="冯安 wechat" style="width: 200px; max-width: 100%;"/>
-    <div>这是我的微信,欢迎来约~</div>
-</div>
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/" rel="tag">#Android</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/12/22/HandlerThread/" rel="next" title="HandlerThread">
-                <i class="fa fa-chevron-left"></i> HandlerThread
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/21/保存图片到本地/" rel="prev" title="保存图片到本地">
-                保存图片到本地 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-        <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-  <a class="jiathis_button_tsina"></a>
-  <a class="jiathis_button_tqq"></a>
-  <a class="jiathis_button_weixin"></a>
-  <a class="jiathis_button_cqq"></a>
-  <a class="jiathis_button_douban"></a>
-  <a class="jiathis_button_renren"></a>
-  <a class="jiathis_button_qzone"></a>
-  <a class="jiathis_button_kaixin001"></a>
-  <a class="jiathis_button_copy"></a>
-  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
-  <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" >
-  var jiathis_config={
-    hideMore:false
-  }
-</script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
     
   </div>
-
-
-        </div>
-        
-          
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2016-07-23, 16:58:17</p>
+        <p><span>最后更新:</span>2017-12-22, 17:43:01</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/07/23/Android7-0之应用间共享文件/" title="Android7.0之应用间共享文件">http://www.fengan.info/2016/07/23/Android7-0之应用间共享文件/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2016/07/23/Android7-0之应用间共享文件/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
     </div>
-  </div>
 
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
 
-      
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/08/21/保存图片到本地/">
+                    保存图片到本地
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/03/08/webview中点击网页图片跳转查看图片/">
+                    webview中点击网页图片跳转查看图片
+                </a>
+            </div>
+        
+    </nav>
 
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1485261785708&di=8eeb8c8aad6c9d6367c157a4137dccd7&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F960a304e251f95ca547894f0c9177f3e660952e2.jpg"
-               alt="冯安" />
-          <p class="site-author-name" itemprop="name">冯安</p>
-          <p class="site-description motion-element" itemprop="description">懈怠意味着淘汰</p>
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android7-0适配之应用间共享文件"><span class="toc-number">1.</span> <span class="toc-text">Android7.0适配之应用间共享文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#出现问题"><span class="toc-number">1.1.</span> <span class="toc-text">出现问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找原因"><span class="toc-number">1.2.</span> <span class="toc-text">查找原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决办法"><span class="toc-number">1.3.</span> <span class="toc-text">解决办法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体步骤"><span class="toc-number">1.4.</span> <span class="toc-text">具体步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-清单文件"><span class="toc-number">1.4.1.</span> <span class="toc-text">[1] 清单文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-res下xml文件夹"><span class="toc-number">1.4.2.</span> <span class="toc-text">[2] res下xml文件夹</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
         </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">19</span>
-              <span class="site-state-item-name">日志</span>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Android7.0之应用间共享文件　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <section id="comments">
+    <style> aside.comment-bar { margin: auto 30px; }</style>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function(){
+            this.page.url = 'http://www.fengan.info/2016/07/23/Android7-0之应用间共享文件/';
+            this.page.identifier = '2016/07/23/Android7-0之应用间共享文件/';
+        };
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = '//null.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        }
+    </script>
+    
+    <script> loadComment(); </script>
+
+</section>
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/08/21/保存图片到本地/" title="上一篇: 保存图片到本地">
+                <i class="fa fa-angle-left"></i>
             </a>
-          </div>
-
-          
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
         
 
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/itfengan" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://twitter.com/fengan1102" target="_blank" title="Twitter">
-                  
-                    <i class="fa fa-fw fa-twitter"></i>
-                  
-                  Twitter
-                </a>
-              </span>
-            
-          
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/03/08/webview中点击网页图片跳转查看图片/" title="下一篇: webview中点击网页图片跳转查看图片">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
         </div>
-
         
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              基情链接
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
             </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://windherd.github.io/" title="哔哩哔哩铁头张" target="_blank">哔哩哔哩铁头张</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://androidwangfh.github.io/" title="富豪王" target="_blank">富豪王</a>
-                </li>
-              
-            </ul>
-          </div>
         
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android7-0适配之应用间共享文件"><span class="nav-number">1.</span> <span class="nav-text">Android7.0适配之应用间共享文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#出现问题"><span class="nav-number">1.1.</span> <span class="nav-text">出现问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找原因"><span class="nav-number">1.2.</span> <span class="nav-text">查找原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">1.3.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体步骤"><span class="nav-number">1.4.</span> <span class="nav-text">具体步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-清单文件"><span class="nav-number">1.4.1.</span> <span class="nav-text">[1] 清单文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-res下xml文件夹"><span class="nav-number">1.4.2.</span> <span class="nav-text">[2] res下xml文件夹</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
     </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">冯安</span>
-</div>
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
-  本站访客数:<span id="busuanzi_value_site_pv"></span>
-</span>
-</div>
-<!--
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
-  </a>
-</div>
--->
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
+</footer>
     </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
   </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-  <!-- 背景 -->
-
-<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-
-<!-- 页面点击小红心 -->
-<script type="text/javascript" src="/js/src/love.js"></script>
-  <!-- 宠物 -->
-
-<div id="hexo-helper-live2d">
-  <canvas id="live2dcanvas" width="150" height="300"></canvas>
-</div>
-<style>
-  #live2dcanvas{
-    position: fixed;
-    width: 150px;
-    height: 300px;
-    opacity:0.7;
-    right: 0px;
-    z-index: 999;
-    pointer-events: none;
-    bottom: -20px;
-  }
-</style>
-<script type="text/javascript" src="/live2d/device.min.js"></script>
-<script type="text/javascript">
-const loadScript = function loadScript(c,b){var a=document.createElement("script");a.type="text/javascript";"undefined"!=typeof b&&(a.readyState?a.onreadystatechange=function(){if("loaded"==a.readyState||"complete"==a.readyState)a.onreadystatechange=null,b()}:a.onload=function(){b()});a.src=c;document.body.appendChild(a)};
-(function(){
-  if((typeof(device) != 'undefined') && (device.mobile())){
-    document.getElementById("live2dcanvas").style.width = '75px';
-    document.getElementById("live2dcanvas").style.height = '150px';
-  }else
-    if (typeof(device) === 'undefined') console.error('Cannot find current-device script.');
-  loadScript("/live2d/script.js", function(){loadlive2d("live2dcanvas", "/live2d/assets/hijiki.model.json", 0.5);});
-})();
-</script>
-
 </body>
 </html>
