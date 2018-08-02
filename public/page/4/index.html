@@ -39,8 +39,6 @@
 
 
 
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
 
 
     <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
@@ -54,8 +52,6 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
-    <style> .article { opacity: 0;} </style>
-
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
@@ -68,7 +64,7 @@
 <script>
     var yiliaConfig = {
         fancybox: true,
-        animate: true,
+        animate: false,
         isHome: true,
         isPost: false,
         isArchive: false,
@@ -182,7 +178,7 @@
                             
                                 <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
                             
                         </ul>
                     </nav>
@@ -191,7 +187,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
                     </div>
                 </section>
                 
@@ -204,6 +200,18 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
                     </div>
                 </section>
                 
@@ -212,7 +220,7 @@
                 
                 <section class="switch-part switch-part4">
                 
-                    <div id="js-aboutme">专注于移动端开发</div>
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
                 </section>
                 
             </div>
@@ -260,7 +268,7 @@
                             
                                 <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
                             
                         </ul>
             </nav>
@@ -270,11 +278,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-edittext输入限制" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-AsyncTask缺陷总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/12/13/edittext输入限制/" class="article-date">
-      <time datetime="2015-12-13T09:42:12.000Z" itemprop="datePublished">2015-12-13</time>
+      <a href="/2016/12/20/AsyncTask缺陷总结/" class="article-date">
+      <time datetime="2016-12-20T02:42:03.000Z" itemprop="datePublished">2016-12-20</time>
 </a>
 
 
@@ -289,7 +297,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/13/edittext输入限制/">edittext输入限制</a>
+      <a class="article-title" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a>
     </h1>
   
 
@@ -299,11 +307,486 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="EditText智能限制小数点前后分别保留几位"><a href="#EditText智能限制小数点前后分别保留几位" class="headerlink" title="EditText智能限制小数点前后分别保留几位"></a>EditText智能限制小数点前后分别保留几位</h1><ul>
-<li>可以分别限制小数点前面几位，和小数点后几位</li>
-<li>首位输入0时，第二位只能输入小数点</li>
-<li>首位输入小数点，默认显示0.</li>
-<li>嘻嘻!</li>
+              <p>Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/12/20/AsyncTask缺陷总结/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式之原型模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/19/设计模式之原型模式/" class="article-date">
+      <time datetime="2016-12-19T07:38:23.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>原型设计模式的是一种创建型的设计模式，如果创建过程笔记复杂耗时的话，可以考虑使用原型设计模式；通过克隆已有的对象来获取一个新的对象，你可以直接使用它，也可以修改克隆对象的部分属性再使用，使得我们的程序更加高效<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/12/19/设计模式之原型模式/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式之观察者模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/19/设计模式之观察者模式/" class="article-date">
+      <time datetime="2016-12-19T06:38:23.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>观察者模式，定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变，所有依赖于它的对象都能得到通知并可以自动作出处理</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/12/19/设计模式之观察者模式/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式之策略模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/设计模式之策略模式/" class="article-date">
+      <time datetime="2016-12-16T01:43:45.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到<strong>具有公共接口</strong>的<strong>独立的类</strong>中，从而在不影响客户端的情况下可以切换相应的算法。<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Design-Pattern/">Design Pattern</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/12/16/设计模式之策略模式/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式之建造者模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/15/设计模式之建造者模式/" class="article-date">
+      <time datetime="2016-12-15T08:45:50.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>建造者模式，将一个复杂对象的构建与它的表示分离，使得构建过程可以以分部进行的链式调用来完成</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/12/15/设计模式之建造者模式/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式之单例模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/15/设计模式之单例模式/" class="article-date">
+      <time datetime="2016-12-15T01:43:45.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>Android中单例模式整理记录</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/12/15/设计模式之单例模式/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-随滑动改变的的动态矩形背景" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/11/随滑动改变的的动态矩形背景/" class="article-date">
+      <time datetime="2016-10-11T08:11:06.000Z" itemprop="datePublished">2016-10-11</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>可能看到这个标题有点懵逼,本屌的表达能力有限,最近工作比较清闲,朋友公司正在做到这个效果,所以就帮基友写了一个小Demo.</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/10/11/随滑动改变的的动态矩形背景/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Gson封装" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/21/Gson封装/" class="article-date">
+      <time datetime="2016-08-21T03:20:34.000Z" itemprop="datePublished">2016-08-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/21/Gson封装/">Gson封装</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>Gson封装</p>
+<ul>
+<li>Gson封装的工具类</li>
+<li>javabean和集合相互转换</li>
 </ul>
           
       
@@ -313,7 +796,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/code/">code</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -324,7 +807,7 @@
 
       
         <p class="article-more-link">
-          <a href="/2015/12/13/edittext输入限制/#more">阅读全文 >></a>
+          <a href="/2016/08/21/Gson封装/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -343,11 +826,11 @@
 
 
   
-    <article id="post-图片上传-角度不正确" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-view被软键盘挡住和点击外部软键盘消失" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/08/08/图片上传-角度不正确/" class="article-date">
-      <time datetime="2015-08-08T03:39:51.000Z" itemprop="datePublished">2015-08-08</time>
+      <a href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/" class="article-date">
+      <time datetime="2016-08-21T03:02:01.000Z" itemprop="datePublished">2016-08-21</time>
 </a>
 
 
@@ -362,7 +845,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a>
+      <a class="article-title" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a>
     </h1>
   
 
@@ -372,7 +855,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="图片上传-部分机型角度不正确问题解决"><a href="#图片上传-部分机型角度不正确问题解决" class="headerlink" title="图片上传,部分机型角度不正确问题解决"></a>图片上传,部分机型角度不正确问题解决</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在app大多都有上传图片功能,比如上传图片,发表动态可能还会上传多张图片,那在我做图片上传的时候,出现了部分机型上传图片后,图片的角度是正确的,我的两个测试机小米和华为是没问题的,但是三星的上传后,图片是默认旋转了90°,那这里要讲的就是怎么解决这个问题,在此记录一下,以保证后面再出现类似需求要多考虑一些<br>
+              <p>软键盘遮挡和点击空白区域关闭键盘</p>
           
       
     </div>
@@ -381,7 +864,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/code/">code</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -392,7 +875,7 @@
 
       
         <p class="article-more-link">
-          <a href="/2015/08/08/图片上传-角度不正确/#more">阅读全文 >></a>
+          <a href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -411,11 +894,11 @@
 
 
   
-    <article id="post-祝你今天心情愉快" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-保存图片到本地" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/08/08/祝你今天心情愉快/" class="article-date">
-      <time datetime="2015-08-08T03:32:51.000Z" itemprop="datePublished">2015-08-08</time>
+      <a href="/2016/08/21/保存图片到本地/" class="article-date">
+      <time datetime="2016-08-21T02:14:21.000Z" itemprop="datePublished">2016-08-21</time>
 </a>
 
 
@@ -430,7 +913,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a>
+      <a class="article-title" href="/2016/08/21/保存图片到本地/">保存图片到本地</a>
     </h1>
   
 
@@ -440,7 +923,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=28138588&auto=1&height=66"></iframe>
+              <p>一个很常见的需求,图片保存到本地,矫正图片角度，通知图库更新<br>
+          
       
     </div>
     
@@ -448,15 +932,19 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/music/">music</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/">Life</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
     </div>
 
+      
+        <p class="article-more-link">
+          <a href="/2016/08/21/保存图片到本地/#more">阅读全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -476,7 +964,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 </div>
@@ -525,7 +1013,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = white-gray background;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

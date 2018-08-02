@@ -3,9 +3,13 @@ title: Webview使用总结
 date: 2017-03-12 16:00:27
 tags: 
 - Android
-categories: webview
+categories: Android
 password: 123456
 ---
+
+WebView相关知识整理
+
+<!--more-->
 
 ### WebView使用总结
 
@@ -14,8 +18,6 @@ password: 123456
 最近，修改了项目中网页中点击图片跳转查看大图页面的需求，激发了我归纳总结WebView的想法，今天再次整理一下。
 
 包含：使用过程，关键类，js交互，注意事项，以及几个常见的需求解决思路等。
-
-<!--more-->
 
 献上一张框架图
 

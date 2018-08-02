@@ -6,10 +6,19 @@ type: "about"
 
 
 
-## 冯安
+### 冯安
 
-## 移动端爱好者，喜欢探索新鲜事物
+### 移动端爱好者，喜欢探索新鲜事物
 
 #### 个人邮箱：fengan1102@gmail.com
 
-![](https://ws4.sinaimg.cn/large/006tNc79gy1fo9zy95dqgj31hc0v47sb.jpg)
+- React Native
+- Android
+- Php
+- ...
+
+
+
+<img src="https://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/IMG_2203.GIF" width="500" hegiht="300" align=center />
+
+

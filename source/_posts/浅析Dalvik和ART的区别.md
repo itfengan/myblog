@@ -3,8 +3,8 @@ title: 浅析Dalvik和ART的区别
 date: 2018-03-05 15:00:14
 tags: 
 - Android
-categories: notes
-password: 123456
+categories: Android
+password: 
 ---
 
 Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。
@@ -77,7 +77,7 @@ Google公司在Android 4.4中带来的ART模式仅仅是ART的一个预览版，
 
 - ART核心是OAT文件
 - 是APK在安装的过程中，会通过dex2oat工具生成一个OAT文件
--  APK安装过程中生成的OAT文件的输入只有一个DEX文件，也就是来自于打包在要安装的APK文件里面的classes.dex文件（实际上，一个OAT文件是可以由若干个DEX生成的）
+- APK安装过程中生成的OAT文件的输入只有一个DEX文件，也就是来自于打包在要安装的APK文件里面的classes.dex文件（实际上，一个OAT文件是可以由若干个DEX生成的）
 - OAT文件是一种Android私有ELF
 - 它不仅包含有从DEX文件翻译而来的本地机器指令，还包含有原来的DEX文件内容
 

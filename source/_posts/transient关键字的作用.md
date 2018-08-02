@@ -3,25 +3,27 @@ title: transient关键字的作用
 date: 2017-03-15 20:51:11
 tags: 
 - Android
-categories: notes
+categories: Android
 password: 123456
 ---
 
-**前言**
+transient的相关知识整理
 
-transient的作用及使用方法，官方解释：
+<!--more-->
+
+### transient的相关知识
+
+#### 官方解释
 
 ```java
 Variables may be marked transient to indicate that they are not part of the persistent state of an object.
 ```
 
-<!--more-->
-
-**遇到问题**
+#### 遇到问题
 
 我们都知道一个对象只要实现了Serializable接口，这个对象就可以被序列化，那么在实际开发过程中，可能会遇到这样的问题，这个类的有些属性需要序列号，而其他属性不需要序列化，比如说：一个用户有一些敏感信息，比如密码或者银行卡号之类，为了安全起见，不希望在网络操作（主要涉及到序列化操作，本地序列化缓存也适用）中被传输，这些信息对应的变量就可以加上transient关键字。换句话说，这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。
 
-**解决问题**
+#### 解决问题
 
 再次之前，有一个姿势点：
 

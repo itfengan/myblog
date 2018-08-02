@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="本文整理React Native中的布局方式，FlexBox弹性布局的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactNative碎片整理之样式">
+<meta property="og:url" content="http://www.fengan.info/2018/07/31/ReactNative碎片整理之样式/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="本文整理React Native中的布局方式，FlexBox弹性布局的使用">
+<meta property="og:image" content="https://mdn.mozillademos.org/files/12998/flexbox.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/flexDirection.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/flexWrap.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/justifyContent.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/alignItems.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/alignSelf.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/flex.jpg">
+<meta property="og:image" content="https://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/position.png">
+<meta property="og:updated_time" content="2018-08-01T02:24:11.909Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ReactNative碎片整理之样式">
+<meta name="twitter:description" content="本文整理React Native中的布局方式，FlexBox弹性布局的使用">
+<meta name="twitter:image" content="https://mdn.mozillademos.org/files/12998/flexbox.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>ReactNative碎片整理之样式 | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-ReactNative碎片整理之样式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/31/ReactNative碎片整理之样式/" class="article-date">
+      <time datetime="2018-07-31T07:38:55.000Z" itemprop="datePublished">2018-07-31</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ReactNative碎片整理之样式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/RN/">RN</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>本文整理React Native中的布局方式，FlexBox弹性布局的使用</p>
+<a id="more"></a>
+<h1 id="宽高"><a href="#宽高" class="headerlink" title="宽高"></a>宽高</h1><p>RN中，尺寸是没有单位的，它已经代表了设备独立像素</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;</span> &#123;<span class="attr">width:100</span>,<span class="attr">height:100</span>,<span class="attr">margin:40</span>,<span class="attr">backgroundColor:</span>'<span class="attr">gray</span>'&#125;&#125;&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">Text</span> <span class="attr">style</span>=<span class="string">&#123;</span> &#123;<span class="attr">fontSize:16</span>,<span class="attr">margin:20</span>&#125;&#125;&gt;</span>尺寸<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">View</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>运行在Android上时，View的长和宽被解释成：100dp 100dp单位是dp，字体被解释成16sp 单位是sp，运行在iOS上时尺寸单位被解释称了pt，这些单位确保了布局在任何不同dpi的手机屏幕上显示不会发生改变；</p>
+<h1 id="RN和Web-css上的FlexBox的区别"><a href="#RN和Web-css上的FlexBox的区别" class="headerlink" title="RN和Web css上的FlexBox的区别"></a>RN和Web css上的FlexBox的区别</h1><ul>
+<li>flexDirection: React Native中默认为<code>flexDirection:&#39;column&#39;</code>，在Web CSS中默认为<code>flex-direction:&#39;row&#39;</code></li>
+<li>alignItems: React Native中默认为<code>alignItems:&#39;stretch&#39;</code>，在Web CSS中默认<code>align-items:&#39;flex-start&#39;</code></li>
+<li>flex: 相比Web CSS的flex接受多参数，如:<code>flex: 2 2 10%;</code>，但在 React Native中flex只接受一个参数</li>
+<li>不支持属性：align-content，flex-basis，order，flex-basis，flex-flow，flex-grow，flex-shrink</li>
+</ul>
+<p>以上是React Native中的FlexBox 和Web CSSS上FlexBox的不同之处，记住这几点，你可以像在Web CSSS上使用FlexBox一样，在React Native中使用FlexBox。</p>
+<h1 id="Layout-Props"><a href="#Layout-Props" class="headerlink" title="Layout Props"></a>Layout Props</h1><h2 id="父视图属性（容器属性）："><a href="#父视图属性（容器属性）：" class="headerlink" title="父视图属性（容器属性）："></a>父视图属性（容器属性）：</h2><ul>
+<li>flexDirection enum(‘<strong>row</strong>’, ‘<strong>column</strong>’,’<strong>row-reverse</strong>’,’<strong>column-reverse</strong>’)</li>
+<li>flexWrap enum(‘<strong>wrap</strong>’, ‘<strong>nowrap</strong>’)</li>
+<li>justifyContent enum(‘<strong>flex-start</strong>’, ‘<strong>flex-end</strong>’, ‘<strong>center</strong>’, ‘<strong>space-between</strong>’, ‘<strong>space-around</strong>’)</li>
+<li>alignItems enum(‘<strong>flex-start</strong>’, ‘<strong>flex-end’</strong>, ‘<strong>center</strong>’, ‘<strong>stretch</strong>’)</li>
+</ul>
+<p>学习父容器属性之前，先学习下基本概念</p>
+<p><img src="https://mdn.mozillademos.org/files/12998/flexbox.png" width="400"></p>
+<p>和Web的Css不同的是，RN的Flexbox默认的主轴是 竖直的（column）</p>
+<h3 id="flexDirection"><a href="#flexDirection" class="headerlink" title="flexDirection"></a>flexDirection</h3><p><code>flexDirection enum(&#39;row&#39;, &#39;column&#39;,&#39;row-reverse&#39;,&#39;column-reverse&#39;)</code><br><code>flexDirection</code>属性定义了父视图中的子元素沿横轴或侧轴方片的排列方式。</p>
+<ul>
+<li>row: 从左向右依次排列</li>
+<li>row-reverse: 从右向左依次排列</li>
+<li>column(default): 默认的排列方式，从上向下排列</li>
+<li>column-reverse: 从下向上排列</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/flexDirection.jpg" width="400"></p>
+<h3 id="flexWrap"><a href="#flexWrap" class="headerlink" title="flexWrap"></a>flexWrap</h3><p><code>flexWrap enum(&#39;wrap&#39;, &#39;nowrap&#39;)</code><br><code>flexWrap</code>属性定义了子元素在父视图内是否允许多行排列，默认为nowrap。</p>
+<ul>
+<li>nowrap flex的元素只排列在一行上，可能导致溢出。</li>
+<li>wrap flex的元素在一行排列不下时，就进行多行排列。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/flexWrap.jpg" width="400"></p>
+<h3 id="justifyContent"><a href="#justifyContent" class="headerlink" title="justifyContent"></a>justifyContent</h3><p><code>justifyContent enum(&#39;flex-start&#39;, &#39;flex-end&#39;, &#39;center&#39;, &#39;space-between&#39;, &#39;space-around&#39;)</code><br><code>justifyContent</code>属性定义了浏览器如何分配顺着父容器主轴的弹性（flex）元素之间及其周围的空间，默认为flex-start。</p>
+<ul>
+<li>flex-start(default) 从行首开始排列。每行第一个弹性元素与行首对齐，同时所有后续的弹性元素与前一个对齐。</li>
+<li>flex-end 从行尾开始排列。每行最后一个弹性元素与行尾对齐，其他元素将与后一个对齐。</li>
+<li>center 伸缩元素向每行中点排列。每行第一个元素到行首的距离将与每行最后一个元素到行尾的距离相同。</li>
+<li>space-between 在每行上均匀分配弹性元素。相邻元素间距离相同。每行第一个元素与行首对齐，每行最后一个元素与行尾对齐。</li>
+<li>space-around 在每行上均匀分配弹性元素。相邻元素间距离相同。每行第一个元素到行首的距离和每行最后一个元素到行尾的距离将会是相邻元素之间距离的一半。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/justifyContent.jpg" width="400"></p>
+<h3 id="alignItems"><a href="#alignItems" class="headerlink" title="alignItems"></a>alignItems</h3><p><code>alignItems enum(&#39;flex-start&#39;, &#39;flex-end&#39;, &#39;center&#39;, &#39;stretch&#39;)</code><br><code>alignItems</code>属性以与justify-content相同的方式在侧轴方向上将当前行上的弹性元素对齐，默认为stretch</p>
+<p><img src="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/alignItems.jpg" width="400"></p>
+<h2 id="子视图属性（规范自己的）"><a href="#子视图属性（规范自己的）" class="headerlink" title="子视图属性（规范自己的）"></a>子视图属性（规范自己的）</h2><h3 id="alignSelf"><a href="#alignSelf" class="headerlink" title="alignSelf"></a>alignSelf</h3><p><code>alignSelf enum(&#39;auto&#39;, &#39;flex-start&#39;, &#39;flex-end&#39;, &#39;center&#39;, &#39;stretch&#39;)</code><br><code>alignSelf</code>属性以属性定义了flex容器内被选中项目的对齐方式。注意：alignSelf 属性可重写灵活容器的 alignItems 属性。</p>
+<ul>
+<li><strong>auto(default) 元素继承了它的父容器的 align-items 属性。如果没有父容器则为 “stretch”。</strong></li>
+<li>stretch    元素被拉伸以适应容器。</li>
+<li>center    元素位于容器的中心。</li>
+<li>flex-start    元素位于容器的开头。</li>
+<li>flex-end    元素位于容器的结尾。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/alignSelf.jpg" width="400"></p>
+<h3 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h3><p><code>flex number</code><br><code>flex</code> 属性定义了一个可伸缩元素的能力，默认为0。</p>
+<p><img src="https://raw.githubusercontent.com/crazycodeboy/RNStudyNotes/develop/React%20Native%E5%B8%83%E5%B1%80/React%20Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/images/flex.jpg" width="400"></p>
+<h1 id="其他属性"><a href="#其他属性" class="headerlink" title="其他属性"></a>其他属性</h1><p>以下属性是React Native所支持的除Flex以外的其它布局属性。</p>
+<h2 id="视图边框"><a href="#视图边框" class="headerlink" title="视图边框"></a>视图边框</h2><h2 id="尺寸"><a href="#尺寸" class="headerlink" title="尺寸"></a>尺寸</h2><h2 id="内部边距"><a href="#内部边距" class="headerlink" title="内部边距"></a>内部边距</h2><h2 id="外边距"><a href="#外边距" class="headerlink" title="外边距"></a>外边距</h2><h2 id="边缘"><a href="#边缘" class="headerlink" title="边缘"></a>边缘</h2><h2 id="定位-position"><a href="#定位-position" class="headerlink" title="定位(position)"></a>定位(position)</h2><p>position enum(‘absolute’, ‘relative’)属性设置元素的定位方式，为将要定位的元素定义定位规则。</p>
+<ul>
+<li>absolute：生成绝对定位的元素，元素的位置通过 “left”, “top”, “right” 以及 “bottom” 属性进行规定。(相对于父布局的位置)（注意：忽略父组件的padding，默认直接在父组件的左上角，除非设置当前组件的left，top，right，bottom,或者margin之类的）</li>
+<li>relative：生成相对定位的元素，相对于其正常位置进行定位。因此，”left:20” 会向元素的 LEFT 位置添加 20 像素。（相对于自身本应该在的位置）</li>
+</ul>
+<p><strong>例子1:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            <span class="xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span></span></span></div><div class="line">                <span class="attr">flex:</span> <span class="attr">1</span>,</div><div class="line">                <span class="attr">justifyContent:</span> '<span class="attr">center</span>',</div><div class="line">            &#125;&#125;&gt;</div><div class="line">                <span class="tag">&lt;<span class="name">TouchableOpacity</span> <span class="attr">onPress</span>=<span class="string">&#123;this.loadData&#125;</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;styles.container&#125;</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">Image</span> <span class="attr">style</span>=<span class="string">&#123;styles.header&#125;/</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="name">Text</span></span></div><div class="line">                            <span class="attr">style</span>=<span class="string">&#123;styles.name&#125;</span>&gt;absolute<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">TouchableOpacity</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">View</span>&gt;</span></div><div class="line">        );</div><div class="line">    &#125;    </div><div class="line">const styles = StyleSheet.create(&#123;</div><div class="line">    container: &#123;</div><div class="line">        flexDirection: 'row',</div><div class="line">        paddingLeft: 15,</div><div class="line">        paddingRight: 15,</div><div class="line">        paddingTop: 10,</div><div class="line">        paddingBottom: 10,</div><div class="line">        backgroundColor: '#999999'</div><div class="line">    &#125;,</div><div class="line">    header: &#123;</div><div class="line">        width: 100,</div><div class="line">        height: 100,</div><div class="line">        backgroundColor: '#00a056'</div><div class="line">    &#125;,</div><div class="line">    name: &#123;</div><div class="line">        position: 'relative',</div><div class="line">        // left: 15,</div><div class="line">        alignSelf: 'flex-start',</div><div class="line">        fontSize: 13,</div><div class="line">        backgroundColor: '#ffff00',</div><div class="line">        color: '#999999'</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><img src="https://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/position.png" width="400"></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="http://www.devio.org/2016/08/01/Reac-Native%E5%B8%83%E5%B1%80%E8%AF%A6%E7%BB%86%E6%8C%87%E5%8D%97/" target="_blank" rel="external">React Native布局详细指南</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/07/31/ReactNative碎片整理之样式/">ReactNative碎片整理之样式</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2018-07-31, 15:38:55</p>
+        <p><span>最后更新:</span>2018-08-01, 10:24:11</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/31/ReactNative碎片整理之样式/" title="ReactNative碎片整理之样式">http://www.fengan.info/2018/07/31/ReactNative碎片整理之样式/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2018/07/31/ReactNative碎片整理之样式/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/08/01/ReactNative碎片整理之ref/">
+                    ReactNative碎片整理之ref
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/07/30/ReactNative碎片整理之网络请求/">
+                    ReactNative碎片整理之网络请求
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#宽高"><span class="toc-number">1.</span> <span class="toc-text">宽高</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RN和Web-css上的FlexBox的区别"><span class="toc-number">2.</span> <span class="toc-text">RN和Web css上的FlexBox的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Layout-Props"><span class="toc-number">3.</span> <span class="toc-text">Layout Props</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#父视图属性（容器属性）："><span class="toc-number">3.1.</span> <span class="toc-text">父视图属性（容器属性）：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flexDirection"><span class="toc-number">3.1.1.</span> <span class="toc-text">flexDirection</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flexWrap"><span class="toc-number">3.1.2.</span> <span class="toc-text">flexWrap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#justifyContent"><span class="toc-number">3.1.3.</span> <span class="toc-text">justifyContent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alignItems"><span class="toc-number">3.1.4.</span> <span class="toc-text">alignItems</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#子视图属性（规范自己的）"><span class="toc-number">3.2.</span> <span class="toc-text">子视图属性（规范自己的）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#alignSelf"><span class="toc-number">3.2.1.</span> <span class="toc-text">alignSelf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flex"><span class="toc-number">3.2.2.</span> <span class="toc-text">flex</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他属性"><span class="toc-number">4.</span> <span class="toc-text">其他属性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#视图边框"><span class="toc-number">4.1.</span> <span class="toc-text">视图边框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尺寸"><span class="toc-number">4.2.</span> <span class="toc-text">尺寸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部边距"><span class="toc-number">4.3.</span> <span class="toc-text">内部边距</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外边距"><span class="toc-number">4.4.</span> <span class="toc-text">外边距</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#边缘"><span class="toc-number">4.5.</span> <span class="toc-text">边缘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位-position"><span class="toc-number">4.6.</span> <span class="toc-text">定位(position)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考："><span class="toc-number">5.</span> <span class="toc-text">参考：</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"ReactNative碎片整理之样式　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zODU1NS8xNTA4Mw==">
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+    </script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->      
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/08/01/ReactNative碎片整理之ref/" title="上一篇: ReactNative碎片整理之ref">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/07/30/ReactNative碎片整理之网络请求/" title="下一篇: ReactNative碎片整理之网络请求">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative的prop-types属性验证问题/">ReactNative的prop-types属性验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative碎片整理之按妞交互/">ReactNative碎片整理之按妞交互</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之组件生命周期/">ReactNative碎片整理之组件生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之ref/">ReactNative碎片整理之ref</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/ReactNative碎片整理之样式/">ReactNative碎片整理之样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/ReactNative碎片整理之网络请求/">ReactNative碎片整理之网络请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/ReactNative碎片整理之State/">ReactNative碎片整理之State</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/夏日/">^_^夏日～</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/24/Rxjava2-0-知识碎片（三）/">Rxjava2.0-知识碎片（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（二）/">Rxjava2.0-知识碎片(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（一）/">Rxjava2.0-知识碎片(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/SharedPreferences的缺陷/">SharedPreferences的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/18/shadowsocks服务端部署/">shadowsocks服务端部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/mysql关联阿里云dms/">mysql关联阿里云dms</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/ReactNative碎片整理之Props/">ReactNative碎片整理之Props</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/24/3-x的gradle依赖implementation/">3.X的gradle依赖implementation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative学习一</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/02/Android签名/">Android签名</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">AS中看不到源码问题解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/16/app启动流程简析/">app启动流程简析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = white-gray background;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

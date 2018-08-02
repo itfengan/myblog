@@ -3,18 +3,20 @@ title: HandlerThread
 date: 2015-12-22 13:52:02
 tags: 
 - Android
-categories: notes
+categories: Android
 ---
 
 **HandlerThread**
+
+HandlerThread知识点整理
+
+<!--more-->
 
  **官方介绍**
 
 > Handy class for starting a new thread that has a looper. The looper can then be used to create handler classes. Note that start() must still be called.
 
 意思就是HandlerThread能够新建拥有Looper的线程(除了主线程,我们新建线程是需要手动调用Looper.prepare来初始化looper和messagequeue的),而这个looper能够来新建其他的Handler(新建的这个handler是属于子线程的,并且looper和messagequeue都是初始化好了的)
-
-<!--more-->
 
 **如以下代码：**
 
@@ -102,7 +104,7 @@ Looper是通过调用loop方法驱动着消息循环的进行: 从MessageQueue�
 
 **总结**
 
-    1. Handler继承自Thread,因此调用start方法,也是执行run方法,run()方法的逻辑都是在子线程中运行的。
+    1. HandlerThread继承自Thread,因此调用start方法,也是执行run方法,run()方法的逻辑都是在子线程中运行的。
     2. 查看HandlerThread源码可以看到,run()中主要做了Looper.prepare()和looper.loop()创建looper和messagequeue对象并开启消息队列的循环
     3. 需要注意的是,对于网络io操作,HandlerThread并不适合,因为它只有一个线程,得排队一个一个等着。
     4. 页面消耗的时候,调用 myHandlerThread.quit() ;looper就不在接受新的消息,消息循环结束,这个时候再通过handler调用sendMessage或者post等方法发送消息时均返回false,表示没有成功的放入消息队列。

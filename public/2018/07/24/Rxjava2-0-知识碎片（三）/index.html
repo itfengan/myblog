@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="基于Rxjava2.0的操作符小结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2.0-知识碎片（三）">
+<meta property="og:url" content="http://www.fengan.info/2018/07/24/Rxjava2-0-知识碎片（三）/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="基于Rxjava2.0的操作符小结">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1931185-14134e499db9d0c4.png?imageMogr2/auto-orient/">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1931185-1e60a8bf25b31e91.png?imageMogr2/auto-orient/">
+<meta property="og:updated_time" content="2018-07-24T07:13:59.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2.0-知识碎片（三）">
+<meta name="twitter:description" content="基于Rxjava2.0的操作符小结">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1931185-14134e499db9d0c4.png?imageMogr2/auto-orient/">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Rxjava2.0-知识碎片（三） | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Rxjava2-0-知识碎片（三）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/24/Rxjava2-0-知识碎片（三）/" class="article-date">
+      <time datetime="2018-07-24T01:47:45.000Z" itemprop="datePublished">2018-07-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Rxjava2.0-知识碎片（三）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Rxjava/">Rxjava</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>基于Rxjava2.0的操作符小结</p>
+<a id="more"></a>
+<h1 id="一：创建相关"><a href="#一：创建相关" class="headerlink" title="一：创建相关"></a>一：创建相关</h1><h3 id="creat操作符"><a href="#creat操作符" class="headerlink" title="creat操作符"></a>creat操作符</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;<span class="built_in">String</span>&gt;() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="built_in">void</span> call(Subscriber&lt;? <span class="keyword">super</span> <span class="built_in">String</span>&gt; subscriber) &#123;</div><div class="line"></div><div class="line">            subscriber.onNext(<span class="string">"item1"</span>);</div><div class="line">            subscriber.onNext(<span class="string">"item2"</span>);</div><div class="line">            subscriber.onCompleted();</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<h3 id="just"><a href="#just" class="headerlink" title="just"></a>just</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Observable observable = Observable.just(<span class="string">"Hello"</span>, <span class="string">"Hi"</span>, <span class="string">"Aloha"</span>);</div><div class="line"><span class="regexp">//</span> 将会依次调用：</div><div class="line"><span class="regexp">//</span> onNext(<span class="string">"Hello"</span>);</div><div class="line"><span class="regexp">//</span> onNext(<span class="string">"Hi"</span>);</div><div class="line"><span class="regexp">//</span> onNext(<span class="string">"Aloha"</span>);</div><div class="line"><span class="regexp">//</span> onCompleted();</div></pre></td></tr></table></figure>
+<h3 id="from"><a href="#from" class="headerlink" title="from"></a>from</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">String[] words = &#123;<span class="string">"Hello"</span>, <span class="string">"Hi"</span>, <span class="string">"Aloha"</span>&#125;;</div><div class="line">Observable observable = Observable.from(words);</div><div class="line"><span class="comment">// 将会依次调用：</span></div><div class="line"><span class="comment">// onNext("Hello");</span></div><div class="line"><span class="comment">// onNext("Hi");</span></div><div class="line"><span class="comment">// onNext("Aloha");</span></div><div class="line"><span class="comment">// onCompleted();</span></div></pre></td></tr></table></figure>
+<h3 id="interval操作符"><a href="#interval操作符" class="headerlink" title="interval操作符"></a>interval操作符</h3><p>不多bb，看以下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable.interval(<span class="number">1</span>, TimeUnit.SECONDS)</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;Long&gt;() &#123;</div><div class="line">                    <span class="keyword">public</span> Disposable mDisposable;</div><div class="line"></div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Long aLong)</span> </span>&#123;</div><div class="line">                        <span class="keyword">if</span> (aLong == <span class="number">10</span>) &#123;</div><div class="line">                            mDisposable.dispose();</div><div class="line">                        &#125;</div><div class="line">                        System.out.println(<span class="string">"计时器"</span> + aLong);</div><div class="line">                    &#125;</div><div class="line">                &#125;, throwable -&gt; &#123;</div><div class="line"></div><div class="line">                &#125;, () -&gt; &#123;</div><div class="line">                    System.out.println(<span class="string">"action"</span>);</div><div class="line">                &#125;, disposable -&gt; mDisposable = disposable);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">52.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">0</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">53.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">1</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">54.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">2</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">55.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">3</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">56.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">4</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">57.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">5</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">58.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">6</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">24</span>:<span class="number">59.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">7</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">00.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">8</span></div><div class="line"><span class="number">07</span>-<span class="number">24</span> <span class="number">11</span>:<span class="number">25</span>:<span class="number">01.718</span> <span class="number">12306</span>-<span class="number">12332</span>/com.fengandev.rxjavademo I/System.out: 计时器<span class="number">9</span></div></pre></td></tr></table></figure>
+<p>可以简易的封装，获取一个倒计时Observable</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 产生一个倒计时的 Observable</div><div class="line">     * <span class="doctag">@param</span> time</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> Observable&lt;Long&gt; <span class="title">countdown</span><span class="params">(<span class="keyword">final</span> <span class="keyword">long</span> time)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> Observable.interval(<span class="number">1</span>, TimeUnit.SECONDS)</div><div class="line">                .map(<span class="keyword">new</span> Function&lt;Long, Long&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> Long <span class="title">apply</span><span class="params">(@NonNull Long aLong)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="keyword">return</span> time - aLong;</div><div class="line">                    &#125;</div><div class="line">                &#125;).take( time + <span class="number">1</span> );</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="comment">//使用</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        countdown(<span class="number">10</span>).subscribe(<span class="keyword">new</span> Consumer&lt;Long&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Long aLong)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                System.out.println(<span class="string">"倒计时"</span>+aLong);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="range操作符"><a href="#range操作符" class="headerlink" title="range操作符"></a>range操作符</h3><p>range 发射特定整数序列的 Observable</p>
+<ul>
+<li>range( int start , int end ) //start :开始的值 ， end ：结束的值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> Observable.range(<span class="number">0</span>,<span class="number">5</span>)</div><div class="line">                .subscribe(integer -&gt; System.out.println(integer));</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="number">0</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">4</span></div></pre></td></tr></table></figure>
+<p>老规矩，包前不包后</p>
+<h3 id="empty和error和never"><a href="#empty和error和never" class="headerlink" title="empty和error和never"></a>empty和error和never</h3><p><strong>empty</strong></p>
+<p><code>Observable observable1=Observable.empty();</code>//直接调用onCompleted。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Observable observable1=Observable.empty();//直接调用onCompleted。</span></div><div class="line"><span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable&lt;String&gt; empty = Observable.empty();</div><div class="line">        empty.subscribe(<span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"onSubscribe"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"onNext"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"onError"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">                System.out.println(<span class="string">"onComplete"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//log:</span></div><div class="line"><span class="comment">//onSubscribe</span></div><div class="line"><span class="comment">//onComplete</span></div></pre></td></tr></table></figure>
+<p><strong>never</strong></p>
+<p><code>Observable observable3=Observable.never();</code>//啥都不做</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">    Observable&lt;String&gt; empty = Observable.never();</div><div class="line">    empty.subscribe(<span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line">            System.out.println(<span class="string">"onSubscribe"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">            System.out.println(<span class="string">"onNext"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">            System.out.println(<span class="string">"onError"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">            System.out.println(<span class="string">"onComplete"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="comment">//onSubscribe</span></div></pre></td></tr></table></figure>
+<p><strong>error</strong></p>
+<p><code>Observable observable2=Observable.error(new RuntimeException());</code>//直接调用onError。这里可以自定义异常</p>
+<h2 id="功能操作"><a href="#功能操作" class="headerlink" title="功能操作"></a>功能操作</h2><h3 id="map操作符"><a href="#map操作符" class="headerlink" title="map操作符"></a>map操作符</h3><p>map操作符算是Rxjava中最简单的一个操作符了，在2.x中的用法和1.x差不多；它的作用就是对发射的每一个事件应用一个函数，每一个事件都按照map操作符指定的函数去变化转换，下面我们看一个栗子🌰</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                emitter.onNext(<span class="number">1</span>);</div><div class="line">                emitter.onNext(<span class="number">2</span>);</div><div class="line">                emitter.onNext(<span class="number">3</span>);</div><div class="line">                emitter.onComplete();</div><div class="line">            &#125;</div><div class="line">        &#125;).map(<span class="keyword">new</span> Function&lt;Integer, String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                Log.e(<span class="string">"fengan"</span>, <span class="string">"apply----&gt;"</span> + Thread.currentThread().getName());</div><div class="line">                <span class="keyword">return</span> <span class="string">"this is value = "</span> + integer;</div><div class="line">            &#125;</div><div class="line">        &#125;).subscribeOn(Schedulers.single())</div><div class="line"><span class="comment">//                .observeOn(Schedulers.single())</span></div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        Log.e(<span class="string">"fengan"</span>, <span class="string">"accept----&gt;"</span> + Thread.currentThread().getName());</div><div class="line">                        Log.e(<span class="string">"fengan"</span>, <span class="string">"accept----&gt;"</span> + s);</div><div class="line">                        Log.e(<span class="string">"fengan"</span>,<span class="string">"========"</span>);</div><div class="line"></div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>log</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">apply----&gt;RxSingleScheduler-<span class="number">1</span></div><div class="line">accept----&gt;RxSingleScheduler-<span class="number">1</span></div><div class="line">accept----&gt;<span class="keyword">this</span> is value = <span class="number">1</span></div><div class="line">========</div><div class="line">apply----&gt;RxSingleScheduler-<span class="number">1</span></div><div class="line">accept----&gt;RxSingleScheduler-<span class="number">1</span></div><div class="line">accept----&gt;<span class="keyword">this</span> is value = <span class="number">2</span></div><div class="line">========</div><div class="line">apply----&gt;RxSingleScheduler-<span class="number">1</span></div><div class="line">accept----&gt;RxSingleScheduler-<span class="number">1</span></div><div class="line">accept----&gt;<span class="keyword">this</span> is value = <span class="number">3</span></div><div class="line">========</div></pre></td></tr></table></figure>
+<p>从这个例子，我们能看出</p>
+<ul>
+<li>我们发射的integer事件，被转换为String，继续进行</li>
+<li>我们也顺便验证了两个问题（在碎片化2整理的线程调度）<ul>
+<li>只指定<code>subscribeOn</code>未指定<code>observeOn</code>的情况下，观察者的事件的接受（下游）按照<code>subscribeOn</code>指定的线程进行</li>
+<li><code>Schedulers.single()</code>是在指定线程中按照队列的形式进行，先进先出（体现在：一个事件发布和接受完毕后，才发送第二个事件）</li>
+</ul>
+</li>
+</ul>
+<h3 id="debounce操作符"><a href="#debounce操作符" class="headerlink" title="debounce操作符"></a>debounce操作符</h3><p><code>debounce</code>：防抖；</p>
+<p>only emit an item from an Observable if a particular time-span has passed without it emitting another item,</p>
+<p>当一个事件发送出来之后，在约定时间内没有再次发送这个事件，则发射这个事件，如果再次触发了，则重新计算时间。</p>
+<p><a href="https://www.jianshu.com/p/ee1f0d21a856" target="_blank" rel="external">参考链接</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"> Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="comment">// send events with simulated time wait</span></div><div class="line">                emitter.onNext(<span class="number">1</span>); <span class="comment">// skip</span></div><div class="line">                Thread.sleep(<span class="number">400</span>);</div><div class="line">                emitter.onNext(<span class="number">2</span>); <span class="comment">// deliver</span></div><div class="line">                Thread.sleep(<span class="number">505</span>);</div><div class="line">                emitter.onNext(<span class="number">3</span>); <span class="comment">// skip</span></div><div class="line">                Thread.sleep(<span class="number">100</span>);</div><div class="line">                emitter.onNext(<span class="number">4</span>); <span class="comment">// deliver</span></div><div class="line">                Thread.sleep(<span class="number">605</span>);</div><div class="line">                emitter.onNext(<span class="number">5</span>); <span class="comment">// deliver</span></div><div class="line">                Thread.sleep(<span class="number">510</span>);</div><div class="line">                emitter.onComplete();</div><div class="line">            &#125;</div><div class="line">        &#125;).debounce(<span class="number">500</span>,TimeUnit.MILLISECONDS)</div><div class="line">            .subscribe(<span class="keyword">new</span> Consumer&lt;Integer&gt;() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                    System.out.println(integer);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line"></div><div class="line"><span class="comment">//2</span></div><div class="line"><span class="comment">//4</span></div><div class="line"><span class="comment">//5</span></div></pre></td></tr></table></figure>
+<h3 id="onTerminateDetach操作符"><a href="#onTerminateDetach操作符" class="headerlink" title="onTerminateDetach操作符"></a>onTerminateDetach操作符</h3><p><a href="https://blog.csdn.net/johnny901114/article/details/67640594" target="_blank" rel="external">Rxjava导致内存泄漏的问题</a></p>
+<p><a href="https://blog.csdn.net/johnny901114/article/details/67640594" target="_blank" rel="external">一张图搞定-RxJava2的线程切换原理和内存泄露问题</a></p>
+<p>看完这两个参考链接，基本也就知道了onTerminateDetach的使用方法和作用</p>
+<h3 id="defer操作符"><a href="#defer操作符" class="headerlink" title="defer操作符"></a>defer操作符</h3><p>只有当订阅者订阅才创建Observable，为每个订阅创建一个新的Observable。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxjava</span><span class="params">()</span> </span>&#123;</div><div class="line">    Observable.defer(<span class="keyword">new</span> Callable&lt;ObservableSource&lt;Integer&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> ObservableSource&lt;Integer&gt; <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="keyword">return</span> Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;).subscribe(<span class="keyword">new</span> Consumer&lt;Integer&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            System.out.println(integer);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div></pre></td></tr></table></figure>
+<h3 id="flatMap操作符"><a href="#flatMap操作符" class="headerlink" title="flatMap操作符"></a>flatMap操作符</h3><p>把一个发射器<code>Observable</code> 通过某种方法转换为多个<code>Observables</code>，然后再把这些分散的<code>Observables</code>装进一个单一的发射器<code>Observable</code>。但有个需要注意的是，<code>flatMap</code>并不能保证事件的顺序，如果需要保证，需要用到我们下面要讲的<code>ConcatMap</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">    Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            emitter.onNext(<span class="number">1</span>);</div><div class="line">            emitter.onNext(<span class="number">2</span>);</div><div class="line">            emitter.onNext(<span class="number">3</span>);</div><div class="line">            emitter.onComplete();</div><div class="line">        &#125;</div><div class="line">    &#125;).flatMap(<span class="keyword">new</span> Function&lt;Integer, ObservableSource&lt;String&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> ObservableSource&lt;String&gt; <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            List&lt;String&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">            res.add(<span class="string">"i am value ="</span> + integer);</div><div class="line">            Log.e(<span class="string">"fengan"</span>,<span class="string">"flatMap size"</span>+res.size());</div><div class="line">            <span class="keyword">return</span> Observable.fromIterable(res);</div><div class="line">        &#125;</div><div class="line">    &#125;).subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Log.e(<span class="string">"fengan"</span>,<span class="string">"accept="</span>+s);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>log</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">flatMap size1</div><div class="line"><span class="attr">accept=i</span> am <span class="attr">value</span> =<span class="number">1</span></div><div class="line">   flatMap size1</div><div class="line">   <span class="attr">accept=i</span> am <span class="attr">value</span> =<span class="number">2</span></div><div class="line">   flatMap size1</div><div class="line">   <span class="attr">accept=i</span> am <span class="attr">value</span> =<span class="number">3</span></div></pre></td></tr></table></figure>
+<p><strong>结论</strong></p>
+<ul>
+<li>验证了我之前的一个误区（size大小一直为1）：误以为所有事件发送完毕之后，在flatmap统一处理，其实不是，事件源每发射一个事件，<code>flatmap</code>就处理转换一个事件</li>
+<li><code>flatMap</code>的作用是，接受一个事件，作出处理完之后，重新发射一个新的事件</li>
+</ul>
+<p>刚才说到<code>flatMap</code>并不能保证事件的顺序，请看下面的例子就明白了</p>
+<h3 id="concatMap操作符"><a href="#concatMap操作符" class="headerlink" title="concatMap操作符"></a>concatMap操作符</h3><p>flatMap操作符可以将一个<code>Observable</code>转换为另一个<code>Observable</code>发射出去,并且可以将多个事件转化为1个，但是最后输出的事件序列顺序是不确定的，如果想要最后输出的事件顺序和源数据的顺序一致只要换成<code>concatMap</code>就可以了。<br>flatMap和Map操作符的不同是map一次只能转换一个事件。</p>
+<p>先看一个<code>flatmap</code>的使用例子，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Observable.create((ObservableOnSubscribe&lt;Integer&gt;) emitter -&gt; &#123;</div><div class="line">           emitter.onNext(<span class="number">1</span>);</div><div class="line">           emitter.onNext(<span class="number">2</span>);</div><div class="line">           emitter.onNext(<span class="number">3</span>);</div><div class="line">           emitter.onComplete();</div><div class="line">       &#125;).subscribeOn(Schedulers.io()).flatMap((Function&lt;Integer, ObservableSource&lt;String&gt;&gt;) integer -&gt; &#123;</div><div class="line">           List&lt;String&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">               res.add(<span class="string">"I am value "</span> + integer);</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">int</span> delayTime = (<span class="keyword">int</span>) (<span class="number">1</span> + Math.random() * <span class="number">10</span>);</div><div class="line">           <span class="keyword">return</span> Observable.fromIterable(res).delay(delayTime, TimeUnit.MILLISECONDS);</div><div class="line">       &#125;).subscribe(s -&gt; Log.e(<span class="string">"fengan"</span>, <span class="string">"accept="</span> + s));</div></pre></td></tr></table></figure>
+<p>log</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">accept=I am value <span class="number">3</span></div><div class="line">accept=I am value <span class="number">3</span></div><div class="line">accept=I am value <span class="number">2</span></div><div class="line">accept=I am value <span class="number">2</span></div><div class="line">accept=I am value <span class="number">2</span></div><div class="line">accept=I am value <span class="number">3</span></div><div class="line">accept=I am value <span class="number">1</span></div><div class="line">accept=I am value <span class="number">1</span></div><div class="line">accept=I am value <span class="number">1</span></div></pre></td></tr></table></figure>
+<p>可见不是按照源数据到顺序一致，若想一致使用<code>concatMap</code>就可以了</p>
+<h3 id="repeat操作符"><a href="#repeat操作符" class="headerlink" title="repeat操作符"></a>repeat操作符</h3><p>repeat 重复地发射数据</p>
+<ul>
+<li>repeat( ) //无限重复</li>
+<li>repeat( int time ) //设定重复的次数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</div><div class="line">                .repeat(<span class="number">3</span>)</div><div class="line">                .subscribe(integer -&gt; System.out.println(integer));</div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div></pre></td></tr></table></figure>
+<h3 id="fromArray和fromIterble操作符"><a href="#fromArray和fromIterble操作符" class="headerlink" title="fromArray和fromIterble操作符"></a>fromArray和fromIterble操作符</h3><p>一个是发射一个数组一个是发射一个集合</p>
+<h3 id="toList"><a href="#toList" class="headerlink" title="toList"></a>toList</h3><p>将数组转换为集合</p>
+<h3 id="delay操作符"><a href="#delay操作符" class="headerlink" title="delay操作符"></a>delay操作符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">                .delay(<span class="number">3</span>, TimeUnit.SECONDS)</div><div class="line">                .observeOn(Schedulers.io())</div><div class="line">                .subscribe(integer -&gt; &#123;</div><div class="line">                    <span class="keyword">int</span> a = integer;</div><div class="line">                    System.out.println(a);</div><div class="line">                &#125;);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//注意：延迟3秒钟，然后在发射数据</span></div><div class="line"><span class="comment">//是延迟三秒，发送1，2，3数据</span></div><div class="line"><span class="comment">//而不是--延迟3秒--发送1--延迟3秒---发送2</span></div></pre></td></tr></table></figure>
+<ul>
+<li>是延迟三秒，发送1，2，3数据</li>
+<li>而不是–延迟3秒–发送1–延迟3秒—发送2</li>
+</ul>
+<p>若想达到这种效果，可以类似这么做</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">                .concatMap(<span class="keyword">new</span> Function&lt;Integer, ObservableSource&lt;Integer&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> ObservableSource&lt;Integer&gt; <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="keyword">return</span> Observable.just(integer) .delay(<span class="number">3</span>, TimeUnit.SECONDS);</div><div class="line">                        </div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">                .subscribe(integer -&gt; System.out.println(integer));</div><div class="line">    &#125;</div><div class="line"><span class="comment">//--延迟三秒---发送1---延迟三秒---发送2---延迟3秒---发送3</span></div></pre></td></tr></table></figure>
+<h3 id="doOnNext操作符"><a href="#doOnNext操作符" class="headerlink" title="doOnNext操作符"></a>doOnNext操作符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">    Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            emitter.onNext(<span class="number">1</span>);</div><div class="line">            emitter.onNext(<span class="number">2</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;).doOnNext(<span class="keyword">new</span> Consumer&lt;Integer&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            System.out.println(<span class="string">"前置操作"</span> + integer);</div><div class="line">            integer+=<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">            .subscribe(System.out::println);</div><div class="line">&#125;</div><div class="line"><span class="comment">//log</span></div><div class="line">前置操作<span class="number">1</span></div><div class="line"><span class="number">1</span></div><div class="line">前置操作<span class="number">2</span></div><div class="line"><span class="number">2</span></div></pre></td></tr></table></figure>
+<p>在每次 OnNext() 方法被调用前执行</p>
+<p>使用场景：从网络请求数据，在数据被展示前，缓存到本地</p>
+<h2 id="合并操作"><a href="#合并操作" class="headerlink" title="合并操作"></a>合并操作</h2><h3 id="concat操作符"><a href="#concat操作符" class="headerlink" title="concat操作符"></a>concat操作符</h3><p>按顺序连接多个Observables。需要注意的是Observable.concat(a,b)等价于a.concatWith(b)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Observable&lt;Integer&gt; observable1=Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>);</div><div class="line">    Observable&lt;Integer&gt;  observable2=Observable.just(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>);</div><div class="line"></div><div class="line">    Observable.concat(observable1,observable2)</div><div class="line">            .subscribe(item-&gt;Log.d(<span class="string">"JG"</span>,item.toString()));<span class="comment">//1,2,3,4,4,5,6</span></div></pre></td></tr></table></figure>
+<h3 id="startWith操作符"><a href="#startWith操作符" class="headerlink" title="startWith操作符"></a>startWith操作符</h3><p>在数据序列的开头增加一项数据。startWith的内部也是调用了concat</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</div><div class="line">           .startWith(<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>)</div><div class="line">   .subscribe(item-&gt;Log.d(<span class="string">"JG"</span>,item.toString()));<span class="comment">//6,7,8,1,2,3,4,5</span></div></pre></td></tr></table></figure>
+<h3 id="merge操作符"><a href="#merge操作符" class="headerlink" title="merge操作符"></a>merge操作符</h3><p>合并被观察者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> String[] aStrings = &#123;<span class="string">"A1"</span>, <span class="string">"A2"</span>, <span class="string">"A3"</span>, <span class="string">"A4"</span>&#125;;</div><div class="line">        <span class="keyword">final</span> String[] bStrings = &#123;<span class="string">"B1"</span>, <span class="string">"B2"</span>, <span class="string">"B3"</span>&#125;;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Observable&lt;String&gt; aObservable = Observable.fromArray(aStrings);</div><div class="line">        <span class="keyword">final</span> Observable&lt;String&gt; bObservable = Observable.fromArray(bStrings);</div><div class="line"></div><div class="line">        Observable.merge(aObservable, bObservable)<span class="comment">//使用merge操作符将两个被观察者合并</span></div><div class="line">                .subscribe(getObserver());<span class="comment">//这里的观察者依然不重要</span></div><div class="line"><span class="comment">//"A1", "B1", "A2", "A3", "A4", "B2", "B3"</span></div></pre></td></tr></table></figure>
+<p>操作符merge将两个被观察者合并,这里要注意merge之后的Observable是不能保证和原来的Observable发射顺序相同.</p>
+<h3 id="Zip操作符"><a href="#Zip操作符" class="headerlink" title="Zip操作符"></a>Zip操作符</h3><p>zip我们想到”压缩“，那么在这个操作符是什么意思呢，请看下面图片</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1931185-14134e499db9d0c4.png?imageMogr2/auto-orient/" alt="Zip"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable.zip(Observable.just(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>), Observable.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>), <span class="keyword">new</span> BiFunction&lt;String, Integer, String&gt;() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(String s, Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">return</span> s+integer;</div><div class="line">            &#125;</div><div class="line">        &#125;).subscribe(s -&gt; System.out.println(<span class="string">"value="</span> + s));</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>log</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">value=A1</div><div class="line">value=B2</div><div class="line">value=C3</div></pre></td></tr></table></figure>
+<p>结论：</p>
+<ul>
+<li>zip 组合事件的过程就是分别从发射器A和发射器B各取出一个事件来组合，并且一个事件只能被使用一次，组合的顺序是严格按照事件发送的顺序来进行的，所以上面截图中，可以看到，1永远是和A 结合的，2永远是和B结合的。</li>
+</ul>
+<ul>
+<li>最终接收器收到的事件数量是和发送器发送事件最少的那个发送器的发送事件数目相同，所以代码中，4和5是没有配对的，所以也就无法发射合并事件</li>
+</ul>
+<h3 id="combineLatest操作符"><a href="#combineLatest操作符" class="headerlink" title="combineLatest操作符"></a>combineLatest操作符</h3><p>先看一张图，我想你应该已经大致明白意思了</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1931185-1e60a8bf25b31e91.png?imageMogr2/auto-orient/" alt="combineLatest"></p>
+<p><a href="https://blog.csdn.net/jdsjlzx/article/details/53040293" target="_blank" rel="external">使用场景，表单验证</a></p>
+<p>combineLatest是RxJava本身提供的一个常用的操作符，它接受两个或以上的Observable和一个FuncX闭包。当传入的Observable中任意的一个发射数据时，combineLatest将每个Observable的最近值(Lastest)联合起来（combine）传给FuncX闭包进行处理。要点在于：</p>
+<ol>
+<li>combineLatest是会存储每个Observable的最近的值的</li>
+<li>任意一个Observable发射新值时都会触发操作-&gt;“combine all the Observable’s lastest value together and send to Function”</li>
+</ol>
+<p>看一个例子，可以说明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> String[] aStrings = &#123;<span class="string">"A1"</span>, <span class="string">"A2"</span>, <span class="string">"A3"</span>, <span class="string">"A4"</span>&#125;;</div><div class="line">        <span class="keyword">final</span> String[] bStrings = &#123;<span class="string">"B1"</span>, <span class="string">"B2"</span>, <span class="string">"B3"</span>&#125;;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Observable&lt;String&gt; aObservable = Observable.fromArray(aStrings).delay(<span class="number">1</span>,TimeUnit.MILLISECONDS);</div><div class="line">        <span class="keyword">final</span> Observable&lt;String&gt; bObservable = Observable.fromArray(bStrings);</div><div class="line"></div><div class="line">        Observable.combineLatest(aObservable, bObservable, <span class="keyword">new</span> BiFunction&lt;String, String, String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(String s1, String s2)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">return</span> s1+s2;</div><div class="line">            &#125;</div><div class="line">        &#125;).subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                System.out.println(s);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="comment">//A1B3</span></div><div class="line"><span class="comment">//A2B3</span></div><div class="line"><span class="comment">//A3B3</span></div><div class="line"><span class="comment">//A4B3</span></div><div class="line">可见，发送A1的时候B1 B2 B3都已经发射完毕</div><div class="line">所以，存储每个Observable的最近的值的，也就是B3</div><div class="line">当B1，B2，B3发射的 A被观察者一个都没发射，所以得至少两个才会合并，这个看图可以解释</div></pre></td></tr></table></figure>
+<p>##过滤操作</p>
+<h3 id="take等操作符"><a href="#take等操作符" class="headerlink" title="take等操作符"></a>take等操作符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//take 取前n个数据</span></div><div class="line">Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>)</div><div class="line">        .take(<span class="number">3</span>)</div><div class="line">       .subscribe(System.out::println);</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="comment">//takelast 取后n个数据</span></div><div class="line"> Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>)</div><div class="line">                .takeLast(<span class="number">3</span>)</div><div class="line">                .subscribe(System.out::println);</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">6</span></div><div class="line"><span class="number">7</span></div><div class="line"><span class="comment">//first 只发送第一个数据  </span></div><div class="line"><span class="comment">//last 只发送最后一个数据</span></div><div class="line"><span class="comment">//skip() 跳过前n个数据发送后面的数据</span></div><div class="line"><span class="comment">//skipLast() 跳过最后n个数据，发送前面的数据</span></div></pre></td></tr></table></figure>
+<h3 id="filter操作符"><a href="#filter操作符" class="headerlink" title="filter操作符"></a>filter操作符</h3><p>顾名思义，过滤发送的事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">                .filter(integer -&gt; &#123;</div><div class="line">                    <span class="keyword">if</span> (integer==<span class="number">2</span>) &#123;</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;).subscribe(System.out::println);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">3</span></div></pre></td></tr></table></figure>
+<h3 id="ofType"><a href="#ofType" class="headerlink" title="ofType"></a>ofType</h3><p>过滤指定类型的数据，与filter类似，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rxjava</span><span class="params">()</span> </span>&#123;</div><div class="line">    Observable.just(<span class="number">1</span>,<span class="string">"1"</span>,-<span class="number">1</span>)</div><div class="line">            .ofType(Integer.class)</div><div class="line">            .subscribe(<span class="keyword">new</span> Consumer&lt;Integer&gt;() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                    System.out.println(integer);</div><div class="line">                &#125;</div><div class="line"><span class="comment">//log</span></div><div class="line"><span class="number">1</span></div><div class="line">-<span class="number">1</span></div></pre></td></tr></table></figure>
+<h3 id="first和last"><a href="#first和last" class="headerlink" title="first和last"></a>first和last</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">        .first(<span class="number">2</span>)</div><div class="line">        .subscribe(<span class="literal">new</span> Consumer&lt;<span class="built_in">Integer</span>&gt;() &#123;</div><div class="line">            @Override</div><div class="line">            <span class="keyword">public</span> <span class="literal">void</span> accept(<span class="built_in">Integer</span> <span class="built_in">integer</span>) throws Exception &#123;</div><div class="line">                System.out.println(<span class="built_in">integer</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"><span class="comment">//1</span></div><div class="line"> Observable.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">                .last(<span class="number">2</span>)</div><div class="line">                .subscribe(<span class="literal">new</span> Consumer&lt;<span class="built_in">Integer</span>&gt;() &#123;</div><div class="line">                    @Override</div><div class="line">                    <span class="keyword">public</span> <span class="literal">void</span> accept(<span class="built_in">Integer</span> <span class="built_in">integer</span>) throws Exception &#123;</div><div class="line">                        System.out.println(<span class="built_in">integer</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line"><span class="comment">//3</span></div></pre></td></tr></table></figure>
+<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://www.jianshu.com/p/d149043d103a" target="_blank" rel="external">手把手教你使用 RxJava 2.0（一）</a></p>
+<p><a href="https://blog.csdn.net/jdsjlzx/article/details/53040293" target="_blank" rel="external">RxJava combineLatest操作符处理复杂表单验证问题</a></p>
+<p><a href="https://www.jianshu.com/p/b30de498c3cc" target="_blank" rel="external">Android - RxJava2.0 操作符整理归纳</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/07/24/Rxjava2-0-知识碎片（三）/">Rxjava2.0-知识碎片（三）</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2018-07-24, 09:47:45</p>
+        <p><span>最后更新:</span>2018-07-24, 15:13:59</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/24/Rxjava2-0-知识碎片（三）/" title="Rxjava2.0-知识碎片（三）">http://www.fengan.info/2018/07/24/Rxjava2-0-知识碎片（三）/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2018/07/24/Rxjava2-0-知识碎片（三）/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/07/28/夏日/">
+                    ^_^夏日～
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/07/23/Rxjava2-0-知识碎片（二）/">
+                    Rxjava2.0-知识碎片(二)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一：创建相关"><span class="toc-number">1.</span> <span class="toc-text">一：创建相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#creat操作符"><span class="toc-number">1.0.1.</span> <span class="toc-text">creat操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#just"><span class="toc-number">1.0.2.</span> <span class="toc-text">just</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#from"><span class="toc-number">1.0.3.</span> <span class="toc-text">from</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#interval操作符"><span class="toc-number">1.0.4.</span> <span class="toc-text">interval操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range操作符"><span class="toc-number">1.0.5.</span> <span class="toc-text">range操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#empty和error和never"><span class="toc-number">1.0.6.</span> <span class="toc-text">empty和error和never</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#功能操作"><span class="toc-number">1.1.</span> <span class="toc-text">功能操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#map操作符"><span class="toc-number">1.1.1.</span> <span class="toc-text">map操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#debounce操作符"><span class="toc-number">1.1.2.</span> <span class="toc-text">debounce操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onTerminateDetach操作符"><span class="toc-number">1.1.3.</span> <span class="toc-text">onTerminateDetach操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#defer操作符"><span class="toc-number">1.1.4.</span> <span class="toc-text">defer操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flatMap操作符"><span class="toc-number">1.1.5.</span> <span class="toc-text">flatMap操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concatMap操作符"><span class="toc-number">1.1.6.</span> <span class="toc-text">concatMap操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repeat操作符"><span class="toc-number">1.1.7.</span> <span class="toc-text">repeat操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fromArray和fromIterble操作符"><span class="toc-number">1.1.8.</span> <span class="toc-text">fromArray和fromIterble操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#toList"><span class="toc-number">1.1.9.</span> <span class="toc-text">toList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#delay操作符"><span class="toc-number">1.1.10.</span> <span class="toc-text">delay操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#doOnNext操作符"><span class="toc-number">1.1.11.</span> <span class="toc-text">doOnNext操作符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并操作"><span class="toc-number">1.2.</span> <span class="toc-text">合并操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#concat操作符"><span class="toc-number">1.2.1.</span> <span class="toc-text">concat操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#startWith操作符"><span class="toc-number">1.2.2.</span> <span class="toc-text">startWith操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#merge操作符"><span class="toc-number">1.2.3.</span> <span class="toc-text">merge操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zip操作符"><span class="toc-number">1.2.4.</span> <span class="toc-text">Zip操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combineLatest操作符"><span class="toc-number">1.2.5.</span> <span class="toc-text">combineLatest操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#take等操作符"><span class="toc-number">1.2.6.</span> <span class="toc-text">take等操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filter操作符"><span class="toc-number">1.2.7.</span> <span class="toc-text">filter操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ofType"><span class="toc-number">1.2.8.</span> <span class="toc-text">ofType</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#first和last"><span class="toc-number">1.2.9.</span> <span class="toc-text">first和last</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#未完待续"><span class="toc-number">1.3.</span> <span class="toc-text">未完待续</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考："><span class="toc-number">1.4.</span> <span class="toc-text">参考：</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Rxjava2.0-知识碎片（三）　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zODU1NS8xNTA4Mw==">
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+    </script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->      
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/07/28/夏日/" title="上一篇: ^_^夏日～">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/07/23/Rxjava2-0-知识碎片（二）/" title="下一篇: Rxjava2.0-知识碎片(二)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative的prop-types属性验证问题/">ReactNative的prop-types属性验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative碎片整理之按妞交互/">ReactNative碎片整理之按妞交互</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之组件生命周期/">ReactNative碎片整理之组件生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之ref/">ReactNative碎片整理之ref</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/ReactNative碎片整理之样式/">ReactNative碎片整理之样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/ReactNative碎片整理之网络请求/">ReactNative碎片整理之网络请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/ReactNative碎片整理之State/">ReactNative碎片整理之State</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/夏日/">^_^夏日～</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/24/Rxjava2-0-知识碎片（三）/">Rxjava2.0-知识碎片（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（二）/">Rxjava2.0-知识碎片(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（一）/">Rxjava2.0-知识碎片(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/SharedPreferences的缺陷/">SharedPreferences的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/18/shadowsocks服务端部署/">shadowsocks服务端部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/mysql关联阿里云dms/">mysql关联阿里云dms</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/ReactNative碎片整理之Props/">ReactNative碎片整理之Props</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/24/3-x的gradle依赖implementation/">3.X的gradle依赖implementation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative学习一</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/02/Android签名/">Android签名</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">AS中看不到源码问题解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/16/app启动流程简析/">app启动流程简析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = white-gray background;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

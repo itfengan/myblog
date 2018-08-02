@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="概念描述策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
+<meta name="description" content="策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式之策略模式">
 <meta property="og:url" content="http://www.fengan.info/2016/12/16/设计模式之策略模式/index.html">
 <meta property="og:site_name" content="风中追风">
-<meta property="og:description" content="概念描述策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
-<meta property="og:updated_time" content="2017-12-25T03:49:18.004Z">
+<meta property="og:description" content="策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
+<meta property="og:updated_time" content="2018-07-19T01:51:43.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式之策略模式">
-<meta name="twitter:description" content="概念描述策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
+<meta name="twitter:description" content="策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到具有公共接口的独立的类中，从而在不影响客户端的情况下可以切换相应的算法。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -36,8 +36,6 @@
     <link rel="shortcut icon" href="/favicon.png">
 
 
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
 
 
 
@@ -64,7 +62,7 @@
 <script>
     var yiliaConfig = {
         fancybox: true,
-        animate: true,
+        animate: false,
         isHome: false,
         isPost: true,
         isArchive: false,
@@ -178,7 +176,7 @@
                             
                                 <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
                             
                         </ul>
                     </nav>
@@ -187,7 +185,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
                     </div>
                 </section>
                 
@@ -200,6 +198,18 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
                     </div>
                 </section>
                 
@@ -208,7 +218,7 @@
                 
                 <section class="switch-part switch-part4">
                 
-                    <div id="js-aboutme">专注于移动端开发</div>
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
                 </section>
                 
             </div>
@@ -256,7 +266,7 @@
                             
                                 <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
                             
                         </ul>
             </nav>
@@ -308,7 +318,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h4 id="概念描述"><a href="#概念描述" class="headerlink" title="概念描述"></a>概念描述</h4><p>策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到<strong>具有公共接口</strong>的<strong>独立的类</strong>中，从而在不影响客户端的情况下可以切换相应的算法。<br><a id="more"></a></p>
+        <p>策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到<strong>具有公共接口</strong>的<strong>独立的类</strong>中，从而在不影响客户端的情况下可以切换相应的算法。<br><a id="more"></a></p>
 <h4 id="未使用策略模式案例"><a href="#未使用策略模式案例" class="headerlink" title="未使用策略模式案例"></a>未使用策略模式案例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TravelStrategy</span> </span>&#123;</div><div class="line">	<span class="keyword">enum</span> Strategy&#123;</div><div class="line">		WALK,PLANE,SUBWAY</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">private</span> Strategy strategy;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TravelStrategy</span><span class="params">(Strategy strategy)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.strategy=strategy;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">travel</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(strategy==Strategy.WALK)&#123;</div><div class="line">			print(<span class="string">"walk"</span>);</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(strategy==Strategy.PLANE)&#123;</div><div class="line">			print(<span class="string">"plane"</span>);</div><div class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(strategy==Strategy.SUBWAY)&#123;</div><div class="line">			print(<span class="string">"subway"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(String str)</span></span>&#123;</div><div class="line">		System.out.println(<span class="string">"出行旅游的方式为："</span>+str);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		TravelStrategy walk=<span class="keyword">new</span> TravelStrategy(Strategy.WALK);</div><div class="line">		walk.travel();</div><div class="line">		</div><div class="line">		TravelStrategy plane=<span class="keyword">new</span> TravelStrategy(Strategy.PLANE);</div><div class="line">		plane.travel();</div><div class="line">		</div><div class="line">		TravelStrategy subway=<span class="keyword">new</span> TravelStrategy(Strategy.SUBWAY);</div><div class="line">		subway.travel();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>通过switch或者if语句，来判断选择哪一种策略算法，一旦策略增加或者减少修改，就不得不增加新的语句，这就违背了面向对象的原则之一，对修改封闭。</p>
 <h4 id="使用策略模式案例"><a href="#使用策略模式案例" class="headerlink" title="使用策略模式案例"></a>使用策略模式案例</h4><p><strong>定义策略接口（抽象策略）</strong></p>
@@ -367,7 +377,7 @@
         <p><span>本文标题:</span><a href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
         <p><span>发布时间:</span>2016-12-16, 09:43:45</p>
-        <p><span>最后更新:</span>2017-12-25, 11:49:18</p>
+        <p><span>最后更新:</span>2018-07-19, 09:51:43</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/16/设计模式之策略模式/" title="设计模式之策略模式">http://www.fengan.info/2016/12/16/设计模式之策略模式/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2016/12/16/设计模式之策略模式/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -403,7 +413,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#概念描述"><span class="toc-number">1.</span> <span class="toc-text">概念描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#未使用策略模式案例"><span class="toc-number">2.</span> <span class="toc-text">未使用策略模式案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用策略模式案例"><span class="toc-number">3.</span> <span class="toc-text">使用策略模式案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android源码中的使用"><span class="toc-number">4.</span> <span class="toc-text">Android源码中的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他使用场景举例"><span class="toc-number">5.</span> <span class="toc-text">其他使用场景举例</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#未使用策略模式案例"><span class="toc-number">1.</span> <span class="toc-text">未使用策略模式案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用策略模式案例"><span class="toc-number">2.</span> <span class="toc-text">使用策略模式案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android源码中的使用"><span class="toc-number">3.</span> <span class="toc-text">Android源码中的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他使用场景举例"><span class="toc-number">4.</span> <span class="toc-text">其他使用场景举例</span></a></li></ol>
         
     </div>
     <style>
@@ -453,27 +463,24 @@
 
 
     
-        <section id="comments">
-    <style> aside.comment-bar { margin: auto 30px; }</style>
-    <div id="disqus_thread"></div>
-    <script>
-        var disqus_config = function(){
-            this.page.url = 'http://www.fengan.info/2016/12/16/设计模式之策略模式/';
-            this.page.identifier = '2016/12/16/设计模式之策略模式/';
-        };
-        var loadComment = function(){
-            var d = document, s = d.createElement('script');
-            s.src = '//null.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        }
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zODU1NS8xNTA4Mw==">
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
     </script>
-    
-    <script> loadComment(); </script>
-
-</section>
-
-
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->      
     
 
 
@@ -495,7 +502,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative的prop-types属性验证问题/">ReactNative的prop-types属性验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative碎片整理之按妞交互/">ReactNative碎片整理之按妞交互</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之组件生命周期/">ReactNative碎片整理之组件生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之ref/">ReactNative碎片整理之ref</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/ReactNative碎片整理之样式/">ReactNative碎片整理之样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/ReactNative碎片整理之网络请求/">ReactNative碎片整理之网络请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/ReactNative碎片整理之State/">ReactNative碎片整理之State</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/夏日/">^_^夏日～</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/24/Rxjava2-0-知识碎片（三）/">Rxjava2.0-知识碎片（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（二）/">Rxjava2.0-知识碎片(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（一）/">Rxjava2.0-知识碎片(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/SharedPreferences的缺陷/">SharedPreferences的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/18/shadowsocks服务端部署/">shadowsocks服务端部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/mysql关联阿里云dms/">mysql关联阿里云dms</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/ReactNative碎片整理之Props/">ReactNative碎片整理之Props</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/24/3-x的gradle依赖implementation/">3.X的gradle依赖implementation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative学习一</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/02/Android签名/">Android签名</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">AS中看不到源码问题解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/16/app启动流程简析/">app启动流程简析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
 
 
 
@@ -549,7 +556,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = white-gray background;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

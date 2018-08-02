@@ -15,23 +15,17 @@
 
 
 
-<meta name="description" content="前言
-transient的作用及使用方法，官方解释：
-1Variables may be marked transient to indicate that they are not part of the persistent state of an object.">
+<meta name="description" content="transient的相关知识整理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="transient关键字的作用">
 <meta property="og:url" content="http://www.fengan.info/2017/03/15/transient关键字的作用/index.html">
 <meta property="og:site_name" content="风中追风">
-<meta property="og:description" content="前言
-transient的作用及使用方法，官方解释：
-1Variables may be marked transient to indicate that they are not part of the persistent state of an object.">
+<meta property="og:description" content="transient的相关知识整理">
 <meta property="og:image" content="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/8u215.png">
-<meta property="og:updated_time" content="2018-03-15T13:05:40.506Z">
+<meta property="og:updated_time" content="2018-07-19T02:16:35.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="transient关键字的作用">
-<meta name="twitter:description" content="前言
-transient的作用及使用方法，官方解释：
-1Variables may be marked transient to indicate that they are not part of the persistent state of an object.">
+<meta name="twitter:description" content="transient的相关知识整理">
 <meta name="twitter:image" content="http://fenganblogimgs.oss-cn-beijing.aliyuncs.com/blog/8u215.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
@@ -44,8 +38,6 @@ transient的作用及使用方法，官方解释：
     <link rel="shortcut icon" href="/favicon.png">
 
 
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
 
 
 
@@ -72,7 +64,7 @@ transient的作用及使用方法，官方解释：
 <script>
     var yiliaConfig = {
         fancybox: true,
-        animate: true,
+        animate: false,
         isHome: false,
         isPost: true,
         isArchive: false,
@@ -186,7 +178,7 @@ transient的作用及使用方法，官方解释：
                             
                                 <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
                             
                         </ul>
                     </nav>
@@ -195,7 +187,7 @@ transient的作用及使用方法，官方解释：
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
                     </div>
                 </section>
                 
@@ -208,6 +200,18 @@ transient的作用及使用方法，官方解释：
                     
                       <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
                     </div>
                 </section>
                 
@@ -216,7 +220,7 @@ transient的作用及使用方法，官方解释：
                 
                 <section class="switch-part switch-part4">
                 
-                    <div id="js-aboutme">专注于移动端开发</div>
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
                 </section>
                 
             </div>
@@ -264,7 +268,7 @@ transient的作用及使用方法，官方解释：
                             
                                 <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
                             
                         </ul>
             </nav>
@@ -300,7 +304,7 @@ transient的作用及使用方法，官方解释：
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -316,14 +320,11 @@ transient的作用及使用方法，官方解释：
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><strong>前言</strong></p>
-<p>transient的作用及使用方法，官方解释：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Variables may be marked <span class="keyword">transient</span> to indicate that they are not part of the persistent state of an object.</div></pre></td></tr></table></figure>
+        <p>transient的相关知识整理</p>
 <a id="more"></a>
-<p><strong>遇到问题</strong></p>
-<p>我们都知道一个对象只要实现了Serializable接口，这个对象就可以被序列化，那么在实际开发过程中，可能会遇到这样的问题，这个类的有些属性需要序列号，而其他属性不需要序列化，比如说：一个用户有一些敏感信息，比如密码或者银行卡号之类，为了安全起见，不希望在网络操作（主要涉及到序列化操作，本地序列化缓存也适用）中被传输，这些信息对应的变量就可以加上transient关键字。换句话说，这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。</p>
-<p><strong>解决问题</strong></p>
-<p>再次之前，有一个姿势点：</p>
+<h3 id="transient的相关知识"><a href="#transient的相关知识" class="headerlink" title="transient的相关知识"></a>transient的相关知识</h3><h4 id="官方解释"><a href="#官方解释" class="headerlink" title="官方解释"></a>官方解释</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Variables may be marked <span class="keyword">transient</span> to indicate that they are not part of the persistent state of an object.</div></pre></td></tr></table></figure>
+<h4 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h4><p>我们都知道一个对象只要实现了Serializable接口，这个对象就可以被序列化，那么在实际开发过程中，可能会遇到这样的问题，这个类的有些属性需要序列号，而其他属性不需要序列化，比如说：一个用户有一些敏感信息，比如密码或者银行卡号之类，为了安全起见，不希望在网络操作（主要涉及到序列化操作，本地序列化缓存也适用）中被传输，这些信息对应的变量就可以加上transient关键字。换句话说，这个字段的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。</p>
+<h4 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h4><p>再次之前，有一个姿势点：</p>
 <p>父类序列化</p>
 <blockquote>
 <p><strong>一个情景</strong>：一个子类实现了Serializable接口，它的父类都没有实现Serializable接口，序列化该子类对象，然后反序列化后，输出父类定义的某变量的数值，该变量数值与序列化前不同</p>
@@ -348,7 +349,7 @@ transient的作用及使用方法，官方解释：
         <p><span>本文标题:</span><a href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
         <p><span>发布时间:</span>2017-03-15, 20:51:11</p>
-        <p><span>最后更新:</span>2018-03-15, 21:05:40</p>
+        <p><span>最后更新:</span>2018-07-19, 10:16:35</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/03/15/transient关键字的作用/" title="transient关键字的作用">http://www.fengan.info/2017/03/15/transient关键字的作用/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2017/03/15/transient关键字的作用/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -364,15 +365,15 @@ transient的作用及使用方法，官方解释：
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/12/20/谈谈加密算法/">
-                    谈谈加密算法
+                <a href="/2017/07/02/Android签名/">
+                    Android签名
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/03/15/Android-阴影布局-继承FrameLayout/">
-                    Android　阴影布局(继承FrameLayout)
+                <a href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">
+                    AS中看不到源码问题解决
                 </a>
             </div>
         
@@ -384,7 +385,7 @@ transient的作用及使用方法，官方解释：
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#transient的相关知识"><span class="toc-number">1.</span> <span class="toc-text">transient的相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#官方解释"><span class="toc-number">1.1.</span> <span class="toc-text">官方解释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#遇到问题"><span class="toc-number">1.2.</span> <span class="toc-text">遇到问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决问题"><span class="toc-number">1.3.</span> <span class="toc-text">解决问题</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -434,27 +435,24 @@ transient的作用及使用方法，官方解释：
 
 
     
-        <section id="comments">
-    <style> aside.comment-bar { margin: auto 30px; }</style>
-    <div id="disqus_thread"></div>
-    <script>
-        var disqus_config = function(){
-            this.page.url = 'http://www.fengan.info/2017/03/15/transient关键字的作用/';
-            this.page.identifier = '2017/03/15/transient关键字的作用/';
-        };
-        var loadComment = function(){
-            var d = document, s = d.createElement('script');
-            s.src = '//null.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        }
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zODU1NS8xNTA4Mw==">
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
     </script>
-    
-    <script> loadComment(); </script>
-
-</section>
-
-
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->      
     
 
 
@@ -462,7 +460,7 @@ transient的作用及使用方法，官方解释：
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/12/20/谈谈加密算法/" title="上一篇: 谈谈加密算法">
+            <a href="/2017/07/02/Android签名/" title="上一篇: Android签名">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -470,13 +468,13 @@ transient的作用及使用方法，官方解释：
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/03/15/Android-阴影布局-继承FrameLayout/" title="下一篇: Android　阴影布局(继承FrameLayout)">
+            <a href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/" title="下一篇: AS中看不到源码问题解决">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative start</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/Android7-0之广播变动/">Android7.0之广播变动</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative的prop-types属性验证问题/">ReactNative的prop-types属性验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative碎片整理之按妞交互/">ReactNative碎片整理之按妞交互</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之组件生命周期/">ReactNative碎片整理之组件生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之ref/">ReactNative碎片整理之ref</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/ReactNative碎片整理之样式/">ReactNative碎片整理之样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/ReactNative碎片整理之网络请求/">ReactNative碎片整理之网络请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/ReactNative碎片整理之State/">ReactNative碎片整理之State</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/夏日/">^_^夏日～</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/24/Rxjava2-0-知识碎片（三）/">Rxjava2.0-知识碎片（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（二）/">Rxjava2.0-知识碎片(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（一）/">Rxjava2.0-知识碎片(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/SharedPreferences的缺陷/">SharedPreferences的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/18/shadowsocks服务端部署/">shadowsocks服务端部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/mysql关联阿里云dms/">mysql关联阿里云dms</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/ReactNative碎片整理之Props/">ReactNative碎片整理之Props</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/24/3-x的gradle依赖implementation/">3.X的gradle依赖implementation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative学习一</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/02/Android签名/">Android签名</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">AS中看不到源码问题解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/16/app启动流程简析/">app启动流程简析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
 
 
 
@@ -530,7 +528,7 @@ transient的作用及使用方法，官方解释：
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = white-gray background;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

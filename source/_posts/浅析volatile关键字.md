@@ -3,11 +3,9 @@ title: 浅析volatile关键字
 date: 2017-03-07 14:51:10
 tags: 
 - Android
-categories: notes
-password: 123456
+categories: Android
+password: 
 ---
-
-> 前言
 
 在看java并发的书的时候，看到了关于java的单例模式使用了volatile关键字，但是对volatile关键字的真正含义一直很模糊，本文就尝试浅析总结一下volatile的作用和具体用法。
 
@@ -133,7 +131,7 @@ Java内存模型中的程序天然有序性可以总结为一句话：如果在�
 - volatile只保证了可见性，不能保证原子性，不可保证同步，多个线程同时访问不会发生阻塞
 
 
-- 
+- ​
 
 ### volatile关键字的正确使用（一句话概括volatile）
 

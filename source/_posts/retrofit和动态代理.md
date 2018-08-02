@@ -3,13 +3,9 @@ title: retrofit和动态代理
 date: 2017-02-07 09:45:11
 tags: 
 - Android
-categories: notes
+categories: Android
 password: 123456
 ---
-
-简述动态代理在Retrofit的应用
-
-> 动态代理
 
 代理类在运行前不存在，运行时由程序动态生成的代理方式称为动态代理
 

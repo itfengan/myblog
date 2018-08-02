@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="冯安" />
+
+
+
+<meta name="description" content="React Native 中虽然也内置了XMLHttpRequest 网络请求Api（也就是ajax），但XMLHttpRequest 是一个设计粗糙的API，不符合职责分离的原则，配置和调用方式比较混乱，而且基于事件的异步模型不如现代的Promise友好。所以，React Native官方推荐使用Fetch Api">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactNative碎片整理之网络请求">
+<meta property="og:url" content="http://www.fengan.info/2018/07/30/ReactNative碎片整理之网络请求/index.html">
+<meta property="og:site_name" content="风中追风">
+<meta property="og:description" content="React Native 中虽然也内置了XMLHttpRequest 网络请求Api（也就是ajax），但XMLHttpRequest 是一个设计粗糙的API，不符合职责分离的原则，配置和调用方式比较混乱，而且基于事件的异步模型不如现代的Promise友好。所以，React Native官方推荐使用Fetch Api">
+<meta property="og:updated_time" content="2018-07-31T03:27:50.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ReactNative碎片整理之网络请求">
+<meta name="twitter:description" content="React Native 中虽然也内置了XMLHttpRequest 网络请求Api（也就是ajax），但XMLHttpRequest 是一个设计粗糙的API，不符合职责分离的原则，配置和调用方式比较混乱，而且基于事件的异步模型不如现代的Promise友好。所以，React Native官方推荐使用Fetch Api">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="风中追风" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>ReactNative碎片整理之网络请求 | 风中追风</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar1.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">冯安</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://windherd.github.io/">哔哩哔哩铁头张</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">冯安</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar1.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">冯安</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人邮箱 fengan1102@gmail.com</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/itfengan" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/fenganit" title="CSDN"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-ReactNative碎片整理之网络请求" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/30/ReactNative碎片整理之网络请求/" class="article-date">
+      <time datetime="2018-07-30T10:49:21.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ReactNative碎片整理之网络请求
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/RN/">RN</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>React Native 中虽然也内置了XMLHttpRequest 网络请求Api（也就是ajax），但XMLHttpRequest 是一个设计粗糙的API，不符合职责分离的原则，配置和调用方式比较混乱，而且基于事件的异步模型不如现代的Promise友好。所以，React Native官方推荐使用Fetch Api</p>
+<a id="more"></a>
+<h3 id="Fetch基本使用"><a href="#Fetch基本使用" class="headerlink" title="Fetch基本使用"></a>Fetch基本使用</h3><h4 id="最简单的使用"><a href="#最简单的使用" class="headerlink" title="最简单的使用"></a>最简单的使用</h4><blockquote>
+<p>如果只是请求一下服务器，不需要任何操作</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fetch(<span class="string">'http://chenxiaoping.com/demo'</span>)添加请求头</div></pre></td></tr></table></figure>
+<blockquote>
+<p> 添加请求头和请求参数（服务端支持json参数）</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">fetch(<span class="string">'https://mywebsite.com/endpoint/'</span>, &#123;</div><div class="line">  <span class="attr">method</span>: <span class="string">'POST'</span>,</div><div class="line">  <span class="attr">headers</span>: &#123;</div><div class="line">    <span class="string">'Accept'</span>: <span class="string">'application/json'</span>,</div><div class="line">    <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">body</span>: <span class="built_in">JSON</span>.stringify(&#123;</div><div class="line">    <span class="attr">firstParam</span>: <span class="string">'yourValue'</span>,</div><div class="line">    <span class="attr">secondParam</span>: <span class="string">'yourOtherValue'</span>,</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p> 添加请求头和请求参数（服务端不支持json参数）</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">fetch(<span class="string">'https://mywebsite.com/endpoint/'</span>, &#123;</div><div class="line">  <span class="attr">method</span>: <span class="string">'POST'</span>,</div><div class="line">  <span class="attr">headers</span>: &#123;</div><div class="line">    <span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>,</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">body</span>: <span class="string">'key1=value1&amp;key2=value2'</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="Response对象参数解析"><a href="#Response对象参数解析" class="headerlink" title="Response对象参数解析"></a>Response对象参数解析</h3><p><strong>Response对象中包含了多种属性：</strong></p>
+<ul>
+<li>status (number) ： HTTP请求的响应状态行。</li>
+<li>statusText (String) ： 服务器返回的状态报告。</li>
+<li>ok (boolean) ：如果返回200表示请求成功，则为true。</li>
+<li>headers (Headers) ： 返回头部信息。</li>
+<li>url (String) ：请求的地址。</li>
+</ul>
+<p><strong>Response对象还提供了多种方法：</strong></p>
+<ul>
+<li>formData()：返回一个带有FormData的Promise。</li>
+<li>json() ：返回一个带有JSON对象的Promise。</li>
+<li>text()：返回一个带有文本的Promise。</li>
+<li>clone() ：复制一份response。</li>
+<li>error()：返回一个与网络相关的错误。</li>
+<li>redirect()：返回了一个可以重定向至某URL的response。</li>
+<li>arrayBuffer()：返回一个带有ArrayBuffer的Promise。</li>
+<li>blob() ： 返回一个带有Blob的Promise。</li>
+</ul>
+<blockquote>
+<p>解析json和修改json数据</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">loadData() &#123;</div><div class="line">        <span class="keyword">return</span> fetch(<span class="string">'https://facebook.github.io/react-native/movies.json'</span>,)</div><div class="line">            .then(<span class="function">(<span class="params">response</span>) =&gt;</span> response.json())</div><div class="line">            .then(<span class="function">(<span class="params">json</span>) =&gt;</span> &#123;</div><div class="line">                json[<span class="string">'description'</span>]=<span class="string">'hello'</span></div><div class="line">                Alert.alert(json.description)</div><div class="line">            &#125;)</div><div class="line">            .catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">this</span>.setState(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">                    <span class="keyword">return</span> &#123;</div><div class="line">                        <span class="attr">buttonText</span>: <span class="string">'doLoad'</span>,</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">                <span class="built_in">console</span>.error(error);</div><div class="line">            &#125;)</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>response：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"title"</span>: <span class="string">"The Basics - Networking"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">"Your app fetched this from a remote endpoint!"</span>,</div><div class="line">  <span class="attr">"movies"</span>: [</div><div class="line">    &#123; <span class="attr">"id"</span>: <span class="string">"1"</span>, <span class="attr">"title"</span>: <span class="string">"Star Wars"</span>, <span class="attr">"releaseYear"</span>: <span class="string">"1977"</span> &#125;,</div><div class="line">    &#123; <span class="attr">"id"</span>: <span class="string">"2"</span>, <span class="attr">"title"</span>: <span class="string">"Back to the Future"</span>, <span class="attr">"releaseYear"</span>: <span class="string">"1985"</span> &#125;,</div><div class="line">    &#123; <span class="attr">"id"</span>: <span class="string">"3"</span>, <span class="attr">"title"</span>: <span class="string">"The Matrix"</span>, <span class="attr">"releaseYear"</span>: <span class="string">"1999"</span> &#125;,</div><div class="line">    &#123; <span class="attr">"id"</span>: <span class="string">"4"</span>, <span class="attr">"title"</span>: <span class="string">"Inception"</span>, <span class="attr">"releaseYear"</span>: <span class="string">"2010"</span> &#125;,</div><div class="line">    &#123; <span class="attr">"id"</span>: <span class="string">"5"</span>, <span class="attr">"title"</span>: <span class="string">"Interstellar"</span>, <span class="attr">"releaseYear"</span>: <span class="string">"2014"</span> &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到弹窗为‘hello’</p>
+<h3 id="超时"><a href="#超时" class="headerlink" title="超时"></a>超时</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fetch(input, init).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123; ... &#125;);</div></pre></td></tr></table></figure>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>input</li>
+</ul>
+<p>定义要获取的资源。这可能是： 一个 USVString 字符串，包含要获取资源的 URL。 一个 Request 对象。</p>
+<ul>
+<li>init 可选 一个配置项对象，包括所有对请求的设置。可选的参数有：</li>
+</ul>
+<ol>
+<li>method: 请求使用的方法，如 GET、POST。</li>
+<li>headers: 请求的头信息，形式为 Headers 对象或 ByteString。 body: 请求的 body 信息：可能是一个 Blob、BufferSource、FormData、URLSearchParams 或者 USVString 对象。注意 GET 或 HEAD 方法的请求不能包含 body 信息。</li>
+<li>mode: 请求的模式，如 cors、 no-cors 或者 same-origin。</li>
+<li>credentials: 请求的 credentials，如 omit、same-origin 或者 include。</li>
+<li>cache: 请求的 cache 模式: default, no-store, reload, no-cache, force-cache, or only-if-cached.</li>
+</ol>
+<p>根本找不到 timeout 配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 超时版的fetch</span></div><div class="line">      _fetch(fetch, timeout) &#123;</div><div class="line">          <span class="keyword">return</span> <span class="built_in">Promise</span>.race([</div><div class="line">              fetch,</div><div class="line">              <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">                  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'request timeout'</span>)), timeout);</div><div class="line">              &#125;)</div><div class="line">          ]);</div><div class="line">      &#125;</div><div class="line">      <span class="comment">// 使用</span></div><div class="line">      _fetch(fetch(<span class="string">'url'</span>), <span class="number">1000</span>).then(<span class="function">(<span class="params">info</span>)=&gt;</span> &#123;</div><div class="line">          <span class="keyword">return</span> info.text();</div><div class="line">      &#125;).then(<span class="function">(<span class="params">info</span>)=&gt;</span> &#123;</div><div class="line">          <span class="built_in">console</span>.log(info);</div><div class="line">      &#125;).catch(<span class="function">(<span class="params">err</span>)=&gt;</span> &#123;</div><div class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(err);    </div><div class="line">      &#125;);</div></pre></td></tr></table></figure>
+<p><strong>代码中用Promise.race()将fetch和一个新的Promise包装在了一起,新的Promise和fetch谁率先返回就把该Promise实例返回值传递给下面的.then()或者是.catch()</strong></p>
+<p><a href="http://www.open-open.com/lib/view/open1472717659359.html" target="_blank" rel="external">让fetch也可以timeout</a></p>
+<p><a href="https://www.cnblogs.com/sorrowx/p/7096316.html" target="_blank" rel="external"><a href="https://www.cnblogs.com/sorrowx/p/7096316.html" target="_blank" rel="external">可以设置超时版的的fetch</a></a></p>
+<p><a href="https://blog.csdn.net/qq_33323251/article/details/79832689" target="_blank" rel="external">fetch添加超时时间只需几行代码–fetch timeout</a></p>
+<h3 id="简单封装"><a href="#简单封装" class="headerlink" title="简单封装"></a>简单封装</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">FetchUtil</span> </span>&#123;</div><div class="line">    init() &#123;</div><div class="line">        <span class="keyword">this</span>.url = <span class="string">''</span>;</div><div class="line">        <span class="keyword">this</span>.method = <span class="string">'GET'</span>;</div><div class="line">        <span class="keyword">this</span>.headers = &#123;&#125;;</div><div class="line">        <span class="keyword">this</span>.body_type = <span class="string">'form'</span>;</div><div class="line">        <span class="keyword">this</span>.bodys = &#123;&#125;;</div><div class="line">        <span class="keyword">this</span>.credentials = <span class="string">'omit'</span>;</div><div class="line">      <span class="comment">//默认返回json对象</span></div><div class="line">        <span class="keyword">this</span>.return_type = <span class="string">'json'</span>;</div><div class="line">        <span class="keyword">this</span>.overtime = <span class="number">0</span>;</div><div class="line">        <span class="keyword">this</span>.firstThen = <span class="literal">undefined</span>;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    setUrl(url) &#123;</div><div class="line">        <span class="keyword">this</span>.url = url;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    setMethod(val) &#123;</div><div class="line">        <span class="keyword">this</span>.method = val;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    setBodyType(val) &#123;</div><div class="line">        <span class="keyword">this</span>.body_type = val;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setReturnType(val) &#123;</div><div class="line">        <span class="keyword">this</span>.return_type = val;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setOvertime(val) &#123;</div><div class="line">        <span class="keyword">this</span>.overtime = val;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setHeader(name, val = <span class="literal">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> name == <span class="string">'string'</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.headers[name] = val;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> name == <span class="string">'object'</span>) &#123;</div><div class="line">            <span class="built_in">Object</span>.keys(name).map(<span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">this</span>.headers[index] = name[index];</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setBody(name, val = <span class="literal">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> name == <span class="string">'string'</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.bodys[name] = val;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> name == <span class="string">'object'</span>) &#123;</div><div class="line">            <span class="built_in">Object</span>.keys(name).map(<span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">this</span>.bodys[index] = name[index];</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setCookieOrigin() &#123;</div><div class="line">        <span class="keyword">this</span>.credentials = <span class="string">'same-origin'</span>;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setCookieCors() &#123;</div><div class="line">        <span class="keyword">this</span>.credentials = <span class="string">'include'</span>;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    thenStart(then) &#123;</div><div class="line">        <span class="keyword">this</span>.firstThen = then;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    dofetch() &#123;</div><div class="line">        <span class="keyword">let</span> options = &#123;&#125;;</div><div class="line">        options.method = <span class="keyword">this</span>.method;</div><div class="line">        options.credentials = <span class="keyword">this</span>.credentials;</div><div class="line"></div><div class="line">        options.headers = <span class="keyword">this</span>.headers;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (&#123;&#125; != <span class="keyword">this</span>.bodys &amp;&amp; <span class="keyword">this</span>.method != <span class="string">'GET'</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="string">'form'</span> == <span class="keyword">this</span>.body_type) &#123;</div><div class="line">                <span class="keyword">this</span>.setHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded;charset=UTF-8"</span>);</div><div class="line">                <span class="keyword">let</span> data = <span class="string">''</span>;</div><div class="line">                <span class="built_in">Object</span>.keys(<span class="keyword">this</span>.bodys).map(<span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</div><div class="line">                    <span class="keyword">let</span> param = <span class="built_in">encodeURI</span>(<span class="keyword">this</span>.bodys[index]);</div><div class="line">                    data += <span class="string">`<span class="subst">$&#123;index&#125;</span>=<span class="subst">$&#123;param&#125;</span>&amp;`</span>;</div><div class="line">                &#125;);</div><div class="line">                options.body = data;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'file'</span> == <span class="keyword">this</span>.body_type) &#123;</div><div class="line">                <span class="keyword">let</span> data = <span class="keyword">new</span> FormData();</div><div class="line">                <span class="built_in">Object</span>.keys(<span class="keyword">this</span>.bodys).map(<span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</div><div class="line">                    data.append(index, <span class="keyword">this</span>.bodys[index]);</div><div class="line">                &#125;);</div><div class="line">                options.body = data;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'json'</span> == <span class="keyword">this</span>.body_type) &#123;</div><div class="line">                options.body = <span class="built_in">JSON</span>.stringify(<span class="keyword">this</span>.bodys);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.race([</div><div class="line">            fetch(<span class="keyword">this</span>.url, options),</div><div class="line">            <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">                setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'request timeout'</span>)), <span class="keyword">this</span>.overtime ? <span class="keyword">this</span>.overtime : <span class="number">30</span> * <span class="number">1000</span>);</div><div class="line">            &#125;)</div><div class="line">        ]).then(</div><div class="line">            <span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.firstThen) &#123;</div><div class="line">                    <span class="keyword">let</span> tempResponse = <span class="keyword">this</span>.firstThen(response);</div><div class="line">                    <span class="keyword">if</span> (tempResponse) &#123;</div><div class="line">                        <span class="keyword">return</span> tempResponse;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> response;</div><div class="line">            &#125;</div><div class="line">        ).then(</div><div class="line">            <span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="string">'json'</span> == <span class="keyword">this</span>.return_type) &#123;</div><div class="line">                    <span class="keyword">return</span> response.json();</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'text'</span> == <span class="keyword">this</span>.return_type) &#123;</div><div class="line">                    <span class="keyword">return</span> response.text();</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'blob'</span> == <span class="keyword">this</span>.return_type) &#123;</div><div class="line">                    <span class="keyword">return</span> response.blob();</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'formData'</span> == <span class="keyword">this</span>.return_type) &#123;</div><div class="line">                    <span class="keyword">return</span> response.formData();</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'arrayBuffer'</span> == <span class="keyword">this</span>.return_type) &#123;</div><div class="line">                    <span class="keyword">return</span> response.arrayBuffer();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//use</span></div><div class="line"><span class="keyword">let</span> fetchUtil = <span class="keyword">new</span> FetchUtil();</div><div class="line">        fetchUtil.init()</div><div class="line">            .setUrl(<span class="string">'https://www.google.com/'</span>)</div><div class="line">            .setMethod(<span class="string">'GET'</span>)</div><div class="line">            .setOvertime(<span class="number">15</span> * <span class="number">1000</span>)</div><div class="line">            .setHeader(&#123;</div><div class="line">                <span class="string">'Accept'</span>: <span class="string">'application/json'</span>,</div><div class="line">                <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span></div><div class="line">            &#125;)</div><div class="line">            .dofetch()</div><div class="line">            .then(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</div><div class="line">          		<span class="comment">//这里的response已经被转成object了</span></div><div class="line">                <span class="built_in">console</span>.warn( <span class="keyword">typeof</span> response.title);</div><div class="line">            &#125;)</div><div class="line">            .then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</div><div class="line"></div><div class="line">                Alert.alert(data);</div><div class="line">            &#125;)</div><div class="line">            .catch(<span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</div><div class="line">                <span class="built_in">console</span>.warn( <span class="string">'=&gt; catch: '</span>, error);</div><div class="line">                <span class="comment">// console.log('=&gt; catch: ', error);</span></div><div class="line">            &#125;);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/07/30/ReactNative碎片整理之网络请求/">ReactNative碎片整理之网络请求</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">冯安</a></p>
+        <p><span>发布时间:</span>2018-07-30, 18:49:21</p>
+        <p><span>最后更新:</span>2018-07-31, 11:27:50</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/07/30/ReactNative碎片整理之网络请求/" title="ReactNative碎片整理之网络请求">http://www.fengan.info/2018/07/30/ReactNative碎片整理之网络请求/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.fengan.info/2018/07/30/ReactNative碎片整理之网络请求/　　作者: 冯安" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/07/31/ReactNative碎片整理之样式/">
+                    ReactNative碎片整理之样式
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/07/28/ReactNative碎片整理之State/">
+                    ReactNative碎片整理之State
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fetch基本使用"><span class="toc-number">1.</span> <span class="toc-text">Fetch基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#最简单的使用"><span class="toc-number">1.1.</span> <span class="toc-text">最简单的使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Response对象参数解析"><span class="toc-number">2.</span> <span class="toc-text">Response对象参数解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#超时"><span class="toc-number">3.</span> <span class="toc-text">超时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数"><span class="toc-number">4.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单封装"><span class="toc-number">5.</span> <span class="toc-text">简单封装</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"ReactNative碎片整理之网络请求　| 风中追风　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zODU1NS8xNTA4Mw==">
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+    </script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->      
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/07/31/ReactNative碎片整理之样式/" title="上一篇: ReactNative碎片整理之样式">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/07/28/ReactNative碎片整理之State/" title="下一篇: ReactNative碎片整理之State">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative的prop-types属性验证问题/">ReactNative的prop-types属性验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/02/ReactNative碎片整理之按妞交互/">ReactNative碎片整理之按妞交互</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之组件生命周期/">ReactNative碎片整理之组件生命周期</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/01/ReactNative碎片整理之ref/">ReactNative碎片整理之ref</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/31/ReactNative碎片整理之样式/">ReactNative碎片整理之样式</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/30/ReactNative碎片整理之网络请求/">ReactNative碎片整理之网络请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/ReactNative碎片整理之State/">ReactNative碎片整理之State</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/28/夏日/">^_^夏日～</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/24/Rxjava2-0-知识碎片（三）/">Rxjava2.0-知识碎片（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（二）/">Rxjava2.0-知识碎片(二)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/23/Rxjava2-0-知识碎片（一）/">Rxjava2.0-知识碎片(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/19/SharedPreferences的缺陷/">SharedPreferences的缺陷</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/18/shadowsocks服务端部署/">shadowsocks服务端部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/mysql关联阿里云dms/">mysql关联阿里云dms</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/ReactNative碎片整理之Props/">ReactNative碎片整理之Props</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/24/3-x的gradle依赖implementation/">3.X的gradle依赖implementation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/ReactNative start/">ReactNative学习一</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/02/Android签名/">Android签名</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">AS中看不到源码问题解决</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/12/Webview使用总结/">Webview使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/20/事件分发小结/">事件分发小结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/25/谈谈线程池/">谈谈线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/随滑动改变的的动态矩形背景/">随滑动改变的的动态矩形背景</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/Gson封装/">Gson封装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/view被软键盘挡住和点击外部软键盘消失/">view被软键盘挡住和点击外部软键盘消失</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/保存图片到本地/">保存图片到本地</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/23/Android7-0之应用间共享文件/">Android7.0之应用间共享文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/16/app启动流程简析/">app启动流程简析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/08/webview中点击网页图片跳转查看图片/">webview中点击网页图片跳转查看图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/06/产生65535的原因和解决办法/">产生65535的原因和解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/26/回顾集合体系/">回顾集合体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/HandlerThread/">HandlerThread</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/13/edittext输入限制/">edittext输入限制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/图片上传-角度不正确/">图片上传,角度不正确</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/08/祝你今天心情愉快/">祝你今天心情愉快</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2018 冯安
+            </div>
+            <div class="footer-right">
+                <a href="http://fengan.info/about/" target="_blank" title="Android爱好者">懈怠</a>  意味着 <a href="http://fengan.info/about/" target="_blank" title="寻找更好的工作机会">淘汰</a> by fengan <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = white-gray background;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

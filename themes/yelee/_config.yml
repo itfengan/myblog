@@ -63,7 +63,7 @@ subnav:
   Twitter: "https://twitter.com/fengan1102"
   #LinkedIn: "#"
   #QQ: "#"
-  微信: "https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg"
+  微信: /weixin/
   #PayPal: "#"
   #StackOverflow: "#"
   #CodePen: ""
@@ -90,7 +90,7 @@ show_count: false
 ## Add comment count after article title
 
 disqus: 
-  on: true
+  on: false
   shortname: 
   # https://help.disqus.com/customer/en/portal/articles/466208-what-s-a-shortname-
   # you have set "disqus_shortname" in your site's "_config.yml" 
@@ -102,6 +102,10 @@ duoshuo:
   # 使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分
   # http://<要填的部分>.duoshuo.com (domain只填上<>里的内容，不要填整个网址)
 
+
+livere:
+    on: true
+    livere_uid: MTAyMC8zODU1NS8xNTA4Mw==
 youyan:
   #on: true
   id: 
@@ -116,7 +120,7 @@ youyan:
 ## "5": show images form bg-1.jpg to bg-5.jpg in `/yelee/source/background/`
 ## "5": 显示`/yelee/source/background/`文件夹中 bg-1.jpg 到 bg-5.jpg 这5张图片
 ## "0": white-gray background | 淳朴灰白背景
-background_image: 5
+background_image: white-gray background
 
 # Base Font Size | 字号调节
 base_font_size: 16  #px, 16 - 24
@@ -127,7 +131,7 @@ color_scheme: yilia
 
 highlight_style:
   on: true
-  inline_code: 2  # Value: 0 - 9 可选
+  inline_code: 1  # Value: 0 - 9 可选
   code_block: 1  # Value: 0 - 4 
   # Set inline_code to style highlight text
   # Chose a highlight theme for code block
@@ -136,12 +140,12 @@ highlight_style:
 
 blockquote_style:
   on: true
-  blockquote: 3  # Value: 0 - 7 可选
+  blockquote: 1  # Value: 0 - 7 可选
   # 自定义文章「引用部分」的样式
 
 # Headings Style | 标题风格
 ## 0-Yelee, 1-Yilia, 2-GitHub
-heading_style: 0 # Value: 0 - 2
+heading_style: 1 # Value: 0 - 2
 
 ## List style type (ul) | 无序列表项标记样式
 list_style: 1  # value: 0 - 12 可选
@@ -161,7 +165,7 @@ toc:
 
 # 是否开启主页及加载头像时的动画效果
 # Animation in Homepage and Loading avatar
-animate: true
+animate: false
 
 # Load jQuery UI to style tooltips
 # 工具提示框样式美化
@@ -182,11 +186,17 @@ tagcloud: true
 friends:
   哔哩哔哩铁头张: https://windherd.github.io/
   富豪王: https://androidwangfh.github.io/
+  php闯大爷: https://www.ktvll.com/
+  Jlog: https://race604.com/
+  weiweidesign: http://weiweidesign.club
+  袁峥: https://www.jianshu.com/u/b09c3959ab3b
+  贾鹏辉: http://www.devio.org/
+  王亟亟: https://blog.csdn.net/ddwhan0123
  # MOxFIVE: http://moxfive.xyz/
 #friends: false
 
 #是否开启“关于我”。
-aboutme: 专注于移动端开发
+aboutme: 帅气的我，腼腆的我
 #aboutme: false
 
 # Open link in a new tab | 是否在新窗口打开链接

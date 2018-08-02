@@ -39,8 +39,6 @@
 
 
 
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
 
 
     <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
@@ -54,8 +52,6 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
-    <style> .article { opacity: 0;} </style>
-
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
@@ -68,7 +64,7 @@
 <script>
     var yiliaConfig = {
         fancybox: true,
-        animate: true,
+        animate: false,
         isHome: true,
         isPost: false,
         isArchive: false,
@@ -182,7 +178,7 @@
                             
                                 <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
                             
                         </ul>
                     </nav>
@@ -191,7 +187,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
                     </div>
                 </section>
                 
@@ -204,6 +200,18 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
                     </div>
                 </section>
                 
@@ -212,7 +220,7 @@
                 
                 <section class="switch-part switch-part4">
                 
-                    <div id="js-aboutme">专注于移动端开发</div>
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
                 </section>
                 
             </div>
@@ -260,7 +268,7 @@
                             
                                 <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
                             
                         </ul>
             </nav>
@@ -270,11 +278,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-浅析Dalvik和ART的区别" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ReactNative的prop-types属性验证问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/05/浅析Dalvik和ART的区别/" class="article-date">
-      <time datetime="2018-03-05T07:00:14.000Z" itemprop="datePublished">2018-03-05</time>
+      <a href="/2018/08/02/ReactNative的prop-types属性验证问题/" class="article-date">
+      <time datetime="2018-08-02T08:12:54.000Z" itemprop="datePublished">2018-08-02</time>
 </a>
 
 
@@ -289,7 +297,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a>
+      <a class="article-title" href="/2018/08/02/ReactNative的prop-types属性验证问题/">ReactNative的prop-types属性验证问题</a>
     </h1>
   
 
@@ -299,9 +307,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。</p>
-<p>2014年6月谷歌I/O大会上，Android L(5.0)改动幅度比较大，删除了Dalvik，而是用ART代替。</p>
-<p>之前对本块的知识理解比较零散，再此本文总结下Dalvik和ART的原理，和二者的区别，以及Jvm和Dalvik的区别，以及Android的Apk编译打包的流程</p>
+              <p>使用 React Native 创建的组件是可以复用的，所以我们开发的组件可能会给项目组其他同事使用。但别人可能对这个组件不熟悉，常常会忘记使用某些属性，或者某些属性传递的数据类型有误。</p>
           
       
     </div>
@@ -310,18 +316,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/RN/">RN</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2018/03/05/浅析Dalvik和ART的区别/#more">阅读全文 >></a>
+          <a href="/2018/08/02/ReactNative的prop-types属性验证问题/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -340,11 +346,11 @@
 
 
   
-    <article id="post-ThreadLocal的理解" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ReactNative碎片整理之按妞交互" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/03/02/ThreadLocal的理解/" class="article-date">
-      <time datetime="2018-03-02T06:02:18.000Z" itemprop="datePublished">2018-03-02</time>
+      <a href="/2018/08/02/ReactNative碎片整理之按妞交互/" class="article-date">
+      <time datetime="2018-08-02T05:48:22.000Z" itemprop="datePublished">2018-08-02</time>
 </a>
 
 
@@ -359,7 +365,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a>
+      <a class="article-title" href="/2018/08/02/ReactNative碎片整理之按妞交互/">ReactNative碎片整理之按妞交互</a>
     </h1>
   
 
@@ -369,12 +375,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h3 id="什么是ThreadLocal"><a href="#什么是ThreadLocal" class="headerlink" title="什么是ThreadLocal"></a>什么是ThreadLocal</h3><p>JDK1.2提供</p>
-<ul>
-<li>根据JDK文档中的解释：</li>
-</ul>
-<p>ThreadLocal的作用是提供线程内的局部变量，这种变量在多线程环境下访问时能够保证各个线程里变量的独立性。</p>
-<p>当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立改变该变量的副本，而不会影响其他线程所对应的副本。</p>
+              <p>ReactNative的Button是一个简单的跨平台按钮组件，可以进行一些简单的定制，但是支持的props有限，一般我们会使用TouchableXXX一系列的组件来定制我们需要的按钮</p>
           
       
     </div>
@@ -383,18 +384,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/RN/">RN</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2018/03/02/ThreadLocal的理解/#more">阅读全文 >></a>
+          <a href="/2018/08/02/ReactNative碎片整理之按妞交互/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -413,11 +414,11 @@
 
 
   
-    <article id="post-谈谈启动流程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ReactNative碎片整理之组件生命周期" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/29/谈谈启动流程/" class="article-date">
-      <time datetime="2017-12-29T03:13:57.000Z" itemprop="datePublished">2017-12-29</time>
+      <a href="/2018/08/01/ReactNative碎片整理之组件生命周期/" class="article-date">
+      <time datetime="2018-08-01T09:27:52.000Z" itemprop="datePublished">2018-08-01</time>
 </a>
 
 
@@ -432,7 +433,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a>
+      <a class="article-title" href="/2018/08/01/ReactNative碎片整理之组件生命周期/">ReactNative碎片整理之组件生命周期</a>
     </h1>
   
 
@@ -442,70 +443,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ReactNative start" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/25/ReactNative start/" class="article-date">
-      <time datetime="2017-12-25T07:52:32.000Z" itemprop="datePublished">2017-12-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/25/ReactNative start/">ReactNative start</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="ReactNative-start"><a href="#ReactNative-start" class="headerlink" title="ReactNative start"></a>ReactNative start</h1>
+              <p>生命周期是一定要知道的，这样才知道整个组件的工作流程，知道哪些操作适合在哪个回调中进行……(o^^o)</p>
           
       
     </div>
@@ -514,18 +452,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/RN/">RN</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2017/12/25/ReactNative start/#more">阅读全文 >></a>
+          <a href="/2018/08/01/ReactNative碎片整理之组件生命周期/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -544,11 +482,11 @@
 
 
   
-    <article id="post-谈谈加密算法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ReactNative碎片整理之ref" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/12/20/谈谈加密算法/" class="article-date">
-      <time datetime="2017-12-20T05:48:31.000Z" itemprop="datePublished">2017-12-20</time>
+      <a href="/2018/08/01/ReactNative碎片整理之ref/" class="article-date">
+      <time datetime="2018-08-01T02:11:32.000Z" itemprop="datePublished">2018-08-01</time>
 </a>
 
 
@@ -563,356 +501,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/20/谈谈加密算法/">谈谈加密算法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><strong>谈谈加密算法</strong></p>
-<blockquote>
-<p>前言</p>
-</blockquote>
-<p>在应用开发的过程中，客户端和移动端要频繁的进行数据传输，涉及到重要隐私信息的时候，就需要进行数据加密，，即使传输的过程中被截取，也不会信息泄漏。对于加密算法，不少开发者也早有耳闻，例如：Base64，MD5，RSA，AES，DES加密等等，今天就总结一下加密算法</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/12/20/谈谈加密算法/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-transient关键字的作用" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/15/transient关键字的作用/" class="article-date">
-      <time datetime="2017-03-15T12:51:11.000Z" itemprop="datePublished">2017-03-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/15/transient关键字的作用/">transient关键字的作用</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><strong>前言</strong></p>
-<p>transient的作用及使用方法，官方解释：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Variables may be marked <span class="keyword">transient</span> to indicate that they are not part of the persistent state of an object.</div></pre></td></tr></table></figure>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/03/15/transient关键字的作用/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android-阴影布局-继承FrameLayout" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/15/Android-阴影布局-继承FrameLayout/" class="article-date">
-      <time datetime="2017-03-15T09:52:55.000Z" itemprop="datePublished">2017-03-15</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/15/Android-阴影布局-继承FrameLayout/">Android　阴影布局(继承FrameLayout)</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h1 id="阴影布局-继承FrameLayout"><a href="#阴影布局-继承FrameLayout" class="headerlink" title="阴影布局(继承FrameLayout)"></a>阴影布局(继承FrameLayout)</h1><p>前言：<br>很多情况下，美腻的UI美眉喜欢搞一些花里胡哨阴影什么的,作为一名有追求的程序员迎合美眉的需求，搞一些小阴影并不是什么大问题，比如写一个自定义shape，用5.0的ｚ轴新特性和CardView都可以满足的，但是有些效果不太符合预计设计的效果，像自定义shape作为背景，看起来阴影会有些假，用５．０新特性第一个是版本问题还一个是有时候不起作用，网上也有解决不起作用的方法，我试了，都不太起作用，用cardview的话，如果cardview包裹的太多太复杂的控件，效果也不是太明显，所以有一个自定义FrameLayout来自己画阴影，以后再碰见阴影就又多了一种手段，满足应付设计师</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/View/">View</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/03/15/Android-阴影布局-继承FrameLayout/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Sources-for-‘Android-API-xx-Platform’-not-found" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/" class="article-date">
-      <time datetime="2017-03-13T08:38:47.000Z" itemprop="datePublished">2017-03-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/">Sources for ‘Android API xx Platform’ not found</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><strong>前言</strong></p>
-<p>在Android Studio翻源码多时候，明明下载了对应的SDK，却点进去都是.class看不到源码，本文记录一下解决办法</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/others/">others</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/03/13/Sources-for-‘Android-API-xx-Platform’-not-found/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Webview使用总结" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/12/Webview使用总结/" class="article-date">
-      <time datetime="2017-03-12T08:00:27.000Z" itemprop="datePublished">2017-03-12</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/12/Webview使用总结/">Webview使用总结</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h3 id="WebView使用总结"><a href="#WebView使用总结" class="headerlink" title="WebView使用总结"></a>WebView使用总结</h3><p><strong>前言：</strong></p>
-<p>最近，修改了项目中网页中点击图片跳转查看大图页面的需求，激发了我归纳总结WebView的想法，今天再次整理一下。</p>
-<p>包含：使用过程，关键类，js交互，注意事项，以及几个常见的需求解决思路等。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/webview/">webview</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/03/12/Webview使用总结/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-浅析volatile关键字" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/07/浅析volatile关键字/" class="article-date">
-      <time datetime="2017-03-07T06:51:10.000Z" itemprop="datePublished">2017-03-07</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/07/浅析volatile关键字/">浅析volatile关键字</a>
+      <a class="article-title" href="/2018/08/01/ReactNative碎片整理之ref/">ReactNative碎片整理之ref</a>
     </h1>
   
 
@@ -923,9 +512,12 @@
       
           
               <blockquote>
-<p>前言</p>
+<p>概述</p>
 </blockquote>
-<p>在看java并发的书的时候，看到了关于java的单例模式使用了volatile关键字，但是对volatile关键字的真正含义一直很模糊，本文就尝试浅析总结一下volatile的作用和具体用法。</p>
+<p>ref属性是一个特殊的属性，可以把它挂载到任何组件</p>
+<p>它可以是一个回调函数（也可以是一个字符串，基本废弃这种用法）</p>
+<p>这个回调函数在组件被挂载后立即被执行，应用到的组件作为参数传递</p>
+<p>回调函数可以立即使用组件，也可以将参数的组件引用保存起来，后续使用（调用组件方法或者获取组件参数）</p>
           
       
     </div>
@@ -934,18 +526,428 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/RN/">RN</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2017/03/07/浅析volatile关键字/#more">阅读全文 >></a>
+          <a href="/2018/08/01/ReactNative碎片整理之ref/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ReactNative碎片整理之样式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/31/ReactNative碎片整理之样式/" class="article-date">
+      <time datetime="2018-07-31T07:38:55.000Z" itemprop="datePublished">2018-07-31</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/31/ReactNative碎片整理之样式/">ReactNative碎片整理之样式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>本文整理React Native中的布局方式，FlexBox弹性布局的使用</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/RN/">RN</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/07/31/ReactNative碎片整理之样式/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ReactNative碎片整理之网络请求" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/30/ReactNative碎片整理之网络请求/" class="article-date">
+      <time datetime="2018-07-30T10:49:21.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/30/ReactNative碎片整理之网络请求/">ReactNative碎片整理之网络请求</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>React Native 中虽然也内置了XMLHttpRequest 网络请求Api（也就是ajax），但XMLHttpRequest 是一个设计粗糙的API，不符合职责分离的原则，配置和调用方式比较混乱，而且基于事件的异步模型不如现代的Promise友好。所以，React Native官方推荐使用Fetch Api</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/RN/">RN</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/07/30/ReactNative碎片整理之网络请求/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ReactNative碎片整理之State" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/28/ReactNative碎片整理之State/" class="article-date">
+      <time datetime="2018-07-28T09:51:46.000Z" itemprop="datePublished">2018-07-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/28/ReactNative碎片整理之State/">ReactNative碎片整理之State</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>我们使用两种数据来控制一个组件：props和state。props是在父组件中指定，而且一经指定，在被指定的组件的生命周期中则不再改变。 对于需要改变的数据，我们需要使用state。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/RN/">RN</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/07/28/ReactNative碎片整理之State/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-夏日" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/28/夏日/" class="article-date">
+      <time datetime="2018-07-28T08:28:43.000Z" itemprop="datePublished">2018-07-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/28/夏日/">^_^夏日～</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>夏日的夜晚</strong></p>
+<p>夏日的夜晚，猫坐在床边</p>
+<p>你吹着头发，不说话就很甜</p>
+<p>想和你一起看星空，只谈夜色和微风</p>
+<p>没有工作，没有早起</p>
+<p>只有甜甜的梦</p>
+<p>和梦里的你 ^_^ ～</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Life/">Life</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/">Life</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Rxjava2-0-知识碎片（三）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/24/Rxjava2-0-知识碎片（三）/" class="article-date">
+      <time datetime="2018-07-24T01:47:45.000Z" itemprop="datePublished">2018-07-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/24/Rxjava2-0-知识碎片（三）/">Rxjava2.0-知识碎片（三）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>基于Rxjava2.0的操作符小结</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Rxjava/">Rxjava</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/07/24/Rxjava2-0-知识碎片（三）/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Rxjava2-0-知识碎片（二）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/23/Rxjava2-0-知识碎片（二）/" class="article-date">
+      <time datetime="2018-07-23T08:51:40.000Z" itemprop="datePublished">2018-07-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/23/Rxjava2-0-知识碎片（二）/">Rxjava2.0-知识碎片(二)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>Rxjava2.0中的线程调度小节</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Rxjava/">Rxjava</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/07/23/Rxjava2-0-知识碎片（二）/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -966,7 +968,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
@@ -1015,7 +1017,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = white-gray background;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

@@ -1,12 +1,12 @@
 ---
-title: ReactNative start
+title: ReactNative学习一
 date: 2017-12-25 15:52:32
 tags: 
 - Android
-categories: notes
+categories: Android
 ---
 
-# ReactNative start
+ReactNative 学习一
 
 <!--more-->
 

@@ -3,20 +3,20 @@ title: view被软键盘挡住和点击外部软键盘消失
 date: 2016-08-21 11:02:01
 tags: 
 - Android
-categories: code
+categories: Android
 ---
-# 软键盘遮挡和点击空白区域关闭键盘 #
+软键盘遮挡和点击空白区域关闭键盘
+
+<!--more-->
+
+### 需求
+
 - 登陆button挡住输入框
 - 软键盘弹出挡住其他控件
 - 软键盘弹出，点击空白区域关闭软件盘
 
 
-
-<!--more-->
-
-
-
-### 设置：点击button，键盘将button顶上去###
+#### 点击button，键盘将button顶上去####
 
 
 > ![引用块内容](http://img.blog.csdn.net/20170615102440904?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVuZ2FuaXQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
@@ -409,10 +409,6 @@ tools:context="fengan.softinputdemo.MainActivity">
 
 
 - 可以将隐藏显示的代码封装到BaseActivity
-
-
-
-
 
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=448707059&auto=1&height=66"></iframe>

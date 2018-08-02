@@ -3,21 +3,19 @@ title: edittext输入限制
 date: 2015-12-13 17:42:12
 tags: 
 - Android
-categories: code
+categories: Android
 ---
 
-# EditText智能限制小数点前后分别保留几位
+EditText智能限制小数点前后分别保留几位
 
+<!--more-->
 
+需求
 
 - 可以分别限制小数点前面几位，和小数点后几位
 - 首位输入0时，第二位只能输入小数点
 - 首位输入小数点，默认显示0.
 - 嘻嘻!
-
-<!--more-->
-
-'''
 
 ```java
 /**
@@ -83,8 +81,6 @@ public static void setEditTextLimit(final int frontPoint, final int behindPoint,
     }
 }
 ```
-
-'''
 
 xml别忘了
 

@@ -39,8 +39,6 @@
 
 
 
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
 
 
     <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
@@ -54,8 +52,6 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
-    <style> .article { opacity: 0;} </style>
-
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
@@ -68,7 +64,7 @@
 <script>
     var yiliaConfig = {
         fancybox: true,
-        animate: true,
+        animate: false,
         isHome: true,
         isPost: false,
         isArchive: false,
@@ -182,7 +178,7 @@
                             
                                 <a class="fa Twitter" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" href="/weixin/" title="微信"></a>
                             
                         </ul>
                     </nav>
@@ -191,7 +187,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dev/">Dev</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RN/">RN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
                     </div>
                 </section>
                 
@@ -204,6 +200,18 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://androidwangfh.github.io/">富豪王</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://www.ktvll.com/">php闯大爷</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://race604.com/">Jlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://weiweidesign.club">weiweidesign</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.jianshu.com/u/b09c3959ab3b">袁峥</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.devio.org/">贾鹏辉</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.csdn.net/ddwhan0123">王亟亟</a>
+                    
                     </div>
                 </section>
                 
@@ -212,7 +220,7 @@
                 
                 <section class="switch-part switch-part4">
                 
-                    <div id="js-aboutme">专注于移动端开发</div>
+                    <div id="js-aboutme">帅气的我，腼腆的我</div>
                 </section>
                 
             </div>
@@ -260,7 +268,7 @@
                             
                                 <a class="fa Twitter" target="_blank" href="https://twitter.com/fengan1102" title="Twitter"></a>
                             
-                                <a class="fa 微信" target="_blank" href="https://ws4.sinaimg.cn/large/006tKfTcly1fp2dg24b0dj30iq0owwh8.jpg" title="微信"></a>
+                                <a class="fa 微信" target="_blank" href="/weixin/" title="微信"></a>
                             
                         </ul>
             </nav>
@@ -270,11 +278,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-线程安全的CopyOnWriteArrayList" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Rxjava2-0-知识碎片（一）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/02/16/线程安全的CopyOnWriteArrayList/" class="article-date">
-      <time datetime="2017-02-15T16:28:47.000Z" itemprop="datePublished">2017-02-16</time>
+      <a href="/2018/07/23/Rxjava2-0-知识碎片（一）/" class="article-date">
+      <time datetime="2018-07-23T07:02:17.000Z" itemprop="datePublished">2018-07-23</time>
 </a>
 
 
@@ -289,7 +297,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/16/线程安全的CopyOnWriteArrayList/">线程安全的CopyOnWriteArrayList</a>
+      <a class="article-title" href="/2018/07/23/Rxjava2-0-知识碎片（一）/">Rxjava2.0-知识碎片(一)</a>
     </h1>
   
 
@@ -299,8 +307,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p><strong>前言</strong></p>
-<p>最近翻阅EventBus源码，在subscribe方法中，看到了CopyOnWriteArrayList这个类，一时竟不知其原理是什么，本文简要记录一下CopyOnWriteArrayList的相关介绍</p>
+              <p>Observable.create(ObservableOnSubscribe)和subscribe()基本使用</p>
           
       
     </div>
@@ -309,18 +316,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/Rxjava/">Rxjava</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rxjava/">Rxjava</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2017/02/16/线程安全的CopyOnWriteArrayList/#more">阅读全文 >></a>
+          <a href="/2018/07/23/Rxjava2-0-知识碎片（一）/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -339,11 +346,11 @@
 
 
   
-    <article id="post-retrofit和动态代理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SharedPreferences的缺陷" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/02/07/retrofit和动态代理/" class="article-date">
-      <time datetime="2017-02-07T01:45:11.000Z" itemprop="datePublished">2017-02-07</time>
+      <a href="/2018/07/19/SharedPreferences的缺陷/" class="article-date">
+      <time datetime="2018-07-19T05:44:44.000Z" itemprop="datePublished">2018-07-19</time>
 </a>
 
 
@@ -358,7 +365,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/07/retrofit和动态代理/">retrofit和动态代理</a>
+      <a class="article-title" href="/2018/07/19/SharedPreferences的缺陷/">SharedPreferences的缺陷</a>
     </h1>
   
 
@@ -368,11 +375,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>简述动态代理在Retrofit的应用</p>
-<blockquote>
-<p>动态代理</p>
-</blockquote>
-<p>代理类在运行前不存在，运行时由程序动态生成的代理方式称为动态代理</p>
+              <p>SharedPreferences在Android使用非常普遍，本文记录一下它的不足之处和使用注意事项</p>
           
       
     </div>
@@ -381,7 +384,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -392,7 +395,7 @@
 
       
         <p class="article-more-link">
-          <a href="/2017/02/07/retrofit和动态代理/#more">阅读全文 >></a>
+          <a href="/2018/07/19/SharedPreferences的缺陷/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -411,11 +414,11 @@
 
 
   
-    <article id="post-事件分发小结" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-shadowsocks服务端部署" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/01/20/事件分发小结/" class="article-date">
-      <time datetime="2017-01-20T03:38:23.000Z" itemprop="datePublished">2017-01-20</time>
+      <a href="/2018/07/18/shadowsocks服务端部署/" class="article-date">
+      <time datetime="2018-07-18T05:05:35.000Z" itemprop="datePublished">2018-07-18</time>
 </a>
 
 
@@ -430,7 +433,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/20/事件分发小结/">事件分发小结</a>
+      <a class="article-title" href="/2018/07/18/shadowsocks服务端部署/">shadowsocks服务端部署</a>
     </h1>
   
 
@@ -440,7 +443,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>Android开发中，事件分发是非常重要的，了解熟悉整个事件分发过程有助于更好的分析各种点击滑动失效问题,也是一个安卓开发必会的一部分，但是时间长了，对整个流程多少会有些模糊，所以在此记录一下</p>
+              <p>基于Ubuntu 16.04的Shadowsocks服务端安装</p>
           
       
     </div>
@@ -449,18 +452,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/Dev/">Dev</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dev/">Dev</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2017/01/20/事件分发小结/#more">阅读全文 >></a>
+          <a href="/2018/07/18/shadowsocks服务端部署/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -479,11 +482,11 @@
 
 
   
-    <article id="post-谈谈线程池" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-mysql关联阿里云dms" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/25/谈谈线程池/" class="article-date">
-      <time datetime="2016-12-25T07:52:32.000Z" itemprop="datePublished">2016-12-25</time>
+      <a href="/2018/06/14/mysql关联阿里云dms/" class="article-date">
+      <time datetime="2018-06-14T04:09:47.000Z" itemprop="datePublished">2018-06-14</time>
 </a>
 
 
@@ -498,7 +501,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/25/谈谈线程池/">谈谈线程池</a>
+      <a class="article-title" href="/2018/06/14/mysql关联阿里云dms/">mysql关联阿里云dms</a>
     </h1>
   
 
@@ -508,12 +511,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><p>线程基本概念，<a href="http://blog.csdn.net/cswhale/article/details/39053857">线程基本概念</a>和<a href="https://www.cnblogs.com/propheterLiu/p/6082666.html">Android启动线程的三种方式</a>(点击查看)</p>
-<h4 id="new-Thread（）的弊端"><a href="#new-Thread（）的弊端" class="headerlink" title="new Thread（）的弊端"></a>new Thread（）的弊端</h4><ul>
-<li>总是new Thread（）开启线程，线程执行完会被回收，导致频繁的<a href="https://www.jianshu.com/p/5db05db4f5ab">GC</a></li>
-<li>多线程缺乏统一管理，各线程之间互相竞争</li>
-<li>无法实现停止线程（如果一个item滑出页面，则要停止该item上图片的加载，但是如果使用这种方式来创建线程，则无法实现线程停止执行）</li>
-</ul>
+              <p>将远程服务器中的mysql绑定到阿里云DMS中</p>
           
       
     </div>
@@ -522,18 +520,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/Dev/">Dev</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dev/">Dev</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2016/12/25/谈谈线程池/#more">阅读全文 >></a>
+          <a href="/2018/06/14/mysql关联阿里云dms/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -552,11 +550,11 @@
 
 
   
-    <article id="post-AsyncTask缺陷总结" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ReactNative碎片整理之Props" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/20/AsyncTask缺陷总结/" class="article-date">
-      <time datetime="2016-12-20T02:42:03.000Z" itemprop="datePublished">2016-12-20</time>
+      <a href="/2018/04/28/ReactNative碎片整理之Props/" class="article-date">
+      <time datetime="2018-04-28T06:28:33.000Z" itemprop="datePublished">2018-04-28</time>
 </a>
 
 
@@ -571,7 +569,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/20/AsyncTask缺陷总结/">AsyncTask的弊端</a>
+      <a class="article-title" href="/2018/04/28/ReactNative碎片整理之Props/">ReactNative碎片整理之Props</a>
     </h1>
   
 
@@ -581,10 +579,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="AsyncTask的弊端"><a href="#AsyncTask的弊端" class="headerlink" title="AsyncTask的弊端"></a>AsyncTask的弊端</h1><blockquote>
-<p>前言</p>
-</blockquote>
-<p>Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。</p>
+              <p>props的属性都是父组件传递的，所以无法修改它，但是我们可以指定默认prop；</p>
           
       
     </div>
@@ -593,18 +588,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/notes/">notes</a>
+    <a class="article-category-link" href="/categories/RN/">RN</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RN/">RN</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/AsyncTask缺陷总结/#more">阅读全文 >></a>
+          <a href="/2018/04/28/ReactNative碎片整理之Props/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -623,11 +618,11 @@
 
 
   
-    <article id="post-设计模式之原型模式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-浅析Dalvik和ART的区别" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/19/设计模式之原型模式/" class="article-date">
-      <time datetime="2016-12-19T07:38:23.000Z" itemprop="datePublished">2016-12-19</time>
+      <a href="/2018/03/05/浅析Dalvik和ART的区别/" class="article-date">
+      <time datetime="2018-03-05T07:00:14.000Z" itemprop="datePublished">2018-03-05</time>
 </a>
 
 
@@ -642,7 +637,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/设计模式之原型模式/">设计模式之原型模式</a>
+      <a class="article-title" href="/2018/03/05/浅析Dalvik和ART的区别/">浅析Dalvik和ART的区别</a>
     </h1>
   
 
@@ -652,7 +647,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><p>原型设计模式的是一种创建型的设计模式，如果创建过程笔记复杂耗时的话，可以考虑使用原型设计模式；通过克隆已有的对象来获取一个新的对象，你可以直接使用它，也可以修改克隆对象的部分属性再使用，使得我们的程序更加高效<br>
+              <p>Dalvik是Google公司自己设计用于Android平台的虚拟机，Dalvik经过优化，更加适合Android平台（具体优点见下面和JVM比较）。</p>
+<p>2014年6月谷歌I/O大会上，Android L(5.0)改动幅度比较大，删除了Dalvik，而是用ART代替。</p>
+<p>之前对本块的知识理解比较零散，再此本文总结下Dalvik和ART的原理，和二者的区别，以及Jvm和Dalvik的区别，以及Android的Apk编译打包的流程</p>
           
       
     </div>
@@ -661,7 +658,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Design-Pattern/">Design Pattern</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -672,7 +669,7 @@
 
       
         <p class="article-more-link">
-          <a href="/2016/12/19/设计模式之原型模式/#more">阅读全文 >></a>
+          <a href="/2018/03/05/浅析Dalvik和ART的区别/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -691,11 +688,11 @@
 
 
   
-    <article id="post-设计模式之观察者模式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ThreadLocal的理解" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/19/设计模式之观察者模式/" class="article-date">
-      <time datetime="2016-12-19T06:38:23.000Z" itemprop="datePublished">2016-12-19</time>
+      <a href="/2018/03/02/ThreadLocal的理解/" class="article-date">
+      <time datetime="2018-03-02T06:02:18.000Z" itemprop="datePublished">2018-03-02</time>
 </a>
 
 
@@ -710,7 +707,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/设计模式之观察者模式/">设计模式之观察者模式</a>
+      <a class="article-title" href="/2018/03/02/ThreadLocal的理解/">ThreadLocal的理解</a>
     </h1>
   
 
@@ -720,8 +717,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="设计模式之观察者模式"><a href="#设计模式之观察者模式" class="headerlink" title="设计模式之观察者模式"></a>设计模式之观察者模式</h1><h2 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h2><p>定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变，所有依赖于它的对象都能得到通知并可以自动作出处理</p>
-<p>…</p>
+              <p>ThreadLocal相关整理</p>
           
       
     </div>
@@ -730,7 +726,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Design-Pattern/">Design Pattern</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -741,7 +737,7 @@
 
       
         <p class="article-more-link">
-          <a href="/2016/12/19/设计模式之观察者模式/#more">阅读全文 >></a>
+          <a href="/2018/03/02/ThreadLocal的理解/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -760,11 +756,11 @@
 
 
   
-    <article id="post-设计模式之策略模式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-3-x的gradle依赖implementation" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/16/设计模式之策略模式/" class="article-date">
-      <time datetime="2016-12-16T01:43:45.000Z" itemprop="datePublished">2016-12-16</time>
+      <a href="/2018/01/24/3-x的gradle依赖implementation/" class="article-date">
+      <time datetime="2018-01-24T07:47:00.000Z" itemprop="datePublished">2018-01-24</time>
 </a>
 
 
@@ -779,7 +775,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/16/设计模式之策略模式/">设计模式之策略模式</a>
+      <a class="article-title" href="/2018/01/24/3-x的gradle依赖implementation/">3.X的gradle依赖implementation</a>
     </h1>
   
 
@@ -789,7 +785,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h4 id="概念描述"><a href="#概念描述" class="headerlink" title="概念描述"></a>概念描述</h4><p>策略模式属于对象的行为模式，其用意是针对一组算法，将每一个算法封装到<strong>具有公共接口</strong>的<strong>独立的类</strong>中，从而在不影响客户端的情况下可以切换相应的算法。<br>
+              <p>依赖方式有很多，我们这里只弄清楚implementation和Compile的区别，就好了</p>
           
       
     </div>
@@ -798,7 +794,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Design-Pattern/">Design Pattern</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -809,7 +805,7 @@
 
       
         <p class="article-more-link">
-          <a href="/2016/12/16/设计模式之策略模式/#more">阅读全文 >></a>
+          <a href="/2018/01/24/3-x的gradle依赖implementation/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -828,11 +824,11 @@
 
 
   
-    <article id="post-设计模式之建造者模式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-谈谈启动流程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/15/设计模式之建造者模式/" class="article-date">
-      <time datetime="2016-12-15T08:45:50.000Z" itemprop="datePublished">2016-12-15</time>
+      <a href="/2017/12/29/谈谈启动流程/" class="article-date">
+      <time datetime="2017-12-29T03:13:57.000Z" itemprop="datePublished">2017-12-29</time>
 </a>
 
 
@@ -847,7 +843,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/设计模式之建造者模式/">设计模式之建造者模式</a>
+      <a class="article-title" href="/2017/12/29/谈谈启动流程/">谈谈启动流程</a>
     </h1>
   
 
@@ -857,9 +853,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="设计模式之建造者模式"><a href="#设计模式之建造者模式" class="headerlink" title="设计模式之建造者模式"></a>设计模式之建造者模式</h1><h2 id="什么是Build模式"><a href="#什么是Build模式" class="headerlink" title="什么是Build模式"></a>什么是Build模式</h2><p>将一个复杂对象的构建与它的表示分离，使得构建过程可以以分部进行的链式调用来完成</p>
-<p>…</p>
-          
+        
       
     </div>
     
@@ -867,7 +861,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Design-Pattern/">Design Pattern</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -876,10 +870,6 @@
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
     </div>
 
-      
-        <p class="article-more-link">
-          <a href="/2016/12/15/设计模式之建造者模式/#more">阅读全文 >></a>
-        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -897,11 +887,11 @@
 
 
   
-    <article id="post-设计模式之单例模式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ReactNative start" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/15/设计模式之单例模式/" class="article-date">
-      <time datetime="2016-12-15T01:43:45.000Z" itemprop="datePublished">2016-12-15</time>
+      <a href="/2017/12/25/ReactNative start/" class="article-date">
+      <time datetime="2017-12-25T07:52:32.000Z" itemprop="datePublished">2017-12-25</time>
 </a>
 
 
@@ -916,7 +906,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/设计模式之单例模式/">设计模式之单例模式</a>
+      <a class="article-title" href="/2017/12/25/ReactNative start/">ReactNative学习一</a>
     </h1>
   
 
@@ -926,15 +916,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="Android设计模式-单例模式"><a href="#Android设计模式-单例模式" class="headerlink" title="Android设计模式-单例模式"></a>Android设计模式-单例模式</h1><ul>
-<li>什么是单例模式</li>
-</ul>
-<p>使用时，单例模式的对象只有一个实例存在，不允许自由的构造对象</p>
-<ul>
-<li>单例模式使用场景</li>
-</ul>
-<p>确保某个类只有一个实例，而且自行实例化并向整个系统提供这个实例</p>
-<p>… …</p>
+              <p>ReactNative 学习一</p>
           
       
     </div>
@@ -943,7 +925,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Design-Pattern/">Design Pattern</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
@@ -954,7 +936,7 @@
 
       
         <p class="article-more-link">
-          <a href="/2016/12/15/设计模式之单例模式/#more">阅读全文 >></a>
+          <a href="/2017/12/25/ReactNative start/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -975,7 +957,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>
@@ -1024,7 +1006,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = white-gray background;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

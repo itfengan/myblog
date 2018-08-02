@@ -3,7 +3,7 @@ title: Gson封装
 date: 2016-08-21 11:20:34
 tags: 
 - Android
-categories: code
+categories: Android
 ---
 Gson封装
 
@@ -11,7 +11,6 @@ Gson封装
 - javabean和集合相互转换
 
 <!--more-->
---
 
 ```
 	/**

@@ -3,11 +3,9 @@ title: 线程安全的CopyOnWriteArrayList
 date: 2017-02-16 00:28:47
 tags: 
 - Android
-categories: notes
+categories: Android
 password: 123456
 ---
-
-**前言**
 
 最近翻阅EventBus源码，在subscribe方法中，看到了CopyOnWriteArrayList这个类，一时竟不知其原理是什么，本文简要记录一下CopyOnWriteArrayList的相关介绍
 
@@ -174,22 +172,6 @@ public boolean add(E e) {
 1、读写分离，读和写分开 
 2、最终一致性 
 3、使用另外开辟空间的思路，来解决并发冲突
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 参考文章：
 

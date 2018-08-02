@@ -3,16 +3,18 @@ title: Android7.0之应用间共享文件
 date: 2016-07-23 16:58:17
 tags: 
 - Android
-categories: notes
+categories: Android
 ---
-## Android7.0适配之应用间共享文件 ##
+Android7.0适配之应用间共享文件
+
+<!--more-->
 
 
 ### 出现问题 ###
 Android N(API 25),打开相册编辑页面crash,报出FileUriExposedException异常
 
 ```
-    android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond app through Intent.getData()
+android.os.FileUriExposedException: file:////storage/emulated/0/temp/1474956193735.jpg exposed beyond app through Intent.getData()
 at android.os.StrictMode.onFileUriExposed(StrictMode.java:1799)
 at android.net.Uri.checkFileUriExposed(Uri.java:2346)
 at android.content.Intent.prepareToLeaveProcess(Intent.java:8933)
@@ -22,7 +24,6 @@ at android.app.Activity.startActivityForResult(Activity.java:4223)
 ...
 at android.app.Activity.startActivityForResult(Activity.java:4182)
 ```
-<!--more-->
 ### 查找原因 ###
 Android N的应用,API禁止向应用外公开file://URI,如果一项包含文件URI的Intent离开应用, 应用crash并报FileUriExposedException异常
 ### 解决办法 ###
@@ -99,7 +100,7 @@ path="",有特殊意义,它代表更目录,也就是说可以向应用共享根�
 
 
 - Uri的scheme类型为file,改成了又FileProvider创建一个content类型的Uri打开相机,打印该Uri为content://com.fengan.providerdemo/files_path/temp/1474960080319.jpg`。 
-//其中camera_photos就是file_paths.xml中paths的name。
+  //其中camera_photos就是file_paths.xml中paths的name。
 
 ```
  /**
@@ -122,5 +123,5 @@ path="",有特殊意义,它代表更目录,也就是说可以向应用共享根�
 ```
 ## 总结 ##
  - 针对涉及到从Android设备上获取照片(拍照,或从相册,文件中选择)打开相机,裁剪图片,压缩图片,可以使用一个轻量级开源库,TakePhoto!
- https://github.com/crazycodeboy/TakePhoto/
+    https://github.com/crazycodeboy/TakePhoto/
 

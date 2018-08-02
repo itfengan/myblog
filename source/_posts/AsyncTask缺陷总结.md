@@ -3,12 +3,8 @@ title: AsyncTask的弊端
 date: 2016-12-20 10:42:03
 tags: 
 - Android
-categories: notes
+categories: Android
 ---
-
-# AsyncTask的弊端
-
-> 前言
 
 Android开发中，AsyncTask可以替代Handler和Thread来处理后台操作和通知Ui刷新，适用于处理异步数据，并将更新Ui的场景，AsyncTask适用于后台操作只有几秒的短时操作。但是AsyncTask本身存在很多糟糕的问题，如果使用中不注意，将会影响程序的健壮性。
 

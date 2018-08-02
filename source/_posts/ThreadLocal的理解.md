@@ -3,11 +3,13 @@ title: ThreadLocal的理解
 date: 2018-03-02 14:02:18
 tags: 
 - Android
-categories: notes
+categories: Android
 password: 123456
 ---
 
-### 什么是ThreadLocal
+ThreadLocal相关整理
+
+<!--more-->
 
 JDK1.2提供
 
@@ -16,8 +18,6 @@ JDK1.2提供
 ThreadLocal的作用是提供线程内的局部变量，这种变量在多线程环境下访问时能够保证各个线程里变量的独立性。
 
 当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立改变该变量的副本，而不会影响其他线程所对应的副本。
-
-<!--more-->
 
 ### ThreadLocal的使用：
 
